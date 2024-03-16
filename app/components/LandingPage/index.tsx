@@ -9,12 +9,32 @@ import { FaGithub, FaTelegramPlane } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { NavCard } from './navCard';
 import { data, dataTwo } from './mock';
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 export function LandingPage() {
     const [activeDropDown, setActiveDropDown] = useState(false);
     const [activeDropDownTwo, setActiveDropDownTwo] = useState(false);
+    const [openSideNav, setOpenSideNav] = useState(false);
+    const [dropDownActive, setDropDownActive] = useState(false);
+    const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
     const { width } = useWindowDimensions();
     const isMobile = width ? width < 768 : false;
+
+    const toggleShowDropDown =()=>{
+        setDropDownActive(true);
+    }
+
+    const toggleHideDropDown =()=>{
+        setDropDownActive(false);
+    }
+
+    const toggleShowDropDownTwo =()=>{
+        setDropDownActiveTwo(true);
+    }
+
+    const toggleHideDropDownTwo =()=>{
+        setDropDownActiveTwo(false);
+    }
 
     return (
         <div className={styles.container}>
@@ -22,7 +42,61 @@ export function LandingPage() {
                 {
                     isMobile ? (
                         <div className={styles["mobile-header"]}>
-                            mobile header
+                            <div className={styles["mobile-logo"]}>
+                                <img src='https://res.cloudinary.com/dlinprg6k/image/upload/v1710183598/Group_5_nlkqfr.png' alt='logo' />
+                            </div>
+                            <div className={styles["mobile-menu-bar"]} onClick={()=> setOpenSideNav(true)}>
+                                <img src='https://res.cloudinary.com/dlinprg6k/image/upload/v1710183576/menu-01_kkbysq.png' alt='bar' />
+                            </div>
+                            {
+                                openSideNav && (
+                                    <div className={styles["mobile-side-nav"]}>
+                                        <header>
+                                            <div className={styles["mobile-logo"]}>
+                                                <img src='https://res.cloudinary.com/dlinprg6k/image/upload/v1710183598/Group_5_nlkqfr.png' alt='logo' />
+                                            </div>
+                                            <div className={styles["mobile-menu-bar"]} onClick={()=> setOpenSideNav(false)}>
+                                                <img src='https://res.cloudinary.com/dlinprg6k/image/upload/v1710200265/menu-01_1_btjqaf.png' alt='bar' />
+                                            </div>
+                                        </header>
+                                        <div className={styles["nav-section"]}>
+                                            <div className={styles["nav-list"]}>
+                                                <div className={styles["section"]}>
+                                                    <div className={styles["nav-item"]}>Governance 
+                                                        {!dropDownActive ? (<IoIosArrowDown onClick={toggleShowDropDown} className={styles["icon"]} />) : (<IoIosArrowUp onClick={toggleHideDropDown} className={styles["icon"]}/>)}
+                                                    </div>
+                                                    {
+                                                        dropDownActive && (
+                                                            <div className={styles["tab"]}>
+                                                                <div className={styles["tab-item"]}>Snapshots</div>
+                                                                <div className={styles["tab-item"]}>DAO Voting</div>
+                                                                <div className={styles["tab-item"]}>Research forum</div>
+                                                            </div>
+                                                        )
+                                                    }
+                                                </div>
+                                    
+                                                <div className={styles["section"]}>
+                                                    <div className={styles["nav-item"]}>Communities 
+                                                        {!dropDownActiveTwo ? (<IoIosArrowDown onClick={toggleShowDropDownTwo} className={styles["icon"]} />) : (<IoIosArrowUp onClick={toggleHideDropDownTwo} className={styles["icon"]}/>)}
+                                                    </div>
+                                                    {
+                                                        dropDownActiveTwo && (
+                                                            <div className={styles["tab"]}>
+                                                                <div className={styles["tab-item"]}>Twitter</div>
+                                                                <div className={styles["tab-item"]}>Discord</div>
+                                                                <div className={styles["tab-item"]}>Telegram</div>
+                                                            </div>
+                                                        )
+                                                    }
+                                                </div>
+                                                <div className={styles["nav-item"]}> About</div>
+                                            </div>
+                                            <div className={styles["nav-button"]}> Join Twitter</div>
+                                        </div>
+                                    </div>
+                                )
+                            }
                         </div>
                     ):(
                         <div className={styles["desktop-header"]}>
@@ -128,12 +202,18 @@ export function LandingPage() {
                     </div>
                     <div className={styles["bottom"]}>
                         <Card title='Connect Your Wallet'
+                            step='Step 1'
+                            image='https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861970/wallet-add-02_zpoze7.png'
                             description='Connecting your wallet automatically makes you a member of the community.'
                         />
                         <Card title='Buy Wakanda NFT'
+                          step='Step 2'
+                          image='https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861971/payment-success-02_yvbygt.png'
                             description='To have the right to vote for or against proposals you must possess our WAKANDA NFTs. If you do not have, kindly buy.'
                         />
                         <Card title='Vote'
+                            step='Step 3'
+                            image='https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861972/blockchain-07_ipjgzd.png'
                             description='You may now vote during proposals. Your voice matters in the community. Your are one of us, vote wisely.'
                         />
                     </div>
