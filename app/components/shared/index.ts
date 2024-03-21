@@ -1,2 +1,3 @@
-export * from './Redirect';
+export * from './Tags';
+export * from './BackgroundOverlay';
 

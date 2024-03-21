@@ -43,7 +43,9 @@ export function LandingPage() {
                     isMobile ? (
                         <div className={styles["mobile-header"]}>
                             <div className={styles["mobile-logo"]}>
-                                <img src='https://res.cloudinary.com/dlinprg6k/image/upload/v1710183598/Group_5_nlkqfr.png' alt='logo' />
+                                <Link href={'/'} className={styles["link"]}>
+                                    <img src='https://res.cloudinary.com/dlinprg6k/image/upload/v1710183598/Group_5_nlkqfr.png' alt='logo' />
+                                </Link>
                             </div>
                             <div className={styles["mobile-menu-bar"]} onClick={()=> setOpenSideNav(true)}>
                                 <img src='https://res.cloudinary.com/dlinprg6k/image/upload/v1710183576/menu-01_kkbysq.png' alt='bar' />
@@ -53,7 +55,9 @@ export function LandingPage() {
                                     <div className={styles["mobile-side-nav"]}>
                                         <header>
                                             <div className={styles["mobile-logo"]}>
-                                                <img src='https://res.cloudinary.com/dlinprg6k/image/upload/v1710183598/Group_5_nlkqfr.png' alt='logo' />
+                                                <Link href={'/'} className={styles["link"]}>
+                                                    <img src='https://res.cloudinary.com/dlinprg6k/image/upload/v1710183598/Group_5_nlkqfr.png' alt='logo' />
+                                                </Link>
                                             </div>
                                             <div className={styles["mobile-menu-bar"]} onClick={()=> setOpenSideNav(false)}>
                                                 <img src='https://res.cloudinary.com/dlinprg6k/image/upload/v1710200265/menu-01_1_btjqaf.png' alt='bar' />

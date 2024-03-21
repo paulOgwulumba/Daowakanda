@@ -7,6 +7,12 @@
   scroll-behavior: smooth;
   position: relative;
 
+  // @include tablet{
+  //   max-width: 1200px;
+  //   margin: 0 auto;
+  // }
+  
+
   /*Hero Section*/
   .hero-section{
     background-image: linear-gradient(to right, rgba(0,0,0,0.99),
@@ -15,7 +21,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 65% 70%;
-    min-height: 975px;
+    min-height: 100vh;
     position: relative;
     display: flex;
     align-items: center;
@@ -50,9 +56,14 @@
         width: 32px;
         height: 32px;
 
-        img{
-          width: inherit;
-          height: inherit;
+        .link {
+          width: 32px;
+          height: 32px;
+
+          img{
+            width: inherit;
+            height: inherit;
+          }
         }
       }
       .mobile-menu-bar{
@@ -1094,6 +1105,16 @@
     .mobile-logo{
       width: 31px;
       height: 31px;
+
+      .link {
+        width: 31px;
+        height: 31px;
+        
+        img{
+          width: inherit;
+          height: inherit;
+        }
+      }
     }
     .mobile-menu-bar{
       width: 31px;
