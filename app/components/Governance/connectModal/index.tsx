@@ -6,14 +6,14 @@ import styles from './index.module.scss';
 
 interface Props {
     isActive:boolean;
+    onclick: ()=> any;
 }
 
-export function ConnectWalletModal({isActive}:Props) {
-    const [active, setActive] = useState(true);
+export function ConnectWalletModal({isActive, onclick}:Props) {
 
     return (
         <>
-            <BackgroundOverlay visible={active} onClose={()=>setActive(false)}>
+            <BackgroundOverlay visible={isActive} onClose={onclick}>
                 <div className={styles["card"]}>
                     <div className={styles["heading-section"]}>
                         <div className={styles["title"]}>

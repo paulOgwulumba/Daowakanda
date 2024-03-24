@@ -8,14 +8,15 @@ import styles from './index.module.scss';
 interface CardProps{
     title: string;
     yesVote: string;
-    noVote: string;
+    onclick: ()=> any;
 }
 
-export function CardVote({title, yesVote, noVote}: CardProps){
+export function CardVote({title, yesVote, onclick}: CardProps){
     const [showdropDown, setShowDropDown ] = useState(false);
     const [clickActiveYes, setClickActiveYes] = useState(false);
     const [clickActive, setClickActive] = useState(false);
 
+    const noVotes = 100 - Number(yesVote);
 
     const toggleDropDown =()=>{
         setShowDropDown(!showdropDown);
@@ -37,7 +38,7 @@ export function CardVote({title, yesVote, noVote}: CardProps){
         </div>
         <div className={styles["voteform"]}>
             <div className={styles["form"]}>
-                <div className={styles["overlay"]} style={{width: `${yesVote}`}}></div>
+                <div className={styles["overlay"]} style={{width: `${yesVote}%`}}></div>
                 <div className={styles["left"]}>
                     {clickActiveYes ? <FaCircle className={styles["icon"]} onClick={toggleClickYes}/>: <FaRegCircle className={styles["icon"]} onClick={toggleClickYes}/>} Yes
                 </div>
@@ -47,12 +48,12 @@ export function CardVote({title, yesVote, noVote}: CardProps){
             </div>
 
             <div className={styles["form"]}>
-                <div className={styles["overlay"]} style={{width: `${noVote}`}}></div>
+                <div className={styles["overlay"]} style={{width: `${noVotes}%`}}></div>
                 <div className={styles["left"]}>
                     {clickActive ? <FaCircle className={styles["icon"]} onClick={toggleClick}/>: <FaRegCircle className={styles["icon"]} onClick={toggleClick}/>} No
                 </div>
                 <div className={styles["right"]}>
-                    {noVote}
+                    {`${noVotes.toFixed(2)}%`}
                 </div>
             </div>
         </div>
@@ -64,7 +65,7 @@ export function CardVote({title, yesVote, noVote}: CardProps){
                 <div className={styles["votingTime"]}>
                     Voting ends in:  <Tags title={'6 days 20h 23m 12s'} color={'#003A03'}/>
                 </div>
-                <div className={styles[showdropDown ? "delete-hide" : "delete"]}><RiDeleteBin6Line  className={styles["icon"]}/>Delete</div>
+                <div className={styles[showdropDown ? "delete-hide" : "delete"]} onClick={onclick}><RiDeleteBin6Line  className={styles["icon"]}/>Delete</div>
             </div>
         </div>
         {

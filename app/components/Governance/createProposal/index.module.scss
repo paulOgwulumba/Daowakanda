@@ -1,0 +1,204 @@
+@import '../../../../styles/index.scss';
+
+/*change password overlay*/
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background: #38393c;
+    color: #fff;
+    border-radius: 32px;
+    width: 90%;
+    min-height: 536px;
+    padding: 50px 16px;
+    gap: 10px;
+
+    @include tablet{
+        width: 780px;
+        min-height: 355px;
+        padding: 90px 50px;
+    }
+
+    .cancel-icon{
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 100%;
+
+        .icon{
+            background: #fff;
+            width: 48px;
+            height: 48px;
+            border-radius: 50px;
+            padding: 3px;
+            color: #5E5E62;
+            cursor: pointer;
+        }
+    }
+    .heading-section{
+        font-family: "Space Grotesk";
+        font-size: 22px;
+        font-weight: 700;
+
+        @include tablet{
+            font-size: 32px;
+        }
+    }
+    .form{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+
+        .form-control{
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
+
+            label{
+                color: #919094;
+                font-family: "Roboto";
+                font-size: 12px;
+                font-weight: 400;
+                @include tablet{
+                    font-size: 14px;
+                }
+            }
+            input, textarea{
+                width: inherit;
+                background: #2F3033;
+                padding: 10px 8px;
+                border-radius: 8px;
+                outline: none;
+                color: #919094;
+                font-family: "Roboto";
+                font-size: 12px;
+                font-weight: 400;
+                border: none;
+                @include tablet{
+                    font-size: 14px;
+                }
+            }
+        }
+        .form-control:first-of-type{
+            
+            input{
+                min-height: 36px;
+            }
+        }
+        .form-control:last-of-type{
+            
+            textarea{
+                min-height: 500px;
+            }
+        }
+        .options-block{
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: inherit;
+            font-family: "Roboto";
+            font-size: 12px;
+            font-weight: 400;
+            @include tablet{
+                font-size: 14px;
+            }
+
+            .name{
+                color: #919094;  
+            }
+            .option{
+                min-height: 36px;
+                background: #2F3033;
+                color: #919094;
+                padding: 10px 8px;
+                border-radius: 8px;
+            }
+            .add-option{
+                min-height: 36px;
+                border-radius: 8px;
+                background: #C7C6CA;
+                padding: 10px 8px;
+                text-align: center;
+                cursor: pointer;
+                color: #000000;
+            }
+        }
+        .date-section{
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            justify-content: space-between;
+
+            .date-control{
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                color: #919094;
+                font-family: "Roboto";
+                font-size: 12px;
+                font-weight: 400;
+                width: 100%;
+                @include tablet{
+                    font-size: 14px;
+                }
+
+                input{
+                    background: #2F3033;
+                    min-height: 36px;
+                    padding: 10px 8px;
+                    border-radius: 8px;
+                    border: none;
+                    outline: none;
+                    width: inherit;
+                    color: #919094;
+                }
+            }
+        }
+        .claim-section{
+            display: flex;
+            gap: 8px;
+            min-height: 24px;
+            width: 100%;
+            align-items: center;
+
+            input{
+                min-height: 18px;
+                width: 18px;
+                border-radius: 4px;
+                background: #fff;
+                cursor: pointer;
+
+                &:checked{
+                    background: #C5EE4F!important;
+                    color: #002201;
+                }
+            }
+            label{
+                color: #919094;
+                font-family: "Roboto";
+                font-size: 12px;
+                font-weight: 400;
+                @include tablet{
+                    font-size: 14px;
+                }
+            }
+        }
+        .submit{
+            margin-top: 10px;
+            background: #C5EE4F;
+            min-height: 56px;
+            border-radius: 50px;
+            padding: 16px 0;
+            text-align: center;
+            cursor: pointer;
+            color: #002201;
+            font-family: "Space Grotesk";
+            font-size: 16px;
+            font-weight: 700;
+            width: 100%;
+        }
+    }
+}

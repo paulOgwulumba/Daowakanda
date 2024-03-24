@@ -2,18 +2,22 @@ import { useWindowDimensions } from '../../hooks/useWindowDimensions';
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import Link from 'next/link';
-import { FaGithub, FaHistory, FaRegCircle, FaTelegramPlane } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { PiDiscordLogo, PiTelegramLogo, PiTelegramLogoBold } from "react-icons/pi";
+import { FaGithub, FaHeart, FaHistory, FaRegCircle, FaTelegramPlane } from "react-icons/fa";
+import { FiFacebook } from "react-icons/fi";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { BsQuestionSquare } from "react-icons/bs";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiTwitterXLine } from "react-icons/ri";
 import { NavCard } from './navCard';
 import { data, dataTwo } from './mock';
 import { IoIosArrowDown, IoIosArrowUp, IoIosSearch } from "react-icons/io";
-import { Tags } from '../shared';
 import { CardAfterVote } from './CardAfterVote';
 import { CardVote } from './CardVote';
 import { ConnectWalletModal } from './connectModal';
+import { DeleteModal } from './deleteModal';
+import { CreateProposalModal } from './createProposal';
+import { CongratsModal } from './resultsModal';
+import { DeclineModal } from './resultsModal/DeclinedModal';
 
 export function GovernancePage() {
     const [activeDropDown, setActiveDropDown] = useState(false);
@@ -22,32 +26,59 @@ export function GovernancePage() {
     const [dropDownActive, setDropDownActive] = useState(false);
     const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
     const [connectWalletModal, setConnectWalletModal] = useState(false);
+    const [createProposalModal, setCreateProposalModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [congratsModal, setCongratsModal] = useState(false);
     const { width } = useWindowDimensions();
     const isMobile = width ? width < 768 : false;
 
     const toggleShowDropDown =()=>{
         setDropDownActive(true);
     }
-
     const toggleHideDropDown =()=>{
         setDropDownActive(false);
     }
-
     const toggleShowDropDownTwo =()=>{
         setDropDownActiveTwo(true);
     }
-
     const toggleHideDropDownTwo =()=>{
         setDropDownActiveTwo(false);
     }
-
     const toggleConnectWallet =()=>{
         setConnectWalletModal(!connectWalletModal);
+    }
+    const toggleDeleteWallet =()=>{
+        setDeleteModal(!deleteModal);
+    }
+    const clearConnectModal =()=>{
+        setConnectWalletModal(false);
+    }
+    const clearDeleteModal =()=>{
+        setDeleteModal(false);
+    }
+    const openProposalModal =()=>{
+        setCreateProposalModal(true);
+    }
+    const clearCreateProposalModal =()=>{
+        setCreateProposalModal(false);
+    }
+    const openCongratsModal =()=>{
+        setCongratsModal(true);
+    }
+    const clearCongratsModal =()=>{
+        setCongratsModal(false);
+    }
+    const toggleCongratsModal =()=>{
+        setCongratsModal(!congratsModal);
     }
 
     return (
         <div className={styles.container}>
-            {connectWalletModal && <ConnectWalletModal isActive={connectWalletModal}/>}
+            {congratsModal && <CongratsModal isActive={congratsModal} onclick={clearCongratsModal} />}
+            {/* {congratsModal && <DeclineModal isActive={congratsModal} onclick={clearCongratsModal} />} */}
+            {createProposalModal && <CreateProposalModal isActive={createProposalModal} onclick={clearCreateProposalModal} />}
+            {connectWalletModal && <ConnectWalletModal isActive={connectWalletModal} onclick={clearConnectModal}/>}
+            {deleteModal && <DeleteModal isActive={deleteModal} onclick={clearDeleteModal}/>}
             {
                 isMobile ? (
                     <div className={styles["mobile-header"]}>
@@ -105,7 +136,7 @@ export function GovernancePage() {
                                             </div>
                                             <div className={styles["nav-item"]}> About</div>
                                         </div>
-                                        <div className={styles["nav-button"]} onClick={()=>toggleConnectWallet}>
+                                        <div className={styles["nav-button"]} onClick={()=>toggleConnectWallet()}>
                                             <img src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710656577/wallet-02-1_tjruyq.png" alt="wallet-icon" /> 
                                             Connect Wallet
                                         </div>
@@ -180,7 +211,7 @@ export function GovernancePage() {
                         <div className={styles["icon-block"]}><FaHistory className={styles["icon"]}/> History</div>
                         <div className={styles["icon-block"]}><IoChatbubblesOutline className={styles["icon"]}/>Forum</div>
                         <div className={styles["icon-block"]}><BsQuestionSquare  className={styles["icon"]}/>FAQ</div>
-                        <div className={styles["button"]}><BsQuestionSquare  className={styles["icon"]}/>Create Proposal</div>
+                        <div className={styles["button"]} onClick={openProposalModal}><BsQuestionSquare  className={styles["icon"]}/>Create Proposal</div>
                     </div>
                 </div>
                 <div className={styles["body-section"]}>
@@ -200,7 +231,7 @@ export function GovernancePage() {
                     </div>
                     <div className={styles["main-section"]}>
                         <CardVote title={'Algorand Hackathon Event in Abuja'} 
-                            yesVote={'93.64%'} noVote={'6.36%'}
+                            yesVote={'93.64'} onclick={toggleDeleteWallet}
                         />
                         <CardAfterVote title={'Community Funding'} 
                             date={'Ended 14th Oct, 2023'} tag={'Tag #35'}
@@ -226,10 +257,20 @@ export function GovernancePage() {
                 </div>
             </div>{/*Proposal section Ends*/}
 
-            <div className={styles["footer"]}>
-                
+            <div className={styles["footer"]} onClick={toggleCongratsModal}>
+                <div className={styles["contain"]}>
+                    <div className={styles["left"]}>
+                        Buit with <FaHeart className={styles['icon']}/> at <div className={styles['dao']}>DAO WAKANDA</div>
+                    </div>
+                    <div className={styles["right"]}>
+                        <RiTwitterXLine className={styles["icon"]}/>
+                        <PiTelegramLogo className={styles["icon"]}/>
+                        <PiDiscordLogo className={styles["icon"]}/>
+                        <FiFacebook className={styles["icon"]}/>
+                    </div>
+                </div>
             </div>{/*Footer Ends*/}
-
+                
         </div>
     );
 }
