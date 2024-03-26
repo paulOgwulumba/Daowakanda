@@ -1,5 +1,4 @@
-import { title } from 'process';
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { BackgroundOverlay } from '../../shared/BackgroundOverlay';
@@ -9,6 +8,7 @@ import { APP_ID } from '@/constants/appId';
 import { useGovernanceContract } from '@/features/governance/actions/governance.contract';
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 import { useNotify } from '@/hooks';
+// import { Spinner } from '@/components/shared';
 
 interface Props {
   isActive: boolean;
@@ -46,6 +46,7 @@ export function CreateProposalModal({ isActive, onclick }: Props) {
 
     if (response.error) {
       notify.error(response.error?.toString() || 'Network error');
+      console.log(response.error);
       setLoading(false);
       return;
     }
@@ -137,7 +138,7 @@ export function CreateProposalModal({ isActive, onclick }: Props) {
               disabled={!data.name || !data.description || !data.end_time}
               onClick={() => submit()}
             >
-              {loading ? 'Submitting Proposal...' : 'Submit Proposal'}
+              {loading ? `Submitting Proposal...` : 'Submit Proposal'}
             </button>
           </div>
         </div>

@@ -20,14 +20,10 @@ import { BsQuestionSquare } from 'react-icons/bs';
 import { RiTwitterXLine } from 'react-icons/ri';
 import { NavCard } from './navCard';
 import { data, dataTwo } from './mock';
-import { IoIosArrowDown, IoIosArrowUp, IoIosSearch } from 'react-icons/io';
-import { CardAfterVote } from './CardAfterVote';
-import { CardVote } from './CardVote';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { ConnectWalletModal } from './connectModal';
-import { DeleteModal } from './deleteModal';
 import { CreateProposalModal } from './createProposal';
 import { CongratsModal } from './resultsModal';
-import { DeclineModal } from './resultsModal/DeclinedModal';
 import { useWallet } from '@txnlab/use-wallet';
 import { Proposals } from './Proposals';
 
@@ -96,7 +92,7 @@ export function GovernancePage() {
       )}
       {connectWalletModal && (
         <ConnectWalletModal
-          isActive={connectWalletModal}
+          isActive={activeAddress ? false : true}
           onclick={clearConnectModal}
         />
       )}
@@ -323,66 +319,16 @@ export function GovernancePage() {
               <BsQuestionSquare className={styles['icon']} />
               FAQ
             </div>
-            <div className={styles['button']} onClick={openProposalModal}>
+            <button
+              className={styles['button']}
+              disabled={activeAddress ? false : true}
+              onClick={openProposalModal}
+            >
               <BsQuestionSquare className={styles['icon']} />
               Create Proposal
-            </div>
+            </button>
           </div>
         </div>
-        {/* <div className={styles['body-section']}>
-          <div className={styles['form']}>
-            <div className={styles['input']}>
-              <input type="text" placeholder="All" />
-              <IoIosArrowDown className={styles['icon']} />
-            </div>
-            <div className={styles['input-search']}>
-              <input type="text" placeholder="Search proposals" />
-              <IoIosSearch className={styles['icon']} />
-            </div>
-          </div>
-          <div className={styles['main-section']}>
-            <CardVote
-              title={'Algorand Hackathon Event in Abuja'}
-              yesVote={'93.64'}
-              onclick={toggleDeleteWallet}
-            />
-            <CardAfterVote
-              title={'Community Funding'}
-              date={'Ended 14th Oct, 2023'}
-              tag={'Tag #35'}
-              status={'Approved'}
-              color={'#003A03'}
-            />
-            <CardAfterVote
-              title={'Party at Sharaton'}
-              date={'Ended 14th Oct, 2023'}
-              tag={'Tag #35'}
-              status={'Rejected'}
-              color={'#690005'}
-            />
-            <CardAfterVote
-              title={'Community Funding'}
-              date={'Ended 14th Oct, 2023'}
-              tag={'Tag #31'}
-              status={'Approved'}
-              color={'#003A03'}
-            />
-            <CardAfterVote
-              title={'Party at Sharaton'}
-              date={'Ended 14th Oct, 2023'}
-              tag={'Tag #35'}
-              status={'Rejected'}
-              color={'#690005'}
-            />
-            <CardAfterVote
-              title={'Community Funding'}
-              date={'Ended 14th Oct, 2023'}
-              tag={'Tag #31'}
-              status={'Approved'}
-              color={'#003A03'}
-            />
-          </div>
-        </div> */}
         <Proposals />
       </div>
       {/*Proposal section Ends*/}

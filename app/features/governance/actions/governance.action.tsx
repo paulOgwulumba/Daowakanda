@@ -42,7 +42,9 @@ export const useGovernanceActions = () => {
 
       return response;
     } catch (error) {
-      return { error };
+      return {
+        error,
+      };
     }
   }, []);
 
