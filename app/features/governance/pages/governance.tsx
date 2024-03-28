@@ -1,7 +1,5 @@
-import { GovernancePage } from "../../../components/Governance";
+import { GovernancePage } from '../../../components/Governance';
 
 export function Governance() {
-    return (
-        <GovernancePage />
-    );
+  return <GovernancePage />;
 }

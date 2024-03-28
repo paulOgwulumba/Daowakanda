@@ -22,40 +22,41 @@ export function DeleteModal({ isActive, onclick, id, setDeleteModal }: Props) {
   const [loading, setLoading] = useState(false);
   const { notify } = useNotify();
 
-  const onDelete = () => {
+  const onDelete = async () => {
     console.log('delete called');
     setLoading(true);
-    // const response = await deleteProposal(id);
-    axios
-      .delete(`https://api.daowakanda.com/api/v1/proposals/proposal/${id}/`)
-      .then(() => {
-        setTimeout(() => {
-          notify.success('Proposal Successfully Deleted');
-          setDeleteModal(false);
-        }, 1300);
-        setLoading(false);
-        getAllProposals();
-      })
-      .catch(() => {
-        notify.error('delete proposal not successfull');
-        setTimeout(() => {
-          setDeleteModal(false);
-        }, 1000);
-      });
+    const response = await deleteProposal(id);
+    console.log(response);
+    // axios
+    //   .delete(`https://api.daowakanda.com/api/v1/proposals/proposal/${id}/`)
+    //   .then(() => {
+    //     setTimeout(() => {
+    //       notify.success('Proposal Successfully Deleted');
+    //       setDeleteModal(false);
+    //     }, 1300);
+    //     setLoading(false);
+    //     getAllProposals();
+    //   })
+    //   .catch(() => {
+    //     notify.error('delete proposal not successfull');
+    //     setTimeout(() => {
+    //       setDeleteModal(false);
+    //     }, 1000);
+    //   });
 
-    // if (response.error) {
-    //   notify.error('delete proposal not successfull');
-    //   setTimeout(() => {
-    //     setDeleteModal(false);
-    //   }, 1000);
-    // } else {
-    //   setTimeout(() => {
-    //     notify.success('Proposal Successfully Deleted');
-    //     setDeleteModal(false);
-    //   }, 1300);
-    //   setLoading(false);
-    //   getAllProposals();
-    // }
+    if (response.error) {
+      notify.error('delete proposal not successfull');
+      setTimeout(() => {
+        setDeleteModal(false);
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        notify.success('Proposal Successfully Deleted');
+        setDeleteModal(false);
+      }, 1300);
+      setLoading(false);
+      getAllProposals();
+    }
   };
   return (
     <>
