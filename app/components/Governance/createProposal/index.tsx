@@ -8,14 +8,23 @@ import { APP_ID } from '@/constants/appId';
 import { useGovernanceContract } from '@/features/governance/actions/governance.contract';
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 import { useNotify } from '@/hooks';
+import moment from 'moment';
+import axios from 'axios';
+
 // import { Spinner } from '@/components/shared';
 
 interface Props {
   isActive: boolean;
   onclick: () => any;
+  setCreateProposalModal: any;
 }
 
-export function CreateProposalModal({ isActive, onclick }: Props) {
+export function CreateProposalModal({
+  isActive,
+  onclick,
+  setCreateProposalModal,
+}: Props) {
+  const [loading, setLoading] = useState(false);
   const { submitProposal } = useGovernanceContract();
   const { createProposal, getAllProposals } = useGovernanceActions();
   const { notify } = useNotify();
@@ -27,7 +36,6 @@ export function CreateProposalModal({ isActive, onclick }: Props) {
     is_claimable: false,
     end_time: 0,
   });
-  const [loading, setLoading] = useState(false);
 
   const submit = async () => {
     setLoading(true);
@@ -39,20 +47,43 @@ export function CreateProposalModal({ isActive, onclick }: Props) {
       return;
     }
 
-    const response = await createProposal({
-      ...data,
-      end_time: new Date(data.end_time).toString(),
-    });
+    await axios
+      .post(`https://api.daowakanda.com/api/v1/proposals/proposal/`, {
+        ...data,
+        end_time: moment.utc(data.end_time).format('YYYY-MM-DDThh:mm:ss'),
+      })
+      .then(() => {
+        setTimeout(() => {
+          notify.success('Proposal successfully created');
+          setCreateProposalModal(false);
+          getAllProposals();
+          setLoading(false);
+        }, 1300);
+        setLoading(false);
+        getAllProposals();
+      })
+      .catch((err) => {
+        notify.error(err?.toString() || 'Network error');
+        console.log(err);
+        setLoading(false);
+      });
+    //   const response = await createProposal({
+    //     ...data,
+    //     end_time: moment.utc(data.end_time).format('YYYY-MM-DDThh:mm:ss'),
+    //   });
 
-    if (response.error) {
-      notify.error(response.error?.toString() || 'Network error');
-      console.log(response.error);
-      setLoading(false);
-      return;
-    }
-
-    getAllProposals();
-    setLoading(false);
+    //   if (response.error) {
+    //     notify.error(response.error?.toString() || 'Network error');
+    //     console.log(response.error);
+    //     setLoading(false);
+    //     return;
+    //   }
+    //   setTimeout(() => {
+    //     notify.success('Proposal successfully created');
+    //     setCreateProposalModal(false);
+    //     getAllProposals();
+    //     setLoading(false);
+    //   }, 1500);
   };
 
   return (
@@ -92,12 +123,6 @@ export function CreateProposalModal({ isActive, onclick }: Props) {
                 }
               ></textarea>
             </div>
-            <div className={styles['options-block']}>
-              <div className={styles['name']}>Options</div>
-              <div className={styles['option']}>Option 1</div>
-              <div className={styles['option']}>Option 2</div>
-              <div className={styles['add-option']}>Add Option</div>
-            </div>
             <div className={styles['date-section']}>
               <div className={styles['date-control']}>
                 <label>Start Date</label>
@@ -112,7 +137,7 @@ export function CreateProposalModal({ isActive, onclick }: Props) {
                   type="date"
                   onChange={(evt) => {
                     const date = new Date(evt.target.value);
-                    setData((data) => ({
+                    setData((data: any) => ({
                       ...data,
                       end_time: date.valueOf(),
                     }));
@@ -136,7 +161,7 @@ export function CreateProposalModal({ isActive, onclick }: Props) {
             <button
               className={styles['submit']}
               disabled={!data.name || !data.description || !data.end_time}
-              onClick={() => submit()}
+              onClick={submit}
             >
               {loading ? `Submitting Proposal...` : 'Submit Proposal'}
             </button>

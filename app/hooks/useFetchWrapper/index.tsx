@@ -3,7 +3,8 @@ import { RequestMethod } from '../../enums/requestMethod.enum';
 import { RequestOptions } from '../../interfaces/requestOption.interface';
 
 export const useFetchWrapper = () => {
-  const apiUrl = 'https://api.daowakanda.com';
+  // const apiUrl = 'https://api.daowakanda.com';
+  const apiUrl = 'https://api.daowakanda.com/api/v1/proposals';
 
   const handleResponse = useCallback((response: any) => {
     return response.text().then(async (text: string) => {

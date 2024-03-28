@@ -2,30 +2,28 @@ import { useWindowDimensions } from '../../hooks/useWindowDimensions';
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import Link from 'next/link';
-import {
-  PiDiscordLogo,
-  PiTelegramLogo,
-  PiTelegramLogoBold,
-} from 'react-icons/pi';
-import {
-  FaGithub,
-  FaHeart,
-  FaHistory,
-  FaRegCircle,
-  FaTelegramPlane,
-} from 'react-icons/fa';
+import { PiDiscordLogo, PiTelegramLogo } from 'react-icons/pi';
+import { FaHeart, FaHistory } from 'react-icons/fa';
 import { FiFacebook } from 'react-icons/fi';
 import { IoChatbubblesOutline } from 'react-icons/io5';
 import { BsQuestionSquare } from 'react-icons/bs';
 import { RiTwitterXLine } from 'react-icons/ri';
 import { NavCard } from './navCard';
-import { data, dataTwo } from './mock';
+import { dataOne, dataTwo } from './mock';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { ConnectWalletModal } from './connectModal';
 import { CreateProposalModal } from './createProposal';
 import { CongratsModal } from './resultsModal';
 import { useWallet } from '@txnlab/use-wallet';
 import { Proposals } from './Proposals';
+import { useGovernanceActions } from '@/features/governance/actions/governance.action';
+import { useGovernanceContract } from '@/features/governance/actions/governance.contract';
+import { useNotify } from '@/hooks';
+import { CreateProposalDto } from '@/interfaces/governance.interface';
+import { APP_ID } from '@/constants/appId';
+import moment from 'moment';
+import { useRecoilState } from 'recoil';
+import { ProposalsAtom } from '@/features/governance/state/governance.atom';
 
 export function GovernancePage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
@@ -39,6 +37,9 @@ export function GovernancePage() {
   const { activeAddress, providers } = useWallet();
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
+
+  const [proposalData] = useRecoilState(ProposalsAtom);
+  const { getAllProposals } = useGovernanceActions();
 
   const toggleShowDropDown = () => {
     setDropDownActive(true);
@@ -63,6 +64,13 @@ export function GovernancePage() {
   };
   const clearCreateProposalModal = () => {
     setCreateProposalModal(false);
+    // setData({
+    //   app_id: String(APP_ID),
+    //   name: '',
+    //   description: '',
+    //   is_claimable: false,
+    //   end_time: 0,
+    // });
   };
   const openCongratsModal = () => {
     setCongratsModal(true);
@@ -78,6 +86,12 @@ export function GovernancePage() {
     providers?.forEach((provider) => provider.disconnect());
   };
 
+  useEffect(() => {
+    getAllProposals();
+  }, []);
+
+  console.log(proposalData);
+
   return (
     <div className={styles.container}>
       {congratsModal && (
@@ -88,6 +102,7 @@ export function GovernancePage() {
         <CreateProposalModal
           isActive={createProposalModal}
           onclick={clearCreateProposalModal}
+          setCreateProposalModal={setCreateProposalModal}
         />
       )}
       {connectWalletModal && (
@@ -230,7 +245,7 @@ export function GovernancePage() {
                   className={styles['nav-dropdown']}
                   onMouseLeave={() => setActiveDropDown(false)}
                 >
-                  {data.map((item, index) => (
+                  {dataOne.map((item, index) => (
                     <NavCard
                       title={item.title}
                       description={item.description}

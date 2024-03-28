@@ -6,23 +6,19 @@ import {
   VerifyVoteDto,
 } from '@/interfaces/governance.interface';
 import { useCallback } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { ProposalsAtom } from '../state/governance.atom';
 
 export const useGovernanceActions = () => {
   const fetchWrapper = useFetchWrapper();
-  const [, setProposals] = useRecoilState(ProposalsAtom);
+  const setProposals = useSetRecoilState(ProposalsAtom);
   const { notify } = useNotify();
 
   const getAllProposals = useCallback(async () => {
     try {
-      const response = await fetchWrapper.get('api/v1/proposals/proposal/');
+      const response = await fetchWrapper.get('proposal/');
       if (Array.isArray(response)) {
         setProposals(response);
-      } else {
-        notify.error(
-          `There was a problem loading all proposals: ${response?.toString()}`,
-        );
       }
       return response;
     } catch (error) {
@@ -35,10 +31,7 @@ export const useGovernanceActions = () => {
 
   const createProposal = useCallback(async (dto: CreateProposalDto) => {
     try {
-      const response = await fetchWrapper.post(
-        'api/v1/proposals/proposal/',
-        dto,
-      );
+      const response = await fetchWrapper.post('proposal/', dto);
 
       return response;
     } catch (error) {
@@ -50,9 +43,7 @@ export const useGovernanceActions = () => {
 
   const deleteProposal = useCallback(async (id: string) => {
     try {
-      const response = await fetchWrapper.delete(
-        `api/v1/proposals/proposal/${id}`,
-      );
+      const response = await fetchWrapper.delete(`proposal/${id}/`);
 
       return response;
     } catch (error) {

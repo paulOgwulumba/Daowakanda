@@ -34,10 +34,31 @@ export const Proposals = () => {
         </div>
       </div>
       <div className={styles['main-section']}>
+        {proposals &&
+          proposals?.map((proposal, index) => (
+            <CardVote
+              key={index}
+              title={proposal?.name}
+              yesVote={proposal?.yes_count}
+              tag={proposal?.tag_id}
+              isActive={proposal?.is_active}
+              description={proposal?.description}
+              noVote={proposal?.no_count}
+              end_time={proposal?.end_time}
+              created_on={proposal?.created_on}
+              id={proposal?.id}
+            />
+          ))}
         <CardVote
           title={'Algorand Hackathon Event in Abuja'}
           yesVote={'93.64'}
-          onclick={toggleDeleteProposal}
+          tag="425252"
+          isActive={true}
+          description="hello testing cardss"
+          noVote={'16.23'}
+          end_time="31 3, 2024"
+          created_on="27 3, 2024"
+          id={23333}
         />
         <CardAfterVote
           title={'Community Funding'}
@@ -52,36 +73,8 @@ export const Proposals = () => {
           tag={'Tag #35'}
           status={'Rejected'}
           color={'#690005'}
-        />
-        <CardAfterVote
-          title={'Community Funding'}
-          date={'Ended 14th Oct, 2023'}
-          tag={'Tag #31'}
-          status={'Approved'}
-          color={'#003A03'}
-        />
-        <CardAfterVote
-          title={'Party at Sharaton'}
-          date={'Ended 14th Oct, 2023'}
-          tag={'Tag #35'}
-          status={'Rejected'}
-          color={'#690005'}
-        />
-        <CardAfterVote
-          title={'Community Funding'}
-          date={'Ended 14th Oct, 2023'}
-          tag={'Tag #31'}
-          status={'Approved'}
-          color={'#003A03'}
         />
       </div>
-
-      {deleteProposalModal && (
-        <DeleteModal
-          isActive={deleteProposalModal}
-          onclick={() => setDeleteProposalModal(false)}
-        />
-      )}
     </div>
   );
 };
