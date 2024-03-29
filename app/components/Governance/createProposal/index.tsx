@@ -9,7 +9,6 @@ import { useGovernanceContract } from '@/features/governance/actions/governance.
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 import { useNotify } from '@/hooks';
 import moment from 'moment';
-import axios from 'axios';
 
 // import { Spinner } from '@/components/shared';
 
@@ -47,26 +46,6 @@ export function CreateProposalModal({
       return;
     }
 
-    // await axios
-    //   .post(`https://api.daowakanda.com/api/v1/proposals/proposal/`, {
-    //     ...data,
-    //     end_time: moment.utc(data.end_time).format('YYYY-MM-DDThh:mm:ss'),
-    //   })
-    //   .then(() => {
-    //     setTimeout(() => {
-    //       notify.success('Proposal successfully created');
-    //       setCreateProposalModal(false);
-    //       getAllProposals();
-    //       setLoading(false);
-    //     }, 1300);
-    //     setLoading(false);
-    //     getAllProposals();
-    //   })
-    //   .catch((err) => {
-    //     notify.error(err?.toString() || 'Network error');
-    //     console.log(err);
-    //     setLoading(false);
-    //   });
     const response = await createProposal({
       ...data,
       end_time: moment.utc(data.end_time).format('YYYY-MM-DDThh:mm:ss'),

@@ -17,11 +17,6 @@ import { CongratsModal } from './resultsModal';
 import { useWallet } from '@txnlab/use-wallet';
 import { Proposals } from './Proposals';
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
-import { useGovernanceContract } from '@/features/governance/actions/governance.contract';
-import { useNotify } from '@/hooks';
-import { CreateProposalDto } from '@/interfaces/governance.interface';
-import { APP_ID } from '@/constants/appId';
-import moment from 'moment';
 import { useRecoilState } from 'recoil';
 import { ProposalsAtom } from '@/features/governance/state/governance.atom';
 
@@ -64,13 +59,6 @@ export function GovernancePage() {
   };
   const clearCreateProposalModal = () => {
     setCreateProposalModal(false);
-    // setData({
-    //   app_id: String(APP_ID),
-    //   name: '',
-    //   description: '',
-    //   is_claimable: false,
-    //   end_time: 0,
-    // });
   };
   const openCongratsModal = () => {
     setCongratsModal(true);
