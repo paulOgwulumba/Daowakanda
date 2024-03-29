@@ -47,43 +47,43 @@ export function CreateProposalModal({
       return;
     }
 
-    await axios
-      .post(`https://api.daowakanda.com/api/v1/proposals/proposal/`, {
-        ...data,
-        end_time: moment.utc(data.end_time).format('YYYY-MM-DDThh:mm:ss'),
-      })
-      .then(() => {
-        setTimeout(() => {
-          notify.success('Proposal successfully created');
-          setCreateProposalModal(false);
-          getAllProposals();
-          setLoading(false);
-        }, 1300);
-        setLoading(false);
-        getAllProposals();
-      })
-      .catch((err) => {
-        notify.error(err?.toString() || 'Network error');
-        console.log(err);
-        setLoading(false);
-      });
-    //   const response = await createProposal({
+    // await axios
+    //   .post(`https://api.daowakanda.com/api/v1/proposals/proposal/`, {
     //     ...data,
     //     end_time: moment.utc(data.end_time).format('YYYY-MM-DDThh:mm:ss'),
-    //   });
-
-    //   if (response.error) {
-    //     notify.error(response.error?.toString() || 'Network error');
-    //     console.log(response.error);
+    //   })
+    //   .then(() => {
+    //     setTimeout(() => {
+    //       notify.success('Proposal successfully created');
+    //       setCreateProposalModal(false);
+    //       getAllProposals();
+    //       setLoading(false);
+    //     }, 1300);
     //     setLoading(false);
-    //     return;
-    //   }
-    //   setTimeout(() => {
-    //     notify.success('Proposal successfully created');
-    //     setCreateProposalModal(false);
     //     getAllProposals();
+    //   })
+    //   .catch((err) => {
+    //     notify.error(err?.toString() || 'Network error');
+    //     console.log(err);
     //     setLoading(false);
-    //   }, 1500);
+    //   });
+    const response = await createProposal({
+      ...data,
+      end_time: moment.utc(data.end_time).format('YYYY-MM-DDThh:mm:ss'),
+    });
+
+    if (response.error) {
+      notify.error(response.error?.toString() || 'Network error');
+      console.log(response.error);
+      setLoading(false);
+      return;
+    }
+    setTimeout(() => {
+      notify.success('Proposal successfully created');
+      setCreateProposalModal(false);
+      getAllProposals();
+      setLoading(false);
+    }, 1500);
   };
 
   return (
