@@ -8,13 +8,8 @@ import { useRecoilValue } from 'recoil';
 import { ProposalsAtom } from '@/features/governance/state/governance.atom';
 
 export const Proposals = () => {
-  // const [deleteProposalModal, setDeleteProposalModal] = useState(false);
   const { getAllProposals } = useGovernanceActions();
   const proposals = useRecoilValue(ProposalsAtom);
-
-  // const toggleDeleteProposal = () => {
-  //   setDeleteProposalModal(!deleteProposalModal);
-  // };
 
   useEffect(() => {
     getAllProposals();
