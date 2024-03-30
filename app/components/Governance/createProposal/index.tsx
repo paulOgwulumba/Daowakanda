@@ -39,17 +39,39 @@ export function CreateProposalModal({
   const submit = async () => {
     setLoading(true);
 
-    const res = await submitProposal(data);
+    // const res = await submitProposal(data);
 
-    if (res.error) {
-      setLoading(false);
-      return;
-    }
+    // if (res.error) {
+    //   setLoading(false);
+    //   return;
+    // }
 
+    // await axios
+    //   .post(`https://api.daowakanda.com/api/v1/proposals/proposal/`, {
+    //     ...data,
+    //     end_time: moment.utc(data.end_time).format('YYYY-MM-DDThh:mm:ss'),
+    //   })
+    //   .then(() => {
+    //     setTimeout(() => {
+    //       notify.success('Proposal successfully created');
+    //       setCreateProposalModal(false);
+    //       getAllProposals();
+    //       setLoading(false);
+    //     }, 1300);
+    //     setLoading(false);
+    //     getAllProposals();
+    //   })
+    //   .catch((err) => {
+    //     notify.error(err?.toString() || 'Network error');
+    //     console.log(err);
+    //     setLoading(false);
+    //   });
     const response = await createProposal({
       ...data,
       end_time: moment.utc(data.end_time).format('YYYY-MM-DDThh:mm:ss'),
     });
+
+    console.log(response, 'response');
 
     if (response.error) {
       notify.error(response.error?.toString() || 'Network error');

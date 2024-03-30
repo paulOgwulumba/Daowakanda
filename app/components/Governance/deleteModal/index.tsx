@@ -21,6 +21,7 @@ export function DeleteModal({ isActive, onclick, id, setDeleteModal }: Props) {
     console.log('delete called');
     setLoading(true);
     const response = await deleteProposal(id);
+    console.log(response);
 
     if (response.error) {
       notify.error('delete proposal not successfull');

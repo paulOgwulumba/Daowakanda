@@ -35,6 +35,8 @@ export const useFetchWrapper = () => {
         requestOptions.body = JSON.stringify(body);
       }
 
+      console.log(requestOptions);
+
       return fetch(`${apiUrl}/${url}`, requestOptions as RequestInit)
         .then((response) => handleResponse(response))
         .catch((err) => {
