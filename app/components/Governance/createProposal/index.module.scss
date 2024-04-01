@@ -187,6 +187,9 @@
             }
         }
         .submit{
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-top: 10px;
             background: #C5EE4F;
             min-height: 56px;

@@ -4,15 +4,23 @@ import { BackgroundOverlay } from '../../shared/BackgroundOverlay';
 import styles from './index.module.scss';
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 import { useNotify } from '@/hooks';
+import { Spinner } from '@/components/shared';
 
 interface Props {
   isActive: boolean;
   onclick: any;
   id: any;
   setDeleteModal: any;
+  setItemDeleted: any;
 }
 
-export function DeleteModal({ isActive, onclick, id, setDeleteModal }: Props) {
+export function DeleteModal({
+  isActive,
+  onclick,
+  id,
+  setDeleteModal,
+  setItemDeleted,
+}: Props) {
   const { deleteProposal, getAllProposals } = useGovernanceActions();
   const [loading, setLoading] = useState(false);
   const { notify } = useNotify();
@@ -34,6 +42,7 @@ export function DeleteModal({ isActive, onclick, id, setDeleteModal }: Props) {
         setDeleteModal(false);
       }, 1300);
       setLoading(false);
+      setItemDeleted(true);
       getAllProposals();
     }
   };
@@ -49,7 +58,8 @@ export function DeleteModal({ isActive, onclick, id, setDeleteModal }: Props) {
               No, Cancel
             </div>
             <div className={styles['delete']} onClick={onDelete}>
-              {loading ? `Deleting` : ` Yes, Delete`}
+              {loading && <Spinner color="#fff" size="sm" />}
+              {loading ? `Deleting...` : `Yes, Delete`}
             </div>
           </div>
         </div>

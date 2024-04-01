@@ -1,17 +1,23 @@
 import styles from './index.module.scss';
 
 interface SpinnerProps {
-  height: number;
-  width: number;
   color: string;
+  size: string;
 }
-export function Spinner({ height, width, color }: SpinnerProps) {
+export function Spinner({ color, size }: SpinnerProps) {
+  const sizeClass = () => {
+    switch (size) {
+      case 'sm':
+        return 'load-sm';
+        break;
+      default:
+        return 'load';
+    }
+  };
   return (
     <div
-      className={styles['load']}
+      className={styles[sizeClass()]}
       style={{
-        width: `${width}px`,
-        height: `${height}px`,
         border: `5px solid ${color}`,
       }}
     ></div>

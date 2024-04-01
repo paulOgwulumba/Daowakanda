@@ -17,6 +17,7 @@ interface CardProps {
   created_on: string;
   end_time: string;
   id: any;
+  setItemDeleted: any;
 }
 
 export function CardVote({
@@ -29,6 +30,7 @@ export function CardVote({
   end_time,
   id,
   tag,
+  setItemDeleted,
 }: CardProps) {
   const [showdropDown, setShowDropDown] = useState(false);
   const [clickActiveYes, setClickActiveYes] = useState(false);
@@ -58,6 +60,7 @@ export function CardVote({
           isActive={deleteModal}
           onclick={clearDeleteModal}
           setDeleteModal={setDeleteModal}
+          setItemDeleted={setItemDeleted}
           id={id}
         />
       )}

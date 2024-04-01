@@ -9,8 +9,7 @@ import { useGovernanceContract } from '@/features/governance/actions/governance.
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 import { useNotify } from '@/hooks';
 import moment from 'moment';
-
-// import { Spinner } from '@/components/shared';
+import { Spinner } from '@/components/shared';
 
 interface Props {
   isActive: boolean;
@@ -144,7 +143,8 @@ export function CreateProposalModal({
               disabled={!data.name || !data.description || !data.end_time}
               onClick={submit}
             >
-              {loading ? `Submitting Proposal...` : 'Submit Proposal'}
+              {loading && <Spinner color="#fff" size="sm" />}
+              {loading ? `Submitting Proposal...` : `Submit Proposal`}
             </button>
           </div>
         </div>

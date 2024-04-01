@@ -19,6 +19,7 @@ import { Proposals } from './Proposals';
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 import { useRecoilState } from 'recoil';
 import { ProposalsAtom } from '@/features/governance/state/governance.atom';
+import { useNotify } from '@/hooks';
 
 export function GovernancePage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
@@ -32,6 +33,7 @@ export function GovernancePage() {
   const { activeAddress, providers } = useWallet();
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
+  const { notify } = useNotify();
 
   const [proposalData] = useRecoilState(ProposalsAtom);
   const { getAllProposals } = useGovernanceActions();
@@ -74,12 +76,17 @@ export function GovernancePage() {
     providers?.forEach((provider) => provider.disconnect());
   };
 
+  const connectWalletMessage = () => {
+    setTimeout(() => {
+      notify.info(`Please Connect Your Wallet`);
+    }, 1500);
+  };
+
   useEffect(() => {
     getAllProposals();
   }, []);
 
   console.log(proposalData);
-
   return (
     <div className={styles.container}>
       {congratsModal && (
@@ -192,6 +199,9 @@ export function GovernancePage() {
                 </div>
                 <div
                   className={styles['nav-button']}
+                  onMouseEnter={() => {
+                    !activeAddress && connectWalletMessage();
+                  }}
                   onClick={() => {
                     activeAddress ? disconnectWallet() : toggleConnectWallet();
                   }}
@@ -275,6 +285,9 @@ export function GovernancePage() {
           </div>
           <div
             className={styles['join']}
+            onMouseEnter={() => {
+              !activeAddress && connectWalletMessage();
+            }}
             onClick={() => {
               activeAddress ? disconnectWallet() : toggleConnectWallet();
             }}

@@ -2,18 +2,24 @@ import { IoIosArrowDown, IoIosSearch } from 'react-icons/io';
 import { CardAfterVote } from './CardAfterVote';
 import { CardVote } from './CardVote';
 import styles from './index.module.scss';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 import { useRecoilValue } from 'recoil';
 import { ProposalsAtom } from '@/features/governance/state/governance.atom';
+import { CardVoteLoader } from './CardVoteLoader';
 
 export const Proposals = () => {
+  const [itemDeleted, setItemDeleted] = useState(false);
   const { getAllProposals } = useGovernanceActions();
   const proposals = useRecoilValue(ProposalsAtom);
 
   useEffect(() => {
     getAllProposals();
   }, []);
+
+  useEffect(() => {
+    getAllProposals();
+  }, [itemDeleted]);
 
   return (
     <div className={styles['body-section']}>
@@ -28,6 +34,8 @@ export const Proposals = () => {
         </div>
       </div>
       <div className={styles['main-section']}>
+        {proposals.length <= 0 &&
+          [1, 2, 3].map((item, index) => <CardVoteLoader key={index} />)}
         {proposals &&
           proposals?.map((proposal, index) => (
             <CardVote
@@ -41,6 +49,7 @@ export const Proposals = () => {
               end_time={proposal?.end_time}
               created_on={proposal?.created_on}
               id={proposal?.id}
+              setItemDeleted={setItemDeleted}
             />
           ))}
         <CardVote
@@ -53,6 +62,7 @@ export const Proposals = () => {
           end_time="31 3, 2024"
           created_on="27 3, 2024"
           id={23333}
+          setItemDeleted={setItemDeleted}
         />
         <CardAfterVote
           title={'Community Funding'}

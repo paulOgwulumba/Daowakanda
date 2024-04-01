@@ -1,0 +1,145 @@
+@import '../../../../styles/index.scss';
+
+.cardVote{
+    min-height: 228px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background: #4D4D4D4D;
+    border-radius: 12px;
+    padding: 12px;
+
+    @include tablet{
+      min-height: 156px;
+      padding: 32px;
+      border-radius: 32px;
+    }
+    .voteform{
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 8px;
+      min-height: 88px;
+      @include tablet{
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        min-height: 64px;
+      }
+      .left{
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        grid-column: auto;
+        background: #4D4D4D4D;
+        border-radius: 32px;
+        background: linear-gradient(110deg, #767679 8%, #46464A 18%, #767679 33%);
+        background-size: 200% 100%;
+        animation: 2.5s shine linear infinite;
+        }
+    }
+    .top-content{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .title{ 
+        background: #46464A;
+        min-height: 40px;
+        width: 70%;
+        border-radius: 32px;
+        background: linear-gradient(110deg, #717172 8%, #cacaca4d 18%, #8f8f8f 33%);
+        background-size: 200% 100%;
+        animation: 1.5s shine linear infinite;
+
+        @include tablet{
+            width: 55%;
+        }
+      }
+      .icon{
+        background: #46464A;
+        width: 24px;
+        height: 24px;
+        padding: 8px 0;
+        gap: 32px;
+        border-radius: 32px;
+        cursor: pointer;
+        background: linear-gradient(110deg, #717172 8%, #cacaca4d 18%, #8f8f8f 33%);
+        background-size: 200% 100%;
+        animation: 1.5s shine linear infinite;
+
+        @include tablet{
+          width: 45px;
+          height: 45px;
+        }
+      }
+
+    }
+    .tags-content{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 8px;
+     
+      @include tablet{
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .left{
+        background: #46464A;
+        width: 120px;
+        min-height: 24px;
+        border-radius: 32px;
+        background: linear-gradient(110deg, #717172 8%, #cacaca4d 18%, #8f8f8f 33%);
+        background-size: 200% 100%;
+        animation: 1.5s shine linear infinite;
+       
+        @include tablet{
+          width: 250px;
+          min-height: 40px;
+        }
+      }
+      .right{
+        display: flex;
+        width: 100%;
+        min-height: 40px;
+        gap: 4px;
+        align-items: center;
+        justify-content: space-between;
+
+        @include tablet{
+          gap: 3px;
+          width: 679px;
+          gap: 20px;
+        }
+
+        .tag{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            border-radius: 50px;
+            padding: 4px 6px;
+            width: 120px;
+            min-height: 24px;
+            background: #46464A;
+            background: linear-gradient(110deg, #717172 8%, #cacaca4d 18%, #8f8f8f 33%);
+            background-size: 200% 100%;
+            animation: 1.5s shine linear infinite;
+        
+            @include tablet{
+                min-height: 32px;
+                padding: 4px 16px;
+            }
+        }
+      }
+    }
+}
+
+@keyframes shine {
+    to {
+      background-position-x: -200%;
+    }
+}
