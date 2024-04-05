@@ -10,16 +10,24 @@ import { CardVoteLoader } from './CardVoteLoader';
 
 export const Proposals = () => {
   const [itemDeleted, setItemDeleted] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const { getAllProposals } = useGovernanceActions();
   const proposals = useRecoilValue(ProposalsAtom);
 
-  useEffect(() => {
-    getAllProposals();
-  }, []);
+  const filterProposals = () => {
+    if (searchTerm) {
+      return proposals.filter((proposal) =>
+        proposal.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+    }
+
+    return proposals;
+  };
 
   useEffect(() => {
     getAllProposals();
   }, [itemDeleted]);
+  const endDate = '2024-04-08T13:59:59';
 
   return (
     <div className={styles['body-section']}>
@@ -29,29 +37,33 @@ export const Proposals = () => {
           <IoIosArrowDown className={styles['icon']} />
         </div>
         <div className={styles['input-search']}>
-          <input type="text" placeholder="Search proposals" />
+          <input
+            type="text"
+            placeholder="Search proposals"
+            name={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <IoIosSearch className={styles['icon']} />
         </div>
       </div>
       <div className={styles['main-section']}>
         {proposals.length <= 0 &&
           [1, 2, 3].map((item, index) => <CardVoteLoader key={index} />)}
-        {proposals &&
-          proposals?.map((proposal, index) => (
-            <CardVote
-              key={index}
-              title={proposal?.name}
-              yesVote={proposal?.yes_count}
-              tag={proposal?.tag_id}
-              isActive={proposal?.is_active}
-              description={proposal?.description}
-              noVote={proposal?.no_count}
-              end_time={proposal?.end_time}
-              created_on={proposal?.created_on}
-              id={proposal?.id}
-              setItemDeleted={setItemDeleted}
-            />
-          ))}
+        {filterProposals().map((proposal, index) => (
+          <CardVote
+            key={index}
+            title={proposal?.name}
+            yesVote={proposal?.yes_count}
+            tag={proposal?.tag_id}
+            isActive={proposal?.is_active}
+            description={proposal?.description}
+            noVote={proposal?.no_count}
+            end_time={proposal?.end_time}
+            created_on={proposal?.created_on}
+            id={proposal?.id}
+            setItemDeleted={setItemDeleted}
+          />
+        ))}
         <CardVote
           title={'Algorand Hackathon Event in Abuja'}
           yesVote={'93.64'}
@@ -59,7 +71,7 @@ export const Proposals = () => {
           isActive={true}
           description="hello testing cardss"
           noVote={'16.23'}
-          end_time="31 3, 2024"
+          end_time={'2024-04-08T13:59:59'}
           created_on="27 3, 2024"
           id={23333}
           setItemDeleted={setItemDeleted}

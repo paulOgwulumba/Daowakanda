@@ -40,6 +40,18 @@ export const useGovernanceActions = () => {
       };
     }
   }, []);
+  //updates the proposal data after voting
+  const updateProposal = useCallback(async (dto: CreateProposalDto) => {
+    try {
+      const response = await fetchWrapper.put('proposal/', dto);
+
+      return response;
+    } catch (error) {
+      return {
+        error,
+      };
+    }
+  }, []);
 
   const deleteProposal = useCallback(async (id: string) => {
     try {
@@ -53,10 +65,7 @@ export const useGovernanceActions = () => {
 
   const verifyVote = useCallback(async (dto: VerifyVoteDto) => {
     try {
-      const response = await fetchWrapper.post(
-        'api/v1/proposals/verify-vote',
-        dto,
-      );
+      const response = await fetchWrapper.post('verify-vote/', dto);
       return response;
     } catch (error) {
       return { error };
@@ -65,7 +74,7 @@ export const useGovernanceActions = () => {
 
   const castVote = useCallback(async (dto: CreateVoteDto) => {
     try {
-      const response = await fetchWrapper.post('api/v1/proposals/vote', dto);
+      const response = await fetchWrapper.post('vote/', dto);
       return response;
     } catch (error) {
       return { error };
@@ -76,6 +85,7 @@ export const useGovernanceActions = () => {
     getAllProposals,
     createProposal,
     deleteProposal,
+    updateProposal,
     verifyVote,
     castVote,
   };
