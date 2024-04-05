@@ -27,7 +27,6 @@ export const Proposals = () => {
   useEffect(() => {
     getAllProposals();
   }, [itemDeleted]);
-  const endDate = '2024-04-08T13:59:59';
 
   return (
     <div className={styles['body-section']}>
