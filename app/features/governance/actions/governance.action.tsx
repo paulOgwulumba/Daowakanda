@@ -40,18 +40,6 @@ export const useGovernanceActions = () => {
       };
     }
   }, []);
-  //updates the proposal data after voting
-  const updateProposal = useCallback(async (dto: CreateProposalDto) => {
-    try {
-      const response = await fetchWrapper.put('proposal/', dto);
-
-      return response;
-    } catch (error) {
-      return {
-        error,
-      };
-    }
-  }, []);
 
   const deleteProposal = useCallback(async (id: string) => {
     try {
@@ -85,7 +73,6 @@ export const useGovernanceActions = () => {
     getAllProposals,
     createProposal,
     deleteProposal,
-    updateProposal,
     verifyVote,
     castVote,
   };

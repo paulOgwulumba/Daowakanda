@@ -4,7 +4,7 @@ import { BackgroundOverlay } from '../../shared/BackgroundOverlay';
 import styles from './index.module.scss';
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 import { useNotify } from '@/hooks';
-import { Spinner } from '@/components/shared';
+import { ThreeDots } from 'react-loader-spinner';
 
 interface Props {
   isActive: boolean;
@@ -58,7 +58,18 @@ export function DeleteModal({
               No, Cancel
             </div>
             <div className={styles['delete']} onClick={onDelete}>
-              {loading && <Spinner color="#fff" size="sm" />}
+              {loading && (
+                <ThreeDots
+                  visible={true}
+                  height="80"
+                  width="80"
+                  color="#fff"
+                  radius="9"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              )}
               {loading ? `Deleting...` : `Yes, Delete`}
             </div>
           </div>

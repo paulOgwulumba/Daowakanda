@@ -9,12 +9,12 @@ export interface CreateProposalDto {
 export interface CreateVoteDto {
   wallet_address: string;
   vote_value: boolean;
-  proposal: string;
+  proposal: number;
 }
 
 export interface VerifyVoteDto {
   wallet_address: string;
-  proposal: string;
+  proposal: number;
 }
 
 export interface IProposal {

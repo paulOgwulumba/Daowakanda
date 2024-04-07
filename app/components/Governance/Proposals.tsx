@@ -61,20 +61,9 @@ export const Proposals = () => {
             created_on={proposal?.created_on}
             id={proposal?.id}
             setItemDeleted={setItemDeleted}
+            proposalData={proposal}
           />
         ))}
-        <CardVote
-          title={'Algorand Hackathon Event in Abuja'}
-          yesVote={'93.64'}
-          tag="425252"
-          isActive={true}
-          description="hello testing cardss"
-          noVote={'16.23'}
-          end_time={'2024-04-08T13:59:59'}
-          created_on="27 3, 2024"
-          id={23333}
-          setItemDeleted={setItemDeleted}
-        />
         <CardAfterVote
           title={'Community Funding'}
           date={'Ended 14th Oct, 2023'}

@@ -6,6 +6,11 @@ import { Tags } from '../shared';
 import styles from './index.module.scss';
 import moment from 'moment';
 import { DeleteModal } from './deleteModal';
+import { useWallet } from '@txnlab/use-wallet';
+import { useNotify } from '@/hooks';
+import { IProposal } from '@/interfaces/governance.interface';
+import { useGovernanceContract } from '@/features/governance/actions/governance.contract';
+import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 
 interface CardProps {
   title: string;
@@ -18,6 +23,7 @@ interface CardProps {
   end_time: string;
   id: any;
   setItemDeleted: any;
+  proposalData: IProposal;
 }
 
 export function CardVote({
@@ -31,11 +37,15 @@ export function CardVote({
   id,
   tag,
   setItemDeleted,
+  proposalData,
 }: CardProps) {
+  const { activeAddress } = useWallet();
+  const { notify } = useNotify();
   const [showdropDown, setShowDropDown] = useState(false);
   const [clickActiveYes, setClickActiveYes] = useState(false);
   const [clickActive, setClickActive] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [voteLoading, setVoteLoading] = useState(false);
   const [remainingTime, setRemainingTime] = useState({
     total: 0,
     days: 0,
@@ -44,6 +54,8 @@ export function CardVote({
     seconds: 0,
   });
   const [timer, setTimer] = useState(0);
+  const { castVoteYes, castVoteNo } = useGovernanceContract();
+  const { castVote, getAllProposals } = useGovernanceActions();
 
   const getTimeRemaining = (e: any) => {
     const currentTime: any = new Date();
@@ -76,16 +88,68 @@ export function CardVote({
       };
     }
   }, [timer]);
-  console.log(total, days, hours, minutes, seconds);
+
   const toggleDropDown = () => {
     setShowDropDown(!showdropDown);
   };
-  const toggleClickYes = () => {
-    setClickActiveYes(!clickActiveYes);
+
+  const toggleClickYes = async () => {
+    setVoteLoading(true);
+
+    const res = await castVoteYes(proposalData);
+    if (res?.error) {
+      setVoteLoading(false);
+      getAllProposals();
+      return;
+    }
+
+    const response = await castVote({
+      wallet_address: String(activeAddress),
+      vote_value: true,
+      proposal: id,
+    });
+    if (response.error) {
+      notify.error(response.error?.toString() || 'Network error');
+      setVoteLoading(false);
+      return;
+    }
+    setTimeout(() => {
+      notify.success('Vote was successfully recorded');
+    }, 1500);
+    // setClickActiveYes(true);
+    getAllProposals();
+    setVoteLoading(false);
   };
-  const toggleClick = () => {
-    setClickActive(!clickActive);
+
+  const toggleClickNo = async () => {
+    setVoteLoading(true);
+
+    const res = await castVoteNo(proposalData);
+    if (res?.error) {
+      setVoteLoading(false);
+      getAllProposals();
+      return;
+    }
+
+    const response = await castVote({
+      wallet_address: String(activeAddress),
+      vote_value: false,
+      proposal: id,
+    });
+
+    if (response.error) {
+      notify.error(response.error?.toString() || 'Network error');
+      setVoteLoading(false);
+      return;
+    }
+    setTimeout(() => {
+      notify.success('Vote was successfully recorded');
+    }, 1500);
+    setVoteLoading(false);
+    // setClickActive(true);
+    getAllProposals();
   };
+
   const toggleDeleteModal = () => {
     setDeleteModal(!deleteModal);
     console.log(id);
@@ -93,6 +157,7 @@ export function CardVote({
   const clearDeleteModal = () => {
     setDeleteModal(false);
   };
+
   return (
     <>
       {deleteModal && (
@@ -120,7 +185,7 @@ export function CardVote({
             ></div>
             <div className={styles['left']}>
               {clickActiveYes ? (
-                <FaCircle className={styles['icon']} onClick={toggleClickYes} />
+                <FaCircle className={styles['icon']} />
               ) : (
                 <FaRegCircle
                   className={styles['icon']}
@@ -139,9 +204,12 @@ export function CardVote({
             ></div>
             <div className={styles['left']}>
               {clickActive ? (
-                <FaCircle className={styles['icon']} onClick={toggleClick} />
+                <FaCircle className={styles['icon']} />
               ) : (
-                <FaRegCircle className={styles['icon']} onClick={toggleClick} />
+                <FaRegCircle
+                  className={styles['icon']}
+                  onClick={toggleClickNo}
+                />
               )}{' '}
               No
             </div>
@@ -194,7 +262,9 @@ export function CardVote({
                   </div>
                   <div className={styles['row']}>
                     <div className={styles['column']}>Total Votes</div>
-                    <div className={styles['column']}>10</div>
+                    <div className={styles['column']}>
+                      {Number(yesVote) + Number(noVote)}
+                    </div>
                   </div>
                   <div className={styles['row']}>
                     <div className={styles['column']}>Algo Amount</div>

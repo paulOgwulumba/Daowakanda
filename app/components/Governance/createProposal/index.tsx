@@ -9,7 +9,7 @@ import { useGovernanceContract } from '@/features/governance/actions/governance.
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 import { useNotify } from '@/hooks';
 import moment from 'moment';
-import { Spinner } from '@/components/shared';
+import { ThreeDots } from 'react-loader-spinner';
 
 interface Props {
   isActive: boolean;
@@ -105,13 +105,6 @@ export function CreateProposalModal({
             </div>
             <div className={styles['date-section']}>
               <div className={styles['date-control']}>
-                <label>Start Date</label>
-                <input
-                  type="date"
-                  value={new Date(Date.now()).toDateString()}
-                />
-              </div>
-              <div className={styles['date-control']}>
                 <label>End Date</label>
                 <input
                   type="date"
@@ -143,7 +136,18 @@ export function CreateProposalModal({
               disabled={!data.name || !data.description || !data.end_time}
               onClick={submit}
             >
-              {loading && <Spinner color="#fff" size="sm" />}
+              {loading && (
+                <ThreeDots
+                  visible={true}
+                  height="80"
+                  width="80"
+                  color="#fff"
+                  radius="9"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              )}
               {loading ? `Submitting Proposal...` : `Submit Proposal`}
             </button>
           </div>

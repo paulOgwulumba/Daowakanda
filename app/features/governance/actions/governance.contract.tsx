@@ -27,6 +27,7 @@ export const useGovernanceContract = () => {
 
   const castVote = useCallback(
     async (proposal: IProposal, vote: 'yes' | 'no') => {
+      const sender = { signer, addr: activeAddress || '' };
       if (!sender.addr) {
         notify.error('Please connect your wallet to proceed');
         return { error: 'Wallet not connected' };
@@ -64,6 +65,7 @@ export const useGovernanceContract = () => {
                 ],
               },
             );
+        notify.success('Your vote was recorded successfully');
       } catch (error) {
         notify.error(
           (error as unknown as Error).message ||
@@ -75,13 +77,19 @@ export const useGovernanceContract = () => {
     [activeAddress, signer],
   );
 
-  const castVoteYes = useCallback(async (proposal: IProposal) => {
-    return await castVote(proposal, 'yes');
-  }, []);
+  const castVoteYes = useCallback(
+    async (proposal: IProposal) => {
+      return await castVote(proposal, 'yes');
+    },
+    [activeAddress, signer],
+  );
 
-  const castVoteNo = useCallback(async (proposal: IProposal) => {
-    return await castVote(proposal, 'no');
-  }, []);
+  const castVoteNo = useCallback(
+    async (proposal: IProposal) => {
+      return await castVote(proposal, 'no');
+    },
+    [activeAddress, signer],
+  );
 
   const submitProposal = useCallback(
     async (dto: CreateProposalDto) => {
