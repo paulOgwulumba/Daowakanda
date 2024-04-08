@@ -7,11 +7,12 @@ import {
 } from '@/interfaces/governance.interface';
 import { useCallback } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { ProposalsAtom } from '../state/governance.atom';
+import { ProposalsAtom, VotesAtom } from '../state/governance.atom';
 
 export const useGovernanceActions = () => {
   const fetchWrapper = useFetchWrapper();
   const setProposals = useSetRecoilState(ProposalsAtom);
+  const setVotes = useSetRecoilState(VotesAtom);
   const { notify } = useNotify();
 
   const getAllProposals = useCallback(async () => {
@@ -24,6 +25,21 @@ export const useGovernanceActions = () => {
     } catch (error) {
       notify.error(
         error?.toString() || 'There was a problem loading the proposals.',
+      );
+      return { error };
+    }
+  }, []);
+
+  const getAllVotes = useCallback(async () => {
+    try {
+      const response = await fetchWrapper.get('vote/');
+      if (Array.isArray(response)) {
+        setVotes(response);
+      }
+      return response;
+    } catch (error) {
+      notify.error(
+        error?.toString() || 'There was a problem loading the votes.',
       );
       return { error };
     }
@@ -71,6 +87,7 @@ export const useGovernanceActions = () => {
 
   return {
     getAllProposals,
+    getAllVotes,
     createProposal,
     deleteProposal,
     verifyVote,

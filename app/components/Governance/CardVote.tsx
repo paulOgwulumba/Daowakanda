@@ -8,9 +8,13 @@ import moment from 'moment';
 import { DeleteModal } from './deleteModal';
 import { useWallet } from '@txnlab/use-wallet';
 import { useNotify } from '@/hooks';
-import { IProposal } from '@/interfaces/governance.interface';
+import { IProposal, IVote } from '@/interfaces/governance.interface';
 import { useGovernanceContract } from '@/features/governance/actions/governance.contract';
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
+import { CongratsModal } from './resultsModal';
+import { DeclineModal } from './resultsModal/DeclinedModal';
+import { useRecoilValue } from 'recoil';
+import { VotesAtom } from '@/features/governance/state/governance.atom';
 
 interface CardProps {
   title: string;
@@ -41,6 +45,8 @@ export function CardVote({
 }: CardProps) {
   const { activeAddress } = useWallet();
   const { notify } = useNotify();
+  const { getAllVotes } = useGovernanceActions();
+  const voteInfo = useRecoilValue(VotesAtom);
   const [showdropDown, setShowDropDown] = useState(false);
   const [clickActiveYes, setClickActiveYes] = useState(false);
   const [clickActive, setClickActive] = useState(false);
@@ -53,9 +59,24 @@ export function CardVote({
     minutes: 0,
     seconds: 0,
   });
+
+  useEffect(() => {
+    getAllVotes();
+  }, []);
+
   const [timer, setTimer] = useState(0);
   const { castVoteYes, castVoteNo } = useGovernanceContract();
   const { castVote, getAllProposals } = useGovernanceActions();
+  const [showCongratMessage, setShowCongratMessage] = useState(false);
+  const [showDeclineMessage, setShowDeclineMessage] = useState(false);
+
+  const totalVotes = Number(yesVote) + Number(noVote);
+  const yesPercent = (Number(yesVote) / totalVotes) * 100;
+  const noPercent = (Number(noVote) / totalVotes) * 100;
+
+  const currentTime: any = new Date();
+  const voteEnded =
+    Date.parse(end_time) < Date.parse(currentTime) ? true : false;
 
   const getTimeRemaining = (e: any) => {
     const currentTime: any = new Date();
@@ -92,62 +113,76 @@ export function CardVote({
   const toggleDropDown = () => {
     setShowDropDown(!showdropDown);
   };
+  const voted = (data: IVote) =>
+    data.proposal == id && data.wallet_address == String(activeAddress);
+  const resultVote = voteInfo?.some(voted);
+  console.log(resultVote);
 
   const toggleClickYes = async () => {
     setVoteLoading(true);
 
-    const res = await castVoteYes(proposalData);
-    if (res?.error) {
-      setVoteLoading(false);
-      getAllProposals();
+    if (resultVote) {
+      notify.error('User has already voted');
       return;
-    }
+    } else {
+      const res = await castVoteYes(proposalData);
+      if (res?.error) {
+        setVoteLoading(false);
+        getAllProposals();
+        return;
+      }
 
-    const response = await castVote({
-      wallet_address: String(activeAddress),
-      vote_value: true,
-      proposal: id,
-    });
-    if (response.error) {
-      notify.error(response.error?.toString() || 'Network error');
-      setVoteLoading(false);
-      return;
-    }
-    setTimeout(() => {
+      const response = await castVote({
+        wallet_address: String(activeAddress),
+        vote_value: true,
+        proposal: id,
+      });
+      if (response.error) {
+        notify.error(response.error?.toString() || 'Network error');
+        setVoteLoading(false);
+        return;
+      }
+
       notify.success('Vote was successfully recorded');
-    }, 1500);
-    // setClickActiveYes(true);
-    getAllProposals();
-    setVoteLoading(false);
+      getAllVotes();
+      getAllProposals();
+      setShowCongratMessage(true);
+      setVoteLoading(false);
+    }
   };
 
   const toggleClickNo = async () => {
     setVoteLoading(true);
 
-    const res = await castVoteNo(proposalData);
-    if (res?.error) {
-      setVoteLoading(false);
-      getAllProposals();
+    if (resultVote) {
+      notify.error('User has already voted');
       return;
-    }
+    } else {
+      const res = await castVoteNo(proposalData);
+      if (res?.error) {
+        setVoteLoading(false);
+        getAllProposals();
+        return;
+      }
 
-    const response = await castVote({
-      wallet_address: String(activeAddress),
-      vote_value: false,
-      proposal: id,
-    });
+      const response = await castVote({
+        wallet_address: String(activeAddress),
+        vote_value: false,
+        proposal: id,
+      });
 
-    if (response.error) {
-      notify.error(response.error?.toString() || 'Network error');
-      setVoteLoading(false);
-      return;
-    }
-    setTimeout(() => {
+      if (response.error) {
+        notify.error(response.error?.toString() || 'Network error');
+        setVoteLoading(false);
+        return;
+      }
+
       notify.success('Vote was successfully recorded');
-    }, 1500);
-    setVoteLoading(false);
-    // setClickActive(true);
-    getAllProposals();
+      getAllVotes();
+      getAllProposals();
+      setShowDeclineMessage(true);
+      setVoteLoading(false);
+    }
   };
 
   const toggleDeleteModal = () => {
@@ -156,6 +191,12 @@ export function CardVote({
   };
   const clearDeleteModal = () => {
     setDeleteModal(false);
+  };
+  const clearCongratsModal = () => {
+    setShowCongratMessage(false);
+  };
+  const clearDeclineModal = () => {
+    setShowDeclineMessage(false);
   };
 
   return (
@@ -169,6 +210,24 @@ export function CardVote({
           id={id}
         />
       )}
+      {showCongratMessage && (
+        <CongratsModal
+          isActive={showCongratMessage}
+          onclick={clearCongratsModal}
+          totalVote={totalVotes}
+          yes={yesPercent}
+          no={noPercent}
+        />
+      )}
+      {showDeclineMessage && (
+        <DeclineModal
+          isActive={showDeclineMessage}
+          onclick={clearDeclineModal}
+          totalVote={totalVotes}
+          yes={yesPercent}
+          no={noPercent}
+        />
+      )}
       <div className={styles['cardVote']}>
         <div className={styles['top-content']}>
           <div className={styles['title']}>{title}</div>
@@ -177,66 +236,92 @@ export function CardVote({
             onClick={toggleDropDown}
           />
         </div>
-        <div className={styles['voteform']}>
-          <div className={styles['form']}>
-            <div
-              className={styles['overlay']}
-              style={{ width: `${yesVote}%` }}
-            ></div>
-            <div className={styles['left']}>
-              {clickActiveYes ? (
-                <FaCircle className={styles['icon']} />
-              ) : (
-                <FaRegCircle
-                  className={styles['icon']}
-                  onClick={toggleClickYes}
-                />
-              )}{' '}
-              Yes
-            </div>
-            <div className={styles['right']}>{`${yesVote}%`}</div>
-          </div>
+        {!voteEnded ? (
+          <>
+            <div className={styles['voteform']}>
+              <div className={styles['form']}>
+                <div
+                  className={styles['overlay']}
+                  style={{ width: `${yesPercent}%` }}
+                ></div>
+                <div className={styles['left']}>
+                  {clickActiveYes ? (
+                    <FaCircle className={styles['icon']} />
+                  ) : (
+                    <FaRegCircle
+                      className={styles['icon']}
+                      onClick={toggleClickYes}
+                    />
+                  )}{' '}
+                  Yes
+                </div>
+                <div className={styles['right']}>{`${
+                  yesVote <= 0 ? 0 : yesPercent
+                }%`}</div>
+              </div>
 
-          <div className={styles['form']}>
-            <div
-              className={styles['overlay']}
-              style={{ width: `${noVote}%` }}
-            ></div>
-            <div className={styles['left']}>
-              {clickActive ? (
-                <FaCircle className={styles['icon']} />
-              ) : (
-                <FaRegCircle
-                  className={styles['icon']}
-                  onClick={toggleClickNo}
-                />
-              )}{' '}
-              No
+              <div className={styles['form']}>
+                <div
+                  className={styles['overlay']}
+                  style={{ width: `${noPercent}%` }}
+                ></div>
+                <div className={styles['left']}>
+                  {clickActive ? (
+                    <FaCircle className={styles['icon']} />
+                  ) : (
+                    <FaRegCircle
+                      className={styles['icon']}
+                      onClick={toggleClickNo}
+                    />
+                  )}{' '}
+                  No
+                </div>
+                <div className={styles['right']}>{`${
+                  noVote <= 0 ? 0 : noPercent
+                }%`}</div>
+              </div>
             </div>
-            <div className={styles['right']}>{`${noVote}%`}</div>
-          </div>
-        </div>
-        <div className={styles['tags-content']}>
-          <div className={styles['left']}>No voting power</div>
-          <div className={styles['right']}>
-            <Tags title={`Tag#${tag}32`} color={'#002E68'} />
-            <Tags
-              title={isActive ? 'Active' : 'Not Active'}
-              color={'#A04100'}
-            />
-            <div className={styles['votingTime']}>
-              Voting ends in:{' '}
+            <div className={styles['tags-content']}>
+              <div className={styles['left']}>No voting power</div>
+              <div className={styles['right']}>
+                <Tags title={`Tag#${tag}32`} color={'#002E68'} />
+                <Tags
+                  title={isActive ? 'Active' : 'Not Active'}
+                  color={'#A04100'}
+                />
+                <div className={styles['votingTime']}>
+                  Voting ends in:{' '}
+                  <Tags
+                    title={`${days}days ${hours}h ${minutes}m ${seconds}s`}
+                    color={'#003A03'}
+                  />
+                </div>
+                <div className={styles['delete']} onClick={toggleDeleteModal}>
+                  <RiDeleteBin6Line className={styles['icon']} />
+                  Delete
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className={styles['bottom-content']}>
+            <div className={styles['left']}>Ended 14 Feb, 2024</div>
+            <div className={styles['right']}>
+              <Tags title={tag} color={'#002E68'} />
               <Tags
-                title={`${days}days ${hours}h ${minutes}m ${seconds}s`}
-                color={'#003A03'}
+                title={
+                  yesVote == noVote || yesVote < noVote
+                    ? `Rejected`
+                    : `Approved`
+                }
+                color={
+                  yesVote == noVote || yesVote < noVote ? `#690005` : `#003A03`
+                }
               />
             </div>
-            <div className={styles['delete']} onClick={toggleDeleteModal}>
-              <RiDeleteBin6Line className={styles['icon']} />
-              Delete
-            </div>
           </div>
-        </div>
+        )}
+
         {showdropDown && (
           <div className={styles['hide-content']}>
             <div className={styles['top']}>

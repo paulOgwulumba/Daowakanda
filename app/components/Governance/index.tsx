@@ -65,9 +65,6 @@ export function GovernancePage() {
   const openCongratsModal = () => {
     setCongratsModal(true);
   };
-  const clearCongratsModal = () => {
-    setCongratsModal(false);
-  };
   const toggleCongratsModal = () => {
     setCongratsModal(!congratsModal);
   };
@@ -89,9 +86,6 @@ export function GovernancePage() {
   console.log(proposalData);
   return (
     <div className={styles.container}>
-      {congratsModal && (
-        <CongratsModal isActive={congratsModal} onclick={clearCongratsModal} />
-      )}
       {/* {congratsModal && <DeclineModal isActive={congratsModal} onclick={clearCongratsModal} />} */}
       {createProposalModal && (
         <CreateProposalModal
@@ -349,7 +343,7 @@ export function GovernancePage() {
       </div>
       {/*Proposal section Ends*/}
 
-      <div className={styles['footer']} onClick={toggleCongratsModal}>
+      <div className={styles['footer']}>
         <div className={styles['contain']}>
           <div className={styles['left']}>
             Buit with <FaHeart className={styles['icon']} /> at{' '}

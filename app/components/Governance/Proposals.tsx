@@ -1,5 +1,4 @@
 import { IoIosArrowDown, IoIosSearch } from 'react-icons/io';
-import { CardAfterVote } from './CardAfterVote';
 import { CardVote } from './CardVote';
 import styles from './index.module.scss';
 import { useEffect, useState } from 'react';
@@ -64,20 +63,6 @@ export const Proposals = () => {
             proposalData={proposal}
           />
         ))}
-        <CardAfterVote
-          title={'Community Funding'}
-          date={'Ended 14th Oct, 2023'}
-          tag={'Tag #35'}
-          status={'Approved'}
-          color={'#003A03'}
-        />
-        <CardAfterVote
-          title={'Party at Sharaton'}
-          date={'Ended 14th Oct, 2023'}
-          tag={'Tag #35'}
-          status={'Rejected'}
-          color={'#690005'}
-        />
       </div>
     </div>
   );

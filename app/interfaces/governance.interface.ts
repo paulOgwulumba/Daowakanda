@@ -17,6 +17,15 @@ export interface VerifyVoteDto {
   proposal: number;
 }
 
+export interface IVote {
+  id: number;
+  created_on: string;
+  updated_on: string;
+  wallet_address: string;
+  vote_value: boolean;
+  proposal: number;
+}
+
 export interface IProposal {
   id: number;
   created_on: string;
