@@ -132,7 +132,7 @@ export function LandingPage() {
                     </div>
                     <div className={styles['nav-item']}> About</div>
                   </div>
-                  <div className={styles['nav-button']}> Join Twitter</div>
+                  <div className={styles['nav-button']}> Join X</div>
                 </div>
               </div>
             )}
@@ -200,7 +200,7 @@ export function LandingPage() {
                 src="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709864873/new-twitter_ptrdzc.png"
                 alt="twitter-logo"
               />
-              Join Twitter
+              Join X
             </div>
           </div>
         )}
@@ -225,7 +225,7 @@ export function LandingPage() {
               </div>
             </div>
           </div>
-          <div className={styles['bottom-section']}>
+          {/* <div className={styles['bottom-section']}>
             <div className={styles['stats']}>
               2943
               <div className={styles['task']}>
@@ -244,7 +244,7 @@ export function LandingPage() {
                 <div>Members</div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       {/*Hero Section Ends*/}
@@ -357,7 +357,7 @@ export function LandingPage() {
           />
           <CommunityCard
             image="https://res.cloudinary.com/dlinprg6k/image/upload/v1710000217/X_-_jpeg_1_v21qzs.png"
-            topic="Twitter (X)"
+            topic="X"
             text="Follow us"
           />
           <CommunityCard

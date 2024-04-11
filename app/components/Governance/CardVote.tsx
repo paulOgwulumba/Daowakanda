@@ -305,7 +305,9 @@ export function CardVote({
           </>
         ) : (
           <div className={styles['bottom-content']}>
-            <div className={styles['left']}>Ended 14 Feb, 2024</div>
+            <div className={styles['left']}>
+              Ended{` `} {moment.utc(end_time).format('DD MMM, YYYY')}
+            </div>
             <div className={styles['right']}>
               <Tags title={tag} color={'#002E68'} />
               <Tags
