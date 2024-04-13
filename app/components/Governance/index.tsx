@@ -13,7 +13,6 @@ import { dataOne, dataTwo } from './mock';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { ConnectWalletModal } from './connectModal';
 import { CreateProposalModal } from './createProposal';
-import { CongratsModal } from './resultsModal';
 import { useWallet } from '@txnlab/use-wallet';
 import { Proposals } from './Proposals';
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
@@ -29,7 +28,6 @@ export function GovernancePage() {
   const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
   const [connectWalletModal, setConnectWalletModal] = useState(false);
   const [createProposalModal, setCreateProposalModal] = useState(false);
-  const [congratsModal, setCongratsModal] = useState(false);
   const { activeAddress, providers } = useWallet();
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
@@ -62,13 +60,6 @@ export function GovernancePage() {
   const clearCreateProposalModal = () => {
     setCreateProposalModal(false);
   };
-  const openCongratsModal = () => {
-    setCongratsModal(true);
-  };
-  const toggleCongratsModal = () => {
-    setCongratsModal(!congratsModal);
-  };
-
   const disconnectWallet = () => {
     providers?.forEach((provider) => provider.disconnect());
   };
@@ -190,6 +181,10 @@ export function GovernancePage() {
                     )}
                   </div>
                   <div className={styles['nav-item']}> About</div>
+
+                  <Link className={styles['nav-item']} href="/faucet">
+                    Faucet
+                  </Link>
                 </div>
                 <div
                   className={styles['nav-button']}
@@ -275,6 +270,12 @@ export function GovernancePage() {
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
               <Link href="/">about</Link>
+            </div>
+            <div
+              className={styles['nav-item']}
+              onMouseLeave={() => setActiveDropDownTwo(false)}
+            >
+              <Link href="/faucet">Faucet</Link>
             </div>
           </div>
           <div

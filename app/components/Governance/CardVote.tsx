@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaCircle, FaRegCircle } from 'react-icons/fa';
+import { FaRegCircle } from 'react-icons/fa';
 import { IoIosArrowDown } from 'react-icons/io';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { Tags } from '../shared';
@@ -28,6 +28,7 @@ interface CardProps {
   id: any;
   setItemDeleted: any;
   proposalData: IProposal;
+  wallet_address: string;
 }
 
 export function CardVote({
@@ -42,16 +43,14 @@ export function CardVote({
   tag,
   setItemDeleted,
   proposalData,
+  wallet_address,
 }: CardProps) {
   const { activeAddress } = useWallet();
   const { notify } = useNotify();
   const { getAllVotes } = useGovernanceActions();
   const voteInfo = useRecoilValue(VotesAtom);
   const [showdropDown, setShowDropDown] = useState(false);
-  const [clickActiveYes, setClickActiveYes] = useState(false);
-  const [clickActive, setClickActive] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [voteLoading, setVoteLoading] = useState(false);
   const [remainingTime, setRemainingTime] = useState({
     total: 0,
     days: 0,
@@ -119,15 +118,12 @@ export function CardVote({
   console.log(resultVote);
 
   const toggleClickYes = async () => {
-    setVoteLoading(true);
-
     if (resultVote) {
       notify.error('User has already voted');
       return;
     } else {
       const res = await castVoteYes(proposalData);
       if (res?.error) {
-        setVoteLoading(false);
         getAllProposals();
         return;
       }
@@ -139,7 +135,6 @@ export function CardVote({
       });
       if (response.error) {
         notify.error(response.error?.toString() || 'Network error');
-        setVoteLoading(false);
         return;
       }
 
@@ -147,20 +142,16 @@ export function CardVote({
       getAllVotes();
       getAllProposals();
       setShowCongratMessage(true);
-      setVoteLoading(false);
     }
   };
 
   const toggleClickNo = async () => {
-    setVoteLoading(true);
-
     if (resultVote) {
       notify.error('User has already voted');
       return;
     } else {
       const res = await castVoteNo(proposalData);
       if (res?.error) {
-        setVoteLoading(false);
         getAllProposals();
         return;
       }
@@ -173,7 +164,6 @@ export function CardVote({
 
       if (response.error) {
         notify.error(response.error?.toString() || 'Network error');
-        setVoteLoading(false);
         return;
       }
 
@@ -181,7 +171,6 @@ export function CardVote({
       getAllVotes();
       getAllProposals();
       setShowDeclineMessage(true);
-      setVoteLoading(false);
     }
   };
 
@@ -210,7 +199,7 @@ export function CardVote({
           id={id}
         />
       )}
-      {showCongratMessage && (
+      {showCongratMessage && wallet_address && voteEnded && (
         <CongratsModal
           isActive={showCongratMessage}
           onclick={clearCongratsModal}
@@ -219,7 +208,7 @@ export function CardVote({
           no={noPercent}
         />
       )}
-      {showDeclineMessage && (
+      {showDeclineMessage && wallet_address && voteEnded && (
         <DeclineModal
           isActive={showDeclineMessage}
           onclick={clearDeclineModal}
@@ -245,14 +234,12 @@ export function CardVote({
                   style={{ width: `${yesPercent}%` }}
                 ></div>
                 <div className={styles['left']}>
-                  {clickActiveYes ? (
-                    <FaCircle className={styles['icon']} />
-                  ) : (
+                  {
                     <FaRegCircle
                       className={styles['icon']}
                       onClick={toggleClickYes}
                     />
-                  )}{' '}
+                  }
                   Yes
                 </div>
                 <div className={styles['right']}>{`${
@@ -266,14 +253,12 @@ export function CardVote({
                   style={{ width: `${noPercent}%` }}
                 ></div>
                 <div className={styles['left']}>
-                  {clickActive ? (
-                    <FaCircle className={styles['icon']} />
-                  ) : (
+                  {
                     <FaRegCircle
                       className={styles['icon']}
                       onClick={toggleClickNo}
                     />
-                  )}{' '}
+                  }
                   No
                 </div>
                 <div className={styles['right']}>{`${
@@ -333,7 +318,9 @@ export function CardVote({
                 <div className={styles['table']}>
                   <div className={styles['row']}>
                     <div className={styles['column']}>Author</div>
-                    <div className={styles['column']}>Tom</div>
+                    <div className={styles['column']}>
+                      {wallet_address || 'not available'}
+                    </div>
                   </div>
                   <div className={styles['row']}>
                     <div className={styles['column']}>Start Date</div>

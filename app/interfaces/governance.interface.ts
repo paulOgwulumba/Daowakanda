@@ -4,6 +4,7 @@ export interface CreateProposalDto {
   description: string;
   is_claimable: boolean;
   end_time: string | number;
+  wallet_address: string;
 }
 
 export interface CreateVoteDto {
@@ -41,4 +42,5 @@ export interface IProposal {
   end_time: string;
   yes_count: number;
   no_count: number;
+  wallet_address: string;
 }

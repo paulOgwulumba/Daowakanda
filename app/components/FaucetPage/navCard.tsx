@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styles from './index.module.scss';
+import React from 'react';
 
 interface CardProps {
   title: string;

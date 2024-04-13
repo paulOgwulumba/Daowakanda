@@ -10,6 +10,7 @@ import { useGovernanceActions } from '@/features/governance/actions/governance.a
 import { useNotify } from '@/hooks';
 import moment from 'moment';
 import { ThreeDots } from 'react-loader-spinner';
+import { useWallet } from '@txnlab/use-wallet';
 
 interface Props {
   isActive: boolean;
@@ -26,6 +27,14 @@ export function CreateProposalModal({
   const { submitProposal } = useGovernanceContract();
   const { createProposal, getAllProposals } = useGovernanceActions();
   const { notify } = useNotify();
+  const { activeAddress } = useWallet();
+
+  const formatWalletAddress = (address: string) => {
+    if (!address) return '';
+    const firstSix = address.slice(0, 6);
+    const lastSix = address.slice(-6);
+    return `${firstSix}...........${lastSix}`;
+  };
 
   const [data, setData] = useState<CreateProposalDto>({
     app_id: String(APP_ID),
@@ -33,6 +42,7 @@ export function CreateProposalModal({
     description: '',
     is_claimable: false,
     end_time: 0,
+    wallet_address: '',
   });
 
   const submit = async () => {
@@ -48,6 +58,7 @@ export function CreateProposalModal({
     const response = await createProposal({
       ...data,
       end_time: moment.utc(data.end_time).format('YYYY-MM-DDThh:mm:ss'),
+      wallet_address: formatWalletAddress(String(activeAddress)),
     });
 
     console.log(response, 'response');
@@ -139,7 +150,7 @@ export function CreateProposalModal({
               {loading && (
                 <ThreeDots
                   visible={true}
-                  height="80"
+                  height="30"
                   width="80"
                   color="#fff"
                   radius="9"

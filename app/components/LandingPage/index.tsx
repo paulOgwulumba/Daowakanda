@@ -1,5 +1,5 @@
 import { useWindowDimensions } from '../../hooks/useWindowDimensions';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './index.module.scss';
 import Link from 'next/link';
 import { Card } from './card';
@@ -131,6 +131,9 @@ export function LandingPage() {
                       )}
                     </div>
                     <div className={styles['nav-item']}> About</div>
+                    <Link className={styles['nav-item']} href="/faucet">
+                      Faucet
+                    </Link>
                   </div>
                   <div className={styles['nav-button']}> Join X</div>
                 </div>
@@ -193,6 +196,12 @@ export function LandingPage() {
                 onMouseLeave={() => setActiveDropDownTwo(false)}
               >
                 <Link href="/">about</Link>
+              </div>
+              <div
+                className={styles['nav-item']}
+                onMouseLeave={() => setActiveDropDownTwo(false)}
+              >
+                <Link href="/faucet">Faucet</Link>
               </div>
             </div>
             <div className={styles['join']}>

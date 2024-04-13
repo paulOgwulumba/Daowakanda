@@ -1,4 +1,4 @@
-export const data = [
+export const dataOne = [
   {
     title: 'Snapshot voting',
     description: `Explore how the decisions in 

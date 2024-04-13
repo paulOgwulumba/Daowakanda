@@ -60,6 +60,7 @@ export const Proposals = () => {
             created_on={proposal?.created_on}
             id={proposal?.id}
             setItemDeleted={setItemDeleted}
+            wallet_address={proposal?.wallet_address}
             proposalData={proposal}
           />
         ))}
