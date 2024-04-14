@@ -320,7 +320,8 @@ export function GovernancePage() {
           <div className={styles['text']}>Proposals</div>
           <div className={styles['right-section']}>
             <div className={styles['icon-block']}>
-              <FaHistory className={styles['icon']} /> History
+              <FaHistory className={styles['icon']} />
+              History
             </div>
             <div className={styles['icon-block']}>
               <IoChatbubblesOutline className={styles['icon']} />

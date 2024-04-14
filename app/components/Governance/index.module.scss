@@ -381,7 +381,7 @@
       .icon-block:first-of-type{
         display: none;
         @include tablet{
-          display: block;
+          display: flex;
         } 
       }
       .button{
