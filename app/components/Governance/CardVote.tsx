@@ -74,8 +74,6 @@ export function CardVote({
   const noPercent = (Number(noVote) / totalVotes) * 100;
 
   const currentTime: any = new Date();
-  const voteEnded =
-    Date.parse(end_time) < Date.parse(currentTime) ? true : false;
 
   const getTimeRemaining = (e: any) => {
     const currentTime: any = new Date();
@@ -187,7 +185,9 @@ export function CardVote({
   const clearDeclineModal = () => {
     setShowDeclineMessage(false);
   };
-
+  const voteEnded =
+    Date.parse(end_time) < Date.parse(currentTime) ? true : false;
+  // const voteEnded = days && hours && minutes && seconds === 00 ? true : false;
   return (
     <>
       {deleteModal && (

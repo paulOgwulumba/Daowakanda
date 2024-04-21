@@ -130,12 +130,19 @@ export function LandingPage() {
                         </div>
                       )}
                     </div>
-                    <div className={styles['nav-item']}> About</div>
+                    <Link className={styles['nav-item']} href="/about">
+                      About
+                    </Link>
                     <Link className={styles['nav-item']} href="/faucet">
                       Faucet
                     </Link>
                   </div>
-                  <div className={styles['nav-button']}> Join X</div>
+                  <Link
+                    className={styles['nav-button']}
+                    href={`https://twitter.com/DaoWakanda`}
+                  >
+                    Join X
+                  </Link>
                 </div>
               </div>
             )}
@@ -195,7 +202,7 @@ export function LandingPage() {
                 className={styles['nav-item']}
                 onMouseLeave={() => setActiveDropDownTwo(false)}
               >
-                <Link href="/">about</Link>
+                <Link href="/about">about</Link>
               </div>
               <div
                 className={styles['nav-item']}
@@ -363,26 +370,31 @@ export function LandingPage() {
             image="https://res.cloudinary.com/dlinprg6k/image/upload/v1710000419/Group_2_jw5ujw.png"
             topic="Telegram"
             text="Join chat"
+            address="https://t.me/daowakanda"
           />
           <CommunityCard
             image="https://res.cloudinary.com/dlinprg6k/image/upload/v1710000217/X_-_jpeg_1_v21qzs.png"
             topic="X"
             text="Follow us"
+            address="https://twitter.com/DaoWakanda"
           />
           <CommunityCard
             image="https://res.cloudinary.com/dlinprg6k/image/upload/v1710000290/Github_svg_1_fmlif0.png"
             topic="Github"
             text="Follow us"
+            address="https://github.com/digichains/wakandaV3"
           />
           <CommunityCard
             image="https://res.cloudinary.com/dlinprg6k/image/upload/v1710000327/Group_1_ni3ph6.png"
             topic="Contact us"
             text="Get in touch"
+            address="daowakanda@gmail.com"
           />
           <CommunityCard
             image="https://res.cloudinary.com/dlinprg6k/image/upload/v1710000417/Artboard_ieakek.png"
             topic="Blog"
             text="Learn about Daowakanda"
+            address="https://medium.com/@daowakanda"
           />
         </div>
       </div>

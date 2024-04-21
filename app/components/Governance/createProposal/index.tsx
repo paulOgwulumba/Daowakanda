@@ -98,6 +98,7 @@ export function CreateProposalModal({
                     name: evt.target.value,
                   }))
                 }
+                required
               />
             </div>
             <div className={styles['form-control']}>
@@ -112,13 +113,14 @@ export function CreateProposalModal({
                     description: evt.target.value,
                   }))
                 }
+                required
               ></textarea>
             </div>
             <div className={styles['date-section']}>
               <div className={styles['date-control']}>
                 <label>End Date</label>
                 <input
-                  type="date"
+                  type="datetime-local"
                   onChange={(evt) => {
                     const date = new Date(evt.target.value);
                     setData((data: any) => ({
@@ -126,6 +128,7 @@ export function CreateProposalModal({
                       end_time: date.valueOf(),
                     }));
                   }}
+                  required
                 />
               </div>
             </div>

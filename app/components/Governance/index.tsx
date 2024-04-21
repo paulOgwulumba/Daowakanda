@@ -77,7 +77,6 @@ export function GovernancePage() {
   console.log(proposalData);
   return (
     <div className={styles.container}>
-      {/* {congratsModal && <DeclineModal isActive={congratsModal} onclick={clearCongratsModal} />} */}
       {createProposalModal && (
         <CreateProposalModal
           isActive={createProposalModal}
@@ -180,7 +179,9 @@ export function GovernancePage() {
                       </div>
                     )}
                   </div>
-                  <div className={styles['nav-item']}> About</div>
+                  <Link className={styles['nav-item']} href="/about">
+                    About
+                  </Link>
 
                   <Link className={styles['nav-item']} href="/faucet">
                     Faucet
@@ -269,7 +270,7 @@ export function GovernancePage() {
               className={styles['nav-item']}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
-              <Link href="/">about</Link>
+              <Link href="/about">about</Link>
             </div>
             <div
               className={styles['nav-item']}

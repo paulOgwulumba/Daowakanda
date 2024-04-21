@@ -606,16 +606,19 @@
       grid-template-columns: repeat(1, 1fr);
       gap: 21px;
 
+
       .card{
         grid-column: auto;
         min-height: 125px;
         display: flex;
         align-items: center;
+        cursor: pointer;
 
         @include tablet{
           min-height: 200px;
         }
 
+        
         img{
           width: 125px;
           min-height: 125px;
@@ -632,8 +635,8 @@
         .card-detail{
           width: 70%;
           min-height: 125px;
-          background: #1E1E1E;
           padding: 20px 0 12px 15px;
+          background: #1E1E1E;
           display: flex;
           align-items: flex-start;
           justify-content: flex-start;
@@ -761,6 +764,7 @@
       background: #1E1E1E;
       align-items: center;
       border-radius: 16px;
+      cursor: pointer;
 
       @include tablet{
         min-height: 150px;
@@ -813,6 +817,21 @@
       @include tablet{
         grid-column: 2 / span 2;
       }
+    }
+    .card:nth-of-type(1):hover{
+      background: #056da1;
+    }
+    .card:nth-of-type(2):hover{
+      background: #000;
+    }
+    .card:nth-of-type(3):hover{
+      background: rgb(161, 80, 4);
+    }
+    .card:nth-of-type(4):hover{
+      background:  #056da1;
+    }
+    .card:nth-of-type(5):hover{
+      background: rgb(121, 119, 119);
     }
   }
 }
