@@ -467,10 +467,16 @@ export function FaucetPage() {
                       name="walletAddress"
                       placeholder="Enter Wallet Address"
                       className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
-                      value={formatWalletAddress(`${activeAddress}`)}
+                      value={
+                        activeAddress
+                          ? formatWalletAddress(`${activeAddress}`)
+                          : `Enter Wallet Address`
+                      }
                       onChange={() =>
                         setWalletAddressValue(
-                          formatWalletAddress(`${activeAddress}`),
+                          activeAddress
+                            ? formatWalletAddress(`${activeAddress}`)
+                            : 'Enter Wallet Address',
                         )
                       }
                       // if active address ? show address  Update state when input changes
