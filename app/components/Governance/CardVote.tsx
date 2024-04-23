@@ -199,7 +199,7 @@ export function CardVote({
           id={id}
         />
       )}
-      {showCongratMessage && wallet_address && voteEnded && (
+      {showCongratMessage && wallet_address === activeAddress && voteEnded && (
         <CongratsModal
           isActive={showCongratMessage}
           onclick={clearCongratsModal}
@@ -208,7 +208,7 @@ export function CardVote({
           no={noPercent}
         />
       )}
-      {showDeclineMessage && wallet_address && voteEnded && (
+      {showDeclineMessage && wallet_address === activeAddress && voteEnded && (
         <DeclineModal
           isActive={showDeclineMessage}
           onclick={clearDeclineModal}
@@ -281,10 +281,12 @@ export function CardVote({
                     color={'#003A03'}
                   />
                 </div>
-                <div className={styles['delete']} onClick={toggleDeleteModal}>
-                  <RiDeleteBin6Line className={styles['icon']} />
-                  Delete
-                </div>
+                {wallet_address === activeAddress && (
+                  <div className={styles['delete']} onClick={toggleDeleteModal}>
+                    <RiDeleteBin6Line className={styles['icon']} />
+                    Delete
+                  </div>
+                )}
               </div>
             </div>
           </>
