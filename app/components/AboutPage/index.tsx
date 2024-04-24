@@ -152,10 +152,12 @@ export function AboutPage() {
           </div>
         ) : (
           <div className={styles['desktop-header']}>
-            <img
-              src="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861971/Group_5_wz7m5r.png"
-              alt="logo"
-            />
+            <Link href={'/'} className={styles['link']}>
+              <img
+                src="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861971/Group_5_wz7m5r.png"
+                alt="logo"
+              />
+            </Link>
             <div className={styles['nav']}>
               <div
                 className={styles['nav-item']}
