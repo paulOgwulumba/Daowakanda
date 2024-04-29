@@ -481,7 +481,7 @@
       flex-direction: column;
       gap: 32px;
       
-      .cardVote{
+      .cardVote, .cardAfterVote{
         min-height: 228px;
         display: flex;
         flex-direction: column;
@@ -788,8 +788,11 @@
           }
         }
       }
-    }
+      .cardAfterVote{
+        min-height: 108px !important;
+      }
   }
+}
 }
 
 @keyframes rotateUp {

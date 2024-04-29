@@ -198,7 +198,6 @@ export function CardVote({
     Date.parse(end_time) < Date.parse(currentTime) ? true : false;
   // const voteEnded = days && hours && minutes && seconds === 00 ? true : false;
 
-  console.log(isProposalCreator);
   return (
     <>
       {deleteModal && (
@@ -228,7 +227,9 @@ export function CardVote({
           no={noPercent}
         />
       )}
-      <div className={styles['cardVote']}>
+      <div
+        className={!voteEnded ? styles['cardVote'] : styles['cardAfterVote']}
+      >
         <div className={styles['top-content']}>
           <div className={styles['title']}>{title}</div>
           <IoIosArrowDown
