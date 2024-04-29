@@ -281,12 +281,11 @@ export function CardVote({
                     color={'#003A03'}
                   />
                 </div>
-                {wallet_address === activeAddress && (
-                  <div className={styles['delete']} onClick={toggleDeleteModal}>
-                    <RiDeleteBin6Line className={styles['icon']} />
-                    Delete
-                  </div>
-                )}
+
+                <div className={styles['delete']} onClick={toggleDeleteModal}>
+                  <RiDeleteBin6Line className={styles['icon']} />
+                  Delete
+                </div>
               </div>
             </div>
           </>
