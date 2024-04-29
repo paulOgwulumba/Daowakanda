@@ -7,7 +7,6 @@ export const useFetchWrapper = () => {
   // const apiUrl = 'https://api.daowakanda.com/api/v1/proposals';
   const apiUrl = 'https://daowkd-a061a68c3343.herokuapp.com/api/v1/proposals';
 
-
   const handleResponse = useCallback((response: any) => {
     return response.text().then(async (text: string) => {
       const data = text && JSON.parse(text);
