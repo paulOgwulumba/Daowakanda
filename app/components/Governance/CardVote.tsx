@@ -185,9 +185,20 @@ export function CardVote({
   const clearDeclineModal = () => {
     setShowDeclineMessage(false);
   };
+  const formatWalletAddress = (address: string) => {
+    if (!address) return '';
+    const firstSix = address.slice(0, 6);
+    const lastSix = address.slice(-6);
+    return `${firstSix}...........${lastSix}`;
+  };
+  const isProposalCreator =
+    wallet_address == formatWalletAddress(String(activeAddress));
+
   const voteEnded =
     Date.parse(end_time) < Date.parse(currentTime) ? true : false;
   // const voteEnded = days && hours && minutes && seconds === 00 ? true : false;
+
+  console.log(isProposalCreator);
   return (
     <>
       {deleteModal && (
@@ -282,10 +293,12 @@ export function CardVote({
                   />
                 </div>
 
-                <div className={styles['delete']} onClick={toggleDeleteModal}>
-                  <RiDeleteBin6Line className={styles['icon']} />
-                  Delete
-                </div>
+                {isProposalCreator && (
+                  <div className={styles['delete']} onClick={toggleDeleteModal}>
+                    <RiDeleteBin6Line className={styles['icon']} />
+                    Delete
+                  </div>
+                )}
               </div>
             </div>
           </>
