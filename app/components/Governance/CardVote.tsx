@@ -195,8 +195,10 @@ export function CardVote({
     wallet_address == formatWalletAddress(String(activeAddress));
 
   const voteEnded =
-    Date.parse(end_time) < Date.parse(currentTime) ? true : false;
+    Date.parse(end_time) <= Date.parse(currentTime) ? true : false;
   // const voteEnded = days && hours && minutes && seconds === 00 ? true : false;
+
+  console.log({ current: Date.parse(currentTime), vote: Date.parse(end_time) });
 
   return (
     <>
@@ -209,7 +211,7 @@ export function CardVote({
           id={id}
         />
       )}
-      {showCongratMessage && wallet_address === activeAddress && voteEnded && (
+      {showCongratMessage && isProposalCreator && voteEnded && (
         <CongratsModal
           isActive={showCongratMessage}
           onclick={clearCongratsModal}
@@ -218,7 +220,7 @@ export function CardVote({
           no={noPercent}
         />
       )}
-      {showDeclineMessage && wallet_address === activeAddress && voteEnded && (
+      {showDeclineMessage && isProposalCreator && voteEnded && (
         <DeclineModal
           isActive={showDeclineMessage}
           onclick={clearDeclineModal}
