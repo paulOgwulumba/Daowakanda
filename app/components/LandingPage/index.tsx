@@ -1,7 +1,6 @@
 import { useWindowDimensions } from '../../hooks/useWindowDimensions';
 import { useState } from 'react';
 import styles from './index.module.scss';
-import Link from 'next/link';
 import { Card } from './card';
 import { CommunityCard } from './communityCard';
 import { BlogCard } from './blogCard';
@@ -10,6 +9,7 @@ import { FaXTwitter } from 'react-icons/fa6';
 import { NavCard } from './navCard';
 import { data, dataTwo } from './mock';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import Link from 'next/link';
 
 export function LandingPage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
@@ -225,7 +225,8 @@ export function LandingPage() {
             <div className={styles['title']}>DaoWakanda</div>
             <div className={styles['body']}>
               This is a decentralized autonomous organization to revolutionize
-              community engagement and participation within Algorand Nigeria.
+              community engagement and participation starting with
+              algorand Nigeria.
             </div>
             <div className={styles['action-section']}>
               <Link href="/governance" className={styles['btn']}>
@@ -298,10 +299,10 @@ export function LandingPage() {
               description="Connecting your wallet automatically makes you a member of the community."
             />
             <Card
-              title="Buy Wakanda NFT"
+              title="Claim Wakanda NFT"
               step="Step 2"
               image="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861971/payment-success-02_yvbygt.png"
-              description="To have the right to vote for or against proposals you must possess our WAKANDA NFTs. If you do not have, kindly buy."
+              description="To have the right to vote for or against proposals you must possess our WAKANDA NFTs. If you do not have, kindly claim Wakanda NFT."
             />
             <Card
               title="Vote"
@@ -429,29 +430,36 @@ export function LandingPage() {
         <div className={styles['card']}>
           <div className={styles['title']}>DaoWakanda Communities</div>
           <div className={styles['lower-section']}>
-            <div className={styles['item']}>
-              <FaXTwitter className={styles['icon']} /> Twitter
-            </div>
+            <a href="https://twitter.com/DaoWakanda">
+              <div className={styles['item']}>
+                <FaXTwitter className={styles['icon']} /> Twitter
+              </div>
+            </a>
             <div className={styles['item']}>
               <FaGithub className={styles['icon']} /> Github
             </div>
-            <div className={styles['item']}>
-              <FaTelegramPlane className={styles['icon']} />
-              Telegram
-            </div>
-            <div className={styles['item']}>
-              <img
-                src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710085042/Vector_1_ap98lk.png"
-                alt="blog"
-              />
-              Blog
-            </div>
+            <a href="https://t.me/daowakanda">
+              <div className={styles['item']}>
+                <FaTelegramPlane className={styles['icon']} />
+                Telegram
+              </div>
+            </a>
+
+            <a href="https://medium.com/@daowakanda">
+              <div className={styles['item']}>
+                <img
+                  src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710085042/Vector_1_ap98lk.png"
+                  alt="blog"
+                />
+                Blog
+              </div>
+            </a>
           </div>
         </div>
         <div className={styles['card']}>
           <div className={styles['title']}>Useful links</div>
           <div className={styles['lower-section']}>
-            <div className={styles['item']}>Governance</div>
+              <div className={styles['item']}>Governance</div>
             <div className={styles['item']}>DAO Voting</div>
             <div className={styles['item']}>Documentation</div>
             <div className={styles['item']}>Research Forum</div>
