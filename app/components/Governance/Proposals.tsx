@@ -15,14 +15,12 @@ export const Proposals = () => {
 
   const filterProposals = () => {
     if (searchTerm) {
-      return [...proposals]
-        .reverse()
-        .filter((proposal) =>
-          proposal.name.toLowerCase().includes(searchTerm.toLowerCase()),
-        );
+      return proposals.filter((proposal) =>
+        proposal.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
     }
 
-    return [...proposals].reverse();
+    return proposals;
   };
 
   useEffect(() => {
