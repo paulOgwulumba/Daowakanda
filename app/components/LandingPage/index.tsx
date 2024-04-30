@@ -226,7 +226,7 @@ export function LandingPage() {
             <div className={styles['body']}>
               This is a decentralized autonomous organization to revolutionize
               community engagement and participation starting with
-              algorand Nigeria.
+              Algorand Nigeria.
             </div>
             <div className={styles['action-section']}>
               <Link href="/governance" className={styles['btn']}>

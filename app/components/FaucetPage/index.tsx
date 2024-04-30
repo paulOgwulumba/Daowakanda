@@ -526,7 +526,7 @@ export function FaucetPage() {
         </div>
         <div className="m-10">
           <div className="flex justify-center items-center flex-col">
-            <h1 className="flex justify-center text-center items-center mb-5 text-[16px] md:text-[25px] font-bold">
+            <h1 className="text-white flex justify-center text-center items-center mb-5 text-[16px] md:text-[25px] font-bold">
               Can I receive the Wakanda NFT more than once?
             </h1>
             <p className="text-[#d8d8d8d0] text-center text-[13px] md:text-[16px]">
