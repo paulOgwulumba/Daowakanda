@@ -61,7 +61,7 @@ export function DeleteModal({
               {loading && (
                 <ThreeDots
                   visible={true}
-                  height="80"
+                  height="30"
                   width="80"
                   color="#fff"
                   radius="9"
