@@ -544,8 +544,13 @@ export function FaucetPage() {
             <div className={styles['dao']}>DAO WAKANDA</div>
           </div>
           <div className={styles['right']}>
-            <RiTwitterXLine className={styles['icon']} />
-            <PiTelegramLogo className={styles['icon']} />
+            <a href="https://twitter.com/DaoWakanda">
+              <RiTwitterXLine className={styles['icon']} />
+            </a>
+            <a href="https://t.me/daowakanda">
+              <PiTelegramLogo className={styles['icon']} />
+            </a>
+
             <PiDiscordLogo className={styles['icon']} />
             <FiFacebook className={styles['icon']} />
           </div>

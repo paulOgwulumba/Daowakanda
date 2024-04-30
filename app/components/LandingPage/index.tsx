@@ -459,7 +459,7 @@ export function LandingPage() {
         <div className={styles['card']}>
           <div className={styles['title']}>Useful links</div>
           <div className={styles['lower-section']}>
-              <div className={styles['item']}>Governance</div>
+            <div className={styles['item']}>Governance</div>
             <div className={styles['item']}>DAO Voting</div>
             <div className={styles['item']}>Documentation</div>
             <div className={styles['item']}>Research Forum</div>
