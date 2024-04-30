@@ -113,7 +113,7 @@ export function CardVote({
   const voted = (data: IVote) =>
     data.proposal == id && data.wallet_address == String(activeAddress);
   const resultVote = voteInfo?.some(voted);
-  console.log(resultVote);
+  // console.log(resultVote);
 
   const toggleClickYes = async () => {
     if (resultVote) {
@@ -198,7 +198,10 @@ export function CardVote({
     Date.parse(end_time) <= Date.parse(currentTime) ? true : false;
   // const voteEnded = days && hours && minutes && seconds === 00 ? true : false;
 
-  console.log({ current: Date.parse(currentTime), vote: Date.parse(end_time) });
+  const todayy = new Date().getTime();
+  const future = new Date(end_time).getTime();
+  const endOfVote = future > todayy ? true : false;
+  console.log(endOfVote);
 
   return (
     <>
