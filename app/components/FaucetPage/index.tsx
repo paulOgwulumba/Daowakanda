@@ -239,6 +239,7 @@ export function FaucetPage() {
                   }}
                   onClick={() => {
                     activeAddress ? disconnectWallet() : toggleConnectWallet();
+                    setOpenSideNav(false);
                   }}
                 >
                   {activeAddress ? (

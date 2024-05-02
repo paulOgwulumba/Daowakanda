@@ -194,6 +194,7 @@ export function GovernancePage() {
                   }}
                   onClick={() => {
                     activeAddress ? disconnectWallet() : toggleConnectWallet();
+                    setOpenSideNav(false);
                   }}
                 >
                   {activeAddress ? (
