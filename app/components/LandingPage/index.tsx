@@ -440,6 +440,7 @@ export function LandingPage() {
             <Link
               href={'https://github.com/digichains/wakandaV3'}
               className={styles['item']}
+              target="_blank"
             >
               <FaGithub className={styles['icon']} /> Github
             </Link>
