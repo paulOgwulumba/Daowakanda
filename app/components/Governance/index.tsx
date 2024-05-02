@@ -353,12 +353,12 @@ export function GovernancePage() {
             <div className={styles['dao']}>DAO WAKANDA</div>
           </div>
           <div className={styles['right']}>
-            <a href="https://twitter.com/DaoWakanda">
+            <Link href="https://twitter.com/DaoWakanda" target={'_blank'}>
               <RiTwitterXLine className={styles['icon']} />
-            </a>
-            <a href="https://t.me/daowakanda">
+            </Link>
+            <Link href="https://t.me/daowakanda" target={'_blank'}>
               <PiTelegramLogo className={styles['icon']} />
-            </a>
+            </Link>
             <PiDiscordLogo className={styles['icon']} />
             <FiFacebook className={styles['icon']} />
           </div>
