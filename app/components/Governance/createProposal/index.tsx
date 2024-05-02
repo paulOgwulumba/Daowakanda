@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { BackgroundOverlay } from '../../shared/BackgroundOverlay';

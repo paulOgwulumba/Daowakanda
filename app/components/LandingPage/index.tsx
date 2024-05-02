@@ -430,36 +430,47 @@ export function LandingPage() {
         <div className={styles['card']}>
           <div className={styles['title']}>DaoWakanda Communities</div>
           <div className={styles['lower-section']}>
-            <a href="https://twitter.com/DaoWakanda">
-              <div className={styles['item']}>
-                <FaXTwitter className={styles['icon']} /> Twitter
-              </div>
-            </a>
-            <div className={styles['item']}>
+            <Link
+              href="https://twitter.com/DaoWakanda"
+              className={styles['item']}
+              target="_blank"
+            >
+              <FaXTwitter className={styles['icon']} /> Twitter
+            </Link>
+            <Link
+              href={'https://github.com/digichains/wakandaV3'}
+              className={styles['item']}
+            >
               <FaGithub className={styles['icon']} /> Github
-            </div>
-            <a href="https://t.me/daowakanda">
-              <div className={styles['item']}>
-                <FaTelegramPlane className={styles['icon']} />
-                Telegram
-              </div>
-            </a>
+            </Link>
+            <Link
+              href="https://t.me/daowakanda"
+              className={styles['item']}
+              target="_blank"
+            >
+              <FaTelegramPlane className={styles['icon']} />
+              Telegram
+            </Link>
 
-            <a href="https://medium.com/@daowakanda">
-              <div className={styles['item']}>
-                <img
-                  src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710085042/Vector_1_ap98lk.png"
-                  alt="blog"
-                />
-                Blog
-              </div>
-            </a>
+            <Link
+              href="https://medium.com/@daowakanda"
+              target="_blank"
+              className={styles['item']}
+            >
+              <img
+                src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710085042/Vector_1_ap98lk.png"
+                alt="blog"
+              />
+              Blog
+            </Link>
           </div>
         </div>
         <div className={styles['card']}>
           <div className={styles['title']}>Useful links</div>
           <div className={styles['lower-section']}>
-            <div className={styles['item']}>Governance</div>
+            <Link href="/governance" className={styles['item']}>
+              Governance
+            </Link>
             <div className={styles['item']}>DAO Voting</div>
             <div className={styles['item']}>Documentation</div>
             <div className={styles['item']}>Research Forum</div>
