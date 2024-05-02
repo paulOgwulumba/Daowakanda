@@ -8,7 +8,7 @@ export const data = [
   {
     title: 'DAO Voting',
     description: `Participate in making decisions for the community via DAO voting.`,
-    link: `/`,
+    link: `/governance`,
   },
   {
     title: 'Research Forum',
@@ -21,7 +21,7 @@ export const dataTwo = [
   {
     title: 'Twitter',
     description: `Follow us @daowakanda`,
-    link: `/`,
+    link: `https://twitter.com/DaoWakanda`,
   },
   {
     title: 'Discord',
@@ -31,6 +31,6 @@ export const dataTwo = [
   {
     title: 'Telegram',
     description: `Join the community`,
-    link: `/`,
+    link: `https://t.me/daowakanda`,
   },
 ];
