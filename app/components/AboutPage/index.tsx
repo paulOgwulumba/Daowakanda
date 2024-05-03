@@ -84,31 +84,9 @@ export function AboutPage() {
                 </header>
                 <div className={styles['nav-section']}>
                   <div className={styles['nav-list']}>
-                    <div className={styles['section']}>
-                      <div className={styles['nav-item']}>
-                        Governance
-                        {!dropDownActive ? (
-                          <IoIosArrowDown
-                            onClick={toggleShowDropDown}
-                            className={styles['icon']}
-                          />
-                        ) : (
-                          <IoIosArrowUp
-                            onClick={toggleHideDropDown}
-                            className={styles['icon']}
-                          />
-                        )}
-                      </div>
-                      {dropDownActive && (
-                        <div className={styles['tab']}>
-                          <div className={styles['tab-item']}>Snapshots</div>
-                          <div className={styles['tab-item']}>DAO Voting</div>
-                          <div className={styles['tab-item']}>
-                            Research forum
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    <Link className={styles['nav-item']} href="/governance">
+                      Governance
+                    </Link>
 
                     <div className={styles['section']}>
                       <div className={styles['nav-item']}>
@@ -238,14 +216,14 @@ export function AboutPage() {
               participation have become crucial for the growth and
               sustainability of blockchain ecosystems. DAO Wakanda addresses the
               need for a more inclusive, participatory, and rewarding platform
-              within Algorand Nigeria.
+              starting with Algorand Nigeria.
             </div>
           </div>
           <div className={styles['bottom-content']}>
             <div className={styles['left']}>
               <div className={styles['inner']}>
                 <div className={styles['title']}>
-                  Designed to revolutionize community engagement within the
+                  Designed to revolutionize community engagement starting with
                   Algorand Nigeria ecosystem.
                 </div>
                 <div className={styles['desc']}>
@@ -255,9 +233,13 @@ export function AboutPage() {
                   community members and amplifies their collective voice.
                 </div>
               </div>
-              <button>
+              <Link
+                className={styles['button']}
+                href={'https://t.me/daowakanda'}
+                target={'_blank'}
+              >
                 Become a community member <MdArrowOutward />
-              </button>
+              </Link>
             </div>
             <div className={styles['right']}>
               <img
@@ -273,7 +255,7 @@ export function AboutPage() {
             <div className={styles['text']}>
               {`DAO Wakanda's vision is to foster a dynamic and empowered
               community that actively contributes to and benefits from the
-              Algorand Nigeria ecosystem. Its goals include enhancing developer
+              Algorand ecosystem. Its goals include enhancing developer
               engagement, facilitating community-driven decision-making, and
               rewarding contributions through a comprehensive tokenomics model.`}
             </div>

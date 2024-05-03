@@ -19,6 +19,7 @@ import { useGovernanceActions } from '@/features/governance/actions/governance.a
 import { useRecoilState } from 'recoil';
 import { ProposalsAtom } from '@/features/governance/state/governance.atom';
 import { useNotify } from '@/hooks';
+import { MdOutlineNoteAdd } from 'react-icons/md';
 
 export function GovernancePage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
@@ -132,29 +133,9 @@ export function GovernancePage() {
               </header>
               <div className={styles['nav-section']}>
                 <div className={styles['nav-list']}>
-                  <div className={styles['section']}>
-                    <div className={styles['nav-item']}>
-                      Governance
-                      {!dropDownActive ? (
-                        <IoIosArrowDown
-                          onClick={toggleShowDropDown}
-                          className={styles['icon']}
-                        />
-                      ) : (
-                        <IoIosArrowUp
-                          onClick={toggleHideDropDown}
-                          className={styles['icon']}
-                        />
-                      )}
-                    </div>
-                    {dropDownActive && (
-                      <div className={styles['tab']}>
-                        <div className={styles['tab-item']}>Snapshots</div>
-                        <div className={styles['tab-item']}>DAO Voting</div>
-                        <div className={styles['tab-item']}>Research forum</div>
-                      </div>
-                    )}
-                  </div>
+                  <Link className={styles['nav-item']} href="/governance">
+                    Governance
+                  </Link>
 
                   <div className={styles['section']}>
                     <div className={styles['nav-item']}>
@@ -338,7 +319,7 @@ export function GovernancePage() {
               disabled={activeAddress ? false : true}
               onClick={openProposalModal}
             >
-              <BsQuestionSquare className={styles['icon']} />
+              <MdOutlineNoteAdd className={styles['icon']} />
               Create Proposal
             </button>
           </div>

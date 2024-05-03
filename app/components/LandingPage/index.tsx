@@ -81,31 +81,9 @@ export function LandingPage() {
                 </header>
                 <div className={styles['nav-section']}>
                   <div className={styles['nav-list']}>
-                    <div className={styles['section']}>
-                      <div className={styles['nav-item']}>
-                        Governance
-                        {!dropDownActive ? (
-                          <IoIosArrowDown
-                            onClick={toggleShowDropDown}
-                            className={styles['icon']}
-                          />
-                        ) : (
-                          <IoIosArrowUp
-                            onClick={toggleHideDropDown}
-                            className={styles['icon']}
-                          />
-                        )}
-                      </div>
-                      {dropDownActive && (
-                        <div className={styles['tab']}>
-                          <div className={styles['tab-item']}>Snapshots</div>
-                          <div className={styles['tab-item']}>DAO Voting</div>
-                          <div className={styles['tab-item']}>
-                            Research forum
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    <Link className={styles['nav-item']} href="/governance">
+                      Governance
+                    </Link>
 
                     <div className={styles['section']}>
                       <div className={styles['nav-item']}>
