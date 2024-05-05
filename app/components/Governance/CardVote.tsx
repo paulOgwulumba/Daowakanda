@@ -31,6 +31,24 @@ interface CardProps {
   wallet_address: string;
 }
 
+const getRemainingTime = (e: any) => {
+  const currentTime: any = new Date();
+  const setTarget: any = new Date(e);
+  const total = setTarget - currentTime;
+  const seconds = Math.floor((total / 1000) % 60);
+  const minutes = Math.floor((total / 1000 / 60) % 60);
+  const hours = Math.floor((total / 1000 / 60 / 60) % 24);
+  const days = Math.floor(total / 1000 / 60 / 60 / 24);
+
+  return {
+    total,
+    days,
+    hours,
+    minutes,
+    seconds,
+  };
+};
+
 export function CardVote({
   title,
   yesVote,
@@ -51,6 +69,8 @@ export function CardVote({
   const voteInfo = useRecoilValue(VotesAtom);
   const [showdropDown, setShowDropDown] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(() => getRemainingTime(end_time));
+
   const [remainingTime, setRemainingTime] = useState({
     total: 0,
     days: 0,
@@ -75,37 +95,38 @@ export function CardVote({
 
   const currentTime: any = new Date();
 
-  const getTimeRemaining = (e: any) => {
-    const currentTime: any = new Date();
-    const total = Date.parse(e) - Date.parse(currentTime);
-    const seconds = Math.floor((total / 1000) % 60);
-    const minutes = Math.floor((total / 1000 / 60) % 60);
-    const hours = Math.floor((total / 1000 / 60 / 60) % 24);
-    const days = Math.floor(total / 1000 / 60 / 60 / 24);
+  // const getTimeRemaining = (e: any) => {
+  //   const currentTime: any = new Date();
+  //   const setTarget: any = new Date(e);
+  //   const total = setTarget - currentTime;
+  //   const seconds = Math.floor((total / 1000) % 60);
+  //   const minutes = Math.floor((total / 1000 / 60) % 60);
+  //   const hours = Math.floor((total / 1000 / 60 / 60) % 24);
+  //   const days = Math.floor(total / 1000 / 60 / 60 / 24);
 
-    setRemainingTime({
-      total,
-      days,
-      hours,
-      minutes,
-      seconds,
-    });
-  };
-  const { total, days, hours, minutes, seconds } = remainingTime;
+  //   setRemainingTime({
+  //     total,
+  //     days,
+  //     hours,
+  //     minutes,
+  //     seconds,
+  //   });
+  // };
+  // const { total, days, hours, minutes, seconds } = remainingTime;
 
-  useEffect(() => {
-    const IntervalId: number = window.setInterval(() => {
-      getTimeRemaining(end_time);
-      total > 0 && setTimer(timer + 1);
-    }, 1000);
+  // useEffect(() => {
+  //   const IntervalId: number = window.setInterval(() => {
+  //     getTimeRemaining(end_time);
+  //     total > 0 && setTimer(timer + 1);
+  //   }, 1000);
 
-    if (total === 0) {
-      return () => {
-        clearInterval(IntervalId);
-        setTimer(0);
-      };
-    }
-  }, [timer]);
+  //   if (total === 0) {
+  //     return () => {
+  //       clearInterval(IntervalId);
+  //       setTimer(0);
+  //     };
+  //   }
+  // }, [timer]);
 
   const toggleDropDown = () => {
     setShowDropDown(!showdropDown);
@@ -114,6 +135,16 @@ export function CardVote({
     data.proposal == id && data.wallet_address == String(activeAddress);
   const resultVote = voteInfo?.some(voted);
   // console.log(resultVote);
+
+  useEffect(() => {
+    const IntervalId: number = window.setInterval(() => {
+      setTimeLeft(getRemainingTime(end_time));
+    }, 1000);
+
+    return () => {
+      clearInterval(IntervalId);
+    };
+  }, []);
 
   const toggleClickYes = async () => {
     if (resultVote) {
@@ -139,7 +170,6 @@ export function CardVote({
       notify.success('Vote was successfully recorded');
       getAllVotes();
       getAllProposals();
-      setShowCongratMessage(true);
     }
   };
 
@@ -168,7 +198,6 @@ export function CardVote({
       notify.success('Vote was successfully recorded');
       getAllVotes();
       getAllProposals();
-      setShowDeclineMessage(true);
     }
   };
 
@@ -194,14 +223,21 @@ export function CardVote({
   const isProposalCreator =
     wallet_address == formatWalletAddress(String(activeAddress));
 
-  const voteEnded =
-    Date.parse(end_time) <= Date.parse(currentTime) ? true : false;
-  // const voteEnded = days && hours && minutes && seconds === 00 ? true : false;
+  const { days, hours, minutes, seconds } = timeLeft;
 
-  const todayy = new Date().getTime();
-  const future = new Date(end_time).getTime();
-  const endOfVote = future > todayy ? true : false;
-  console.log(endOfVote);
+  const viewCurr = moment().format('YYYY-MM-DD HH:mm:ss');
+  const testEndDate = moment(end_time).format('YYYY-MM-DD HH:mm:ss');
+  const voteEnded = testEndDate < viewCurr;
+
+  useEffect(() => {
+    if (voteEnded) {
+      if (yesPercent > noPercent) {
+        setShowCongratMessage(true);
+      } else {
+        setShowDeclineMessage(true);
+      }
+    }
+  }, [voteEnded]);
 
   return (
     <>
@@ -219,6 +255,7 @@ export function CardVote({
           isActive={showCongratMessage}
           onclick={clearCongratsModal}
           totalVote={totalVotes}
+          title={title}
           yes={yesPercent}
           no={noPercent}
         />
@@ -228,6 +265,7 @@ export function CardVote({
           isActive={showDeclineMessage}
           onclick={clearDeclineModal}
           totalVote={totalVotes}
+          title={title}
           yes={yesPercent}
           no={noPercent}
         />

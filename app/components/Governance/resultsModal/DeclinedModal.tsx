@@ -5,12 +5,20 @@ import styles from './index.module.scss';
 interface Props {
   isActive: boolean;
   onclick: () => any;
+  title: string;
   totalVote: any;
   yes: any;
   no: any;
 }
 
-export function DeclineModal({ isActive, onclick, totalVote, yes, no }: Props) {
+export function DeclineModal({
+  isActive,
+  title,
+  onclick,
+  totalVote,
+  yes,
+  no,
+}: Props) {
   return (
     <>
       <BackgroundOverlay visible={isActive} onClose={onclick}>
@@ -20,7 +28,7 @@ export function DeclineModal({ isActive, onclick, totalVote, yes, no }: Props) {
             alt="declined message"
           />
           <div className={styles['message']}>
-            Unfortunately, your proposal was declined
+            {`Unfortunately, your proposal on ${title} was declined`}
           </div>
           <div className={styles['stats']}>
             <div className={styles['vote']}>

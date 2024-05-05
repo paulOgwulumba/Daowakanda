@@ -4,6 +4,7 @@ import styles from './index.module.scss';
 
 interface Props {
   isActive: boolean;
+  title: string;
   totalVote: any;
   yes: any;
   no: any;
@@ -14,6 +15,7 @@ export function CongratsModal({
   isActive,
   onclick,
   totalVote,
+  title,
   yes,
   no,
 }: Props) {
@@ -26,7 +28,7 @@ export function CongratsModal({
             alt="congrats message"
           />
           <div className={styles['message']}>
-            Congratulations, your proposal got approved.
+            {`Congratulations, your proposal on ${title} got approved.`}
           </div>
           <div className={styles['stats']}>
             <div className={styles['vote']}>

@@ -57,7 +57,7 @@ export function CreateProposalModal({
 
     const response = await createProposal({
       ...data,
-      end_time: moment.utc(data.end_time).format('YYYY-MM-DDThh:mm:ss'),
+      end_time: moment(data.end_time.valueOf()).format('YYYY-MM-DD HH:mm:ss'),
       wallet_address: formatWalletAddress(String(activeAddress)),
     });
 
@@ -74,6 +74,7 @@ export function CreateProposalModal({
       setCreateProposalModal(false);
       getAllProposals();
       setLoading(false);
+      console.log(data);
     }, 1500);
   };
 
@@ -123,9 +124,10 @@ export function CreateProposalModal({
                   type="datetime-local"
                   onChange={(evt) => {
                     const date = new Date(evt.target.value);
+
                     setData((data: any) => ({
                       ...data,
-                      end_time: date.valueOf(),
+                      end_time: date,
                     }));
                   }}
                   required
