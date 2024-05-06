@@ -34,7 +34,7 @@ interface CardProps {
 const getRemainingTime = (e: any) => {
   const currentTime: any = new Date();
   const setTarget: any = new Date(e);
-  const total = setTarget - currentTime;
+  const total = Math.abs(setTarget - currentTime);
   const seconds = Math.floor((total / 1000) % 60);
   const minutes = Math.floor((total / 1000 / 60) % 60);
   const hours = Math.floor((total / 1000 / 60 / 60) % 24);
