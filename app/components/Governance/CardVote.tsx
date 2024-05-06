@@ -71,19 +71,10 @@ export function CardVote({
   const [deleteModal, setDeleteModal] = useState(false);
   const [timeLeft, setTimeLeft] = useState(() => getRemainingTime(end_time));
 
-  const [remainingTime, setRemainingTime] = useState({
-    total: 0,
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-
   useEffect(() => {
     getAllVotes();
   }, []);
 
-  const [timer, setTimer] = useState(0);
   const { castVoteYes, castVoteNo } = useGovernanceContract();
   const { castVote, getAllProposals } = useGovernanceActions();
   const [showCongratMessage, setShowCongratMessage] = useState(false);
@@ -93,48 +84,12 @@ export function CardVote({
   const yesPercent = (Number(yesVote) / totalVotes) * 100;
   const noPercent = (Number(noVote) / totalVotes) * 100;
 
-  const currentTime: any = new Date();
-
-  // const getTimeRemaining = (e: any) => {
-  //   const currentTime: any = new Date();
-  //   const setTarget: any = new Date(e);
-  //   const total = setTarget - currentTime;
-  //   const seconds = Math.floor((total / 1000) % 60);
-  //   const minutes = Math.floor((total / 1000 / 60) % 60);
-  //   const hours = Math.floor((total / 1000 / 60 / 60) % 24);
-  //   const days = Math.floor(total / 1000 / 60 / 60 / 24);
-
-  //   setRemainingTime({
-  //     total,
-  //     days,
-  //     hours,
-  //     minutes,
-  //     seconds,
-  //   });
-  // };
-  // const { total, days, hours, minutes, seconds } = remainingTime;
-
-  // useEffect(() => {
-  //   const IntervalId: number = window.setInterval(() => {
-  //     getTimeRemaining(end_time);
-  //     total > 0 && setTimer(timer + 1);
-  //   }, 1000);
-
-  //   if (total === 0) {
-  //     return () => {
-  //       clearInterval(IntervalId);
-  //       setTimer(0);
-  //     };
-  //   }
-  // }, [timer]);
-
   const toggleDropDown = () => {
     setShowDropDown(!showdropDown);
   };
   const voted = (data: IVote) =>
     data.proposal == id && data.wallet_address == String(activeAddress);
   const resultVote = voteInfo?.some(voted);
-  // console.log(resultVote);
 
   useEffect(() => {
     const IntervalId: number = window.setInterval(() => {
@@ -227,7 +182,7 @@ export function CardVote({
 
   const viewCurr = moment().format('YYYY-MM-DD HH:mm:ss');
   const testEndDate = moment(end_time).format('YYYY-MM-DD HH:mm:ss');
-  const voteEnded = testEndDate < viewCurr;
+  const voteEnded = testEndDate <= viewCurr;
 
   useEffect(() => {
     if (voteEnded) {
