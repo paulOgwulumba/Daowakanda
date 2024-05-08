@@ -62,6 +62,7 @@ export function CreateProposalModal({
     });
 
     console.log(response, 'response');
+    console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
 
     if (response.error) {
       notify.error(response.error?.toString() || 'Network error');

@@ -34,11 +34,13 @@ interface CardProps {
 const getRemainingTime = (e: any) => {
   const currentTime: any = new Date();
   const setTarget: any = new Date(e);
-  const total = Math.abs(setTarget - currentTime);
+  const total = setTarget - currentTime;
   const seconds = Math.floor((total / 1000) % 60);
   const minutes = Math.floor((total / 1000 / 60) % 60);
-  const hours = Math.floor((total / 1000 / 60 / 60) % 24);
+  const hour = Math.floor((total / 1000 / 60 / 60) % 24);
   const days = Math.floor(total / 1000 / 60 / 60 / 24);
+
+  const hours = hour > 0 ? hour - 1 : hour;
 
   return {
     total,
@@ -183,6 +185,7 @@ export function CardVote({
   const viewCurr = moment().format('YYYY-MM-DD HH:mm:ss');
   const testEndDate = moment(end_time).format('YYYY-MM-DD HH:mm:ss');
   const voteEnded = testEndDate <= viewCurr;
+  // const voteEnded = days == 0 && hours == 0 && minutes == 0 && seconds <= 0;
 
   useEffect(() => {
     if (voteEnded) {
@@ -193,6 +196,8 @@ export function CardVote({
       }
     }
   }, [voteEnded]);
+
+  console.log({ timeLeft, title });
 
   return (
     <>
