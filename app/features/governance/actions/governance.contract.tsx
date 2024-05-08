@@ -1,4 +1,4 @@
-import { ProposalsClient } from '@/clients/proposals.client';
+import { ProposalsClient } from '@/clients/proposalsUpdated.client';
 import { APP_ID, ASSET_ID } from '@/constants/appId';
 import { useNotify } from '@/hooks';
 import {
