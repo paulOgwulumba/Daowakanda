@@ -77,6 +77,7 @@ export function CreateProposalModal({
       setLoading(false);
       console.log(data);
     }, 1500);
+    getAllProposals();
   };
 
   return (

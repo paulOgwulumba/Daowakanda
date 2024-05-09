@@ -34,13 +34,12 @@ interface CardProps {
 const getRemainingTime = (e: any) => {
   const currentTime: any = new Date();
   const setTarget: any = new Date(e);
-  const total = setTarget - currentTime;
+  const sumTotal = setTarget - currentTime;
+  const total = sumTotal - 3600000;
   const seconds = Math.floor((total / 1000) % 60);
   const minutes = Math.floor((total / 1000 / 60) % 60);
-  const hour = Math.floor((total / 1000 / 60 / 60) % 24);
+  const hours = Math.floor((total / 1000 / 60 / 60) % 24);
   const days = Math.floor(total / 1000 / 60 / 60 / 24);
-
-  const hours = hour > 0 ? hour - 1 : hour;
 
   return {
     total,
@@ -71,7 +70,7 @@ export function CardVote({
   const voteInfo = useRecoilValue(VotesAtom);
   const [showdropDown, setShowDropDown] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(() => getRemainingTime(end_time));
+  const [timeLeft, setTimeLeft] = useState(getRemainingTime(end_time));
 
   useEffect(() => {
     getAllVotes();
@@ -183,9 +182,9 @@ export function CardVote({
   const { days, hours, minutes, seconds } = timeLeft;
 
   const viewCurr = moment().format('YYYY-MM-DD HH:mm:ss');
-  const testEndDate = moment(end_time).format('YYYY-MM-DD HH:mm:ss');
+  const testEndDate = moment.utc(end_time).format('YYYY-MM-DD HH:mm:ss');
+
   const voteEnded = testEndDate <= viewCurr;
-  // const voteEnded = days == 0 && hours == 0 && minutes == 0 && seconds <= 0;
 
   useEffect(() => {
     if (voteEnded) {
@@ -196,8 +195,6 @@ export function CardVote({
       }
     }
   }, [voteEnded]);
-
-  console.log({ timeLeft, title });
 
   return (
     <>
