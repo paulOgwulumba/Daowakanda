@@ -31,24 +31,13 @@ interface CardProps {
   wallet_address: string;
 }
 
-const getRemainingTime = (e: any) => {
-  const currentTime: any = new Date();
-  const setTarget: any = new Date(e);
-  const sumTotal = setTarget - currentTime;
-  const total = sumTotal - 3600000;
-  const seconds = Math.floor((total / 1000) % 60);
-  const minutes = Math.floor((total / 1000 / 60) % 60);
-  const hours = Math.floor((total / 1000 / 60 / 60) % 24);
-  const days = Math.floor(total / 1000 / 60 / 60 / 24);
-
-  return {
-    total,
-    days,
-    hours,
-    minutes,
-    seconds,
-  };
-};
+interface TimeProps {
+  total: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
 
 export function CardVote({
   title,
@@ -70,7 +59,13 @@ export function CardVote({
   const voteInfo = useRecoilValue(VotesAtom);
   const [showdropDown, setShowDropDown] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(getRemainingTime(end_time));
+  const [timeLeft, setTimeLeft] = useState<TimeProps>({
+    total: 0,
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
 
   useEffect(() => {
     getAllVotes();
@@ -92,15 +87,34 @@ export function CardVote({
     data.proposal == id && data.wallet_address == String(activeAddress);
   const resultVote = voteInfo?.some(voted);
 
+  const getRemainingTime = (e: any) => {
+    const currentTime: any = new Date();
+    const setTarget: any = new Date(e);
+    const sumTotal = setTarget - currentTime;
+    const total = sumTotal - 3600000;
+    const seconds = Math.floor((total / 1000) % 60);
+    const minutes = Math.floor((total / 1000 / 60) % 60);
+    const hours = Math.floor((total / 1000 / 60 / 60) % 24);
+    const days = Math.floor(total / 1000 / 60 / 60 / 24);
+
+    setTimeLeft({
+      total,
+      days,
+      hours,
+      minutes,
+      seconds,
+    });
+  };
+
   useEffect(() => {
     const IntervalId: number = window.setInterval(() => {
-      setTimeLeft(getRemainingTime(end_time));
+      getRemainingTime(end_time);
     }, 1000);
 
     return () => {
       clearInterval(IntervalId);
     };
-  }, []);
+  }, [end_time, timeLeft]);
 
   const toggleClickYes = async () => {
     if (resultVote) {
