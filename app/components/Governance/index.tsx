@@ -290,10 +290,10 @@ export function GovernancePage() {
         </div>
         <div className={styles['body-text']}>
           DAO Wakanda is a decentralized autonomous organization, to
-          revolutionize community engagement and participation within Algorand
-          Nigeria. This platform has been designed to create a vibrant ecosystem
-          where contributors and developers are incentivized and rewarded for
-          their invaluable contributions.
+          revolutionize community engagement and participation starting with
+          Algorand Nigeria. This platform has been designed to create a vibrant
+          ecosystem where contributors and developers are incentivized and
+          rewarded for their invaluable contributions.
         </div>
       </div>
       {/*Hero-section Ends*/}
