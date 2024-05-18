@@ -42,7 +42,7 @@ export function DeclineModal({
             </div>
           </div>
           <div className={styles['btn-declined']} onClick={onclick}>
-            Closet
+            Close
           </div>
         </div>
       </BackgroundOverlay>
