@@ -1,7 +1,7 @@
 @import '../../../../styles/index.scss';
 
 /*change password overlay*/
-.card{
+.card, .card-claim{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -69,4 +69,14 @@
         }
     }
     
+}
+
+.card-claim{
+
+    @include tablet{
+        width: 450px;
+        padding: 50px;
+        align-items: center;
+        justify-content: center;
+    }
 }

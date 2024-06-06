@@ -1,5 +1,5 @@
 import { useWindowDimensions } from '../../hooks/useWindowDimensions';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import Link from 'next/link';
 import { PiDiscordLogo, PiTelegramLogo } from 'react-icons/pi';
@@ -12,6 +12,7 @@ import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { ConnectWalletModal } from './connectModal';
 import { useWallet } from '@txnlab/use-wallet';
 import { useNotify } from '@/hooks';
+import { ClaimNftModal } from './connectModal/claimNft';
 
 export function FaucetPage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
@@ -24,6 +25,24 @@ export function FaucetPage() {
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
+
+  //check claim nft modal state
+  const [claimNftPopUp, setClaimNftPopUp] = useState(false);
+  const [timing, setTiming] = useState(0);
+
+  useEffect(() => {
+    if (timing > 0) {
+      const intervalId = setInterval(() => {
+        setTiming((timing) => timing - 1);
+      }, 1000);
+
+      // Clear the interval on component unmount
+      return () => clearInterval(intervalId);
+    }
+    if (timing <= 0) {
+      setClaimNftPopUp(false);
+    }
+  }, [timing]);
 
   // State variables to track task completion status
   const [followed, setFollowed] = useState(false);
@@ -80,16 +99,22 @@ export function FaucetPage() {
   const handleClaimNFT = () => {
     // Check if all tasks are completed
     if (
-      followed &&
-      likedAndRetweeted &&
-      joinedTelegram &&
-      walletAddressValue !== ''
+      twitterValue &&
+      retweetValue &&
+      telegramValue &&
+      walletAddressValue != ''
     ) {
       // Perform NFT claiming logic
+      console.log('clicking...');
+      setClaimNftPopUp(true);
+      setTiming(35);
+      setTwitterValue('');
+      setRetweetValue('');
+      setTelegramValue('');
       console.log('Claiming NFT...');
     } else {
       // Tasks are not completed, do nothing or show a message
-      console.log('Please complete all tasks before claiming NFT.');
+      notify.error('Please complete all tasks before claiming NFT.');
     }
   };
 
@@ -134,6 +159,13 @@ export function FaucetPage() {
         <ConnectWalletModal
           isActive={activeAddress ? false : true}
           onclick={clearConnectModal}
+        />
+      )}
+      {claimNftPopUp && (
+        <ClaimNftModal
+          isActive={claimNftPopUp}
+          onclick={() => setClaimNftPopUp(false)}
+          timing={timing}
         />
       )}
       {isMobile ? (
@@ -389,16 +421,24 @@ export function FaucetPage() {
                   <h1 className="m-2 text-sm font-medium text-white">2.</h1>
                   <div className="w-full flex bg-[#4D4D4D] rounded-md text-sm">
                     <input
+                      value={retweetValue}
+                      onChange={(e) => setRetweetValue(e.target.value)}
                       type="text"
                       name="retweet"
                       placeholder="Like and retweet pinned tweet"
                       className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
                     />
-                    <button className="m-3 text-[22px]">
+                    {/* <button className="m-3 text-[12px]">
                       <Link href={''}>
                         {' '}
                         <RiArrowRightSLine />
                       </Link>
+                    </button> */}
+                    <button
+                      className="m-3 text-[12px]"
+                      onClick={() => handlePasteButtonClick('retweet')}
+                    >
+                      Paste
                     </button>
                   </div>
                 </div>
@@ -474,20 +514,22 @@ export function FaucetPage() {
                 <button
                   type="button"
                   onClick={handleClaimNFT}
-                  className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-2xl shadow-sm text-sm font-medium ${
+                  className={`w-full cursor-pointer flex justify-center py-2 px-4 border border-transparent rounded-2xl shadow-sm text-sm font-medium ${
                     // Conditional class to make the button inactive
-                    followed &&
-                    likedAndRetweeted &&
-                    joinedTelegram &&
+                    twitterValue &&
+                    retweetValue &&
+                    telegramValue &&
                     walletAddressValue !== ''
                       ? 'text-black bg-[#4EE248]'
                       : 'text-black bg-[#DAF7A6] cursor-not-allowed'
                   }`}
                   disabled={
-                    !followed ||
-                    !likedAndRetweeted ||
-                    !joinedTelegram ||
-                    walletAddressValue === ''
+                    twitterValue &&
+                    retweetValue &&
+                    telegramValue &&
+                    walletAddressValue !== ''
+                      ? false
+                      : true
                   }
                 >
                   Claim NFT
