@@ -5,10 +5,11 @@ interface CardProps {
   description: string;
   step?: string;
   image?: string;
+  onclick?: any;
 }
-export function Card({ title, description, step, image }: CardProps) {
+export function Card({ title, description, step, image, onclick }: CardProps) {
   return (
-    <div className={styles['card']}>
+    <div className={styles['card']} onClick={onclick}>
       <div className={styles['step']}>{step}</div>
       <img src={image} alt="icon" />
       <div className={styles['title']}>{title}</div>

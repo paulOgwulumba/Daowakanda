@@ -10,15 +10,21 @@ import { NavCard } from './navCard';
 import { data, dataTwo } from './mock';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import Link from 'next/link';
+import { ConnectWalletModal } from './connectModal';
+import { useWallet } from '@txnlab/use-wallet';
+import { useNotify } from '@/hooks';
 
 export function LandingPage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
   const [activeDropDownTwo, setActiveDropDownTwo] = useState(false);
   const [openSideNav, setOpenSideNav] = useState(false);
   const [dropDownActive, setDropDownActive] = useState(false);
+  const [connectWalletModal, setConnectWalletModal] = useState(false);
   const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
   const { width } = useWindowDimensions();
+  const { activeAddress, providers } = useWallet();
   const isMobile = width ? width < 768 : false;
+  const { notify } = useNotify();
 
   const toggleShowDropDown = () => {
     setDropDownActive(true);
@@ -35,9 +41,29 @@ export function LandingPage() {
   const toggleHideDropDownTwo = () => {
     setDropDownActiveTwo(false);
   };
+  const clearConnectModal = () => {
+    setConnectWalletModal(false);
+  };
+  const disconnectWallet = () => {
+    providers?.forEach((provider) => provider.disconnect());
+  };
+  const connectWalletMessage = () => {
+    setTimeout(() => {
+      notify.info(`Please Connect Your Wallet`);
+    }, 1500);
+  };
+  const toggleConnectWallet = () => {
+    setConnectWalletModal(!connectWalletModal);
+  };
 
   return (
     <div className={styles.container}>
+      {connectWalletModal && (
+        <ConnectWalletModal
+          isActive={activeAddress ? false : true}
+          onclick={clearConnectModal}
+        />
+      )}
       <div className={styles['hero-section']}>
         {isMobile ? (
           <div className={styles['mobile-header']}>
@@ -115,12 +141,30 @@ export function LandingPage() {
                       Faucet
                     </Link>
                   </div>
-                  <Link
+                  <div
                     className={styles['nav-button']}
-                    href={`https://twitter.com/DaoWakanda`}
+                    onMouseEnter={() => {
+                      !activeAddress && connectWalletMessage();
+                    }}
+                    onClick={() => {
+                      activeAddress
+                        ? disconnectWallet()
+                        : toggleConnectWallet();
+                      setOpenSideNav(false);
+                    }}
                   >
-                    Join X
-                  </Link>
+                    {activeAddress ? (
+                      `${activeAddress.slice(0, 10)}...`
+                    ) : (
+                      <>
+                        <img
+                          src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710656577/wallet-02-1_tjruyq.png"
+                          alt="wallet-icon"
+                        />
+                        Connect Wallet
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
@@ -189,12 +233,26 @@ export function LandingPage() {
                 <Link href="/faucet">Faucet</Link>
               </div>
             </div>
-            <div className={styles['join']}>
-              <img
-                src="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709864873/new-twitter_ptrdzc.png"
-                alt="twitter-logo"
-              />
-              Join X
+            <div
+              className={styles['join']}
+              onMouseEnter={() => {
+                !activeAddress && connectWalletMessage();
+              }}
+              onClick={() => {
+                activeAddress ? disconnectWallet() : toggleConnectWallet();
+              }}
+            >
+              {activeAddress ? (
+                `${activeAddress.slice(0, 10)}...`
+              ) : (
+                <>
+                  <img
+                    src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710656577/wallet-02-1_tjruyq.png"
+                    alt="wallet-icon"
+                  />
+                  Connect Wallet
+                </>
+              )}
             </div>
           </div>
         )}
@@ -271,6 +329,7 @@ export function LandingPage() {
           </div>
           <div className={styles['bottom']}>
             <Card
+              onclick={() => setConnectWalletModal(true)}
               title="Connect Your Wallet"
               step="Step 1"
               image="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861970/wallet-add-02_zpoze7.png"

@@ -199,16 +199,13 @@ export function CardVote({
   const testEndDate = moment.utc(end_time).format('YYYY-MM-DD HH:mm:ss');
 
   const voteEnded = testEndDate <= viewCurr;
-
-  useEffect(() => {
-    if (voteEnded) {
-      if (yesPercent > noPercent) {
-        setShowCongratMessage(true);
-      } else {
-        setShowDeclineMessage(true);
-      }
+  const showResult = () => {
+    if (yesPercent > noPercent) {
+      setShowCongratMessage(true);
+    } else {
+      setShowDeclineMessage(true);
     }
-  }, [voteEnded]);
+  };
 
   return (
     <>
@@ -221,7 +218,7 @@ export function CardVote({
           id={id}
         />
       )}
-      {showCongratMessage && isProposalCreator && voteEnded && (
+      {showCongratMessage && isProposalCreator && (
         <CongratsModal
           isActive={showCongratMessage}
           onclick={clearCongratsModal}
@@ -231,7 +228,7 @@ export function CardVote({
           no={noPercent}
         />
       )}
-      {showDeclineMessage && isProposalCreator && voteEnded && (
+      {showDeclineMessage && isProposalCreator && (
         <DeclineModal
           isActive={showDeclineMessage}
           onclick={clearDeclineModal}
@@ -334,6 +331,13 @@ export function CardVote({
                   yesVote == noVote || yesVote < noVote ? `#690005` : `#003A03`
                 }
               />
+              {isProposalCreator && (
+                <Tags
+                  title={'View Result'}
+                  color={'#A04100'}
+                  onclick={() => showResult()}
+                />
+              )}
             </div>
           </div>
         )}

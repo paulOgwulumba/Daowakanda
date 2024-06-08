@@ -1,11 +1,5 @@
 export const data = [
   {
-    title: 'Snapshot voting',
-    description: `Explore how the decisions in 
-        DaoWakanda governance process are made`,
-    link: `/governance`,
-  },
-  {
     title: 'DAO Voting',
     description: `Participate in making decisions for the community via DAO voting.`,
     link: `/governance`,
