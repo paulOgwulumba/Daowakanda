@@ -7,7 +7,7 @@ export const data = [
   {
     title: 'Research Forum',
     description: `Join forums to discuss your ideas with community members.`,
-    link: `/`,
+    link: `https://medium.com/@daowakanda`,
   },
 ];
 

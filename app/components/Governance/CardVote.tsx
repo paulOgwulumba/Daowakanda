@@ -373,10 +373,10 @@ export function CardVote({
                       {Number(yesVote) + Number(noVote)}
                     </div>
                   </div>
-                  <div className={styles['row']}>
+                  {/* <div className={styles['row']}>
                     <div className={styles['column']}>Algo Amount</div>
                     <div className={styles['column']}>453,659</div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
