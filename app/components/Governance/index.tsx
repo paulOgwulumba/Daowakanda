@@ -9,7 +9,6 @@ import { IoChatbubblesOutline } from 'react-icons/io5';
 import { BsQuestionSquare } from 'react-icons/bs';
 import { RiTwitterXLine } from 'react-icons/ri';
 import { NavCard } from './navCard';
-import { dataOne, dataTwo } from './mock';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { ConnectWalletModal } from './connectModal';
 import { CreateProposalModal } from './createProposal';
@@ -20,6 +19,7 @@ import { useRecoilState } from 'recoil';
 import { ProposalsAtom } from '@/features/governance/state/governance.atom';
 import { useNotify } from '@/hooks';
 import { MdOutlineNoteAdd } from 'react-icons/md';
+import { data, dataTwo } from './mock';
 
 export function GovernancePage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
@@ -215,7 +215,7 @@ export function GovernancePage() {
                   className={styles['nav-dropdown']}
                   onMouseLeave={() => setActiveDropDown(false)}
                 >
-                  {dataOne.map((item, index) => (
+                  {data.map((item, index) => (
                     <NavCard
                       title={item.title}
                       description={item.description}

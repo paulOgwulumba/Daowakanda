@@ -6,6 +6,7 @@ interface CardProps {
   step?: string;
   image?: string;
   onclick?: any;
+  link?: string;
 }
 export function Card({ title, description, step, image, onclick }: CardProps) {
   return (

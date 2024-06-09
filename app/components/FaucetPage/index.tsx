@@ -7,12 +7,12 @@ import { FaHeart } from 'react-icons/fa';
 import { FiFacebook } from 'react-icons/fi';
 import { RiArrowRightSLine, RiTwitterXLine } from 'react-icons/ri';
 import { NavCard } from './navCard';
-import { dataOne, dataTwo } from './mock';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { ConnectWalletModal } from './connectModal';
 import { useWallet } from '@txnlab/use-wallet';
 import { useNotify } from '@/hooks';
 import { ClaimNftModal } from './connectModal/claimNft';
+import { dataOne, dataTwo } from './mock';
 
 export function FaucetPage() {
   const [activeDropDown, setActiveDropDown] = useState(false);

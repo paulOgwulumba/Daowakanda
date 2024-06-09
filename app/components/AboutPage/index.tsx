@@ -4,12 +4,12 @@ import styles from './index.module.scss';
 import Link from 'next/link';
 import { FaHeart } from 'react-icons/fa';
 import { NavCard } from './navCard';
-import { data, dataTwo } from './mock';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { RiTwitterXLine } from 'react-icons/ri';
 import { PiDiscordLogo, PiTelegramLogo } from 'react-icons/pi';
 import { FiFacebook } from 'react-icons/fi';
 import { MdArrowOutward } from 'react-icons/md';
+import { data, dataTwo } from './mock';
 
 export function AboutPage() {
   const [activeDropDown, setActiveDropDown] = useState(false);

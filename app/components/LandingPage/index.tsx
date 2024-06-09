@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { ConnectWalletModal } from './connectModal';
 import { useWallet } from '@txnlab/use-wallet';
 import { useNotify } from '@/hooks';
+import { useRouter } from 'next/router';
 
 export function LandingPage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
@@ -25,6 +26,7 @@ export function LandingPage() {
   const { activeAddress, providers } = useWallet();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
+  const router = useRouter();
 
   const toggleShowDropDown = () => {
     setDropDownActive(true);
@@ -335,23 +337,22 @@ export function LandingPage() {
               image="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861970/wallet-add-02_zpoze7.png"
               description="Connecting your wallet automatically makes you a member of the community."
             />
-            <Link href="/faucet">
-              <Card
-                title="Claim Wakanda NFT"
-                step="Step 2"
-                image="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861971/payment-success-02_yvbygt.png"
-                description="To have the right to vote for or against proposals you must possess our WAKANDA NFTs. If you do not have, kindly claim Wakanda NFT."
-              />
-            </Link>
 
-            <Link href="governance">
             <Card
+              onclick={() => router.push('/faucet')}
+              title="Claim Wakanda NFT"
+              step="Step 2"
+              image="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861971/payment-success-02_yvbygt.png"
+              description="To have the right to vote for or against proposals you must possess our WAKANDA NFTs. If you do not have, kindly claim Wakanda NFT."
+            />
+
+            <Card
+              onclick={() => router.push('/governance')}
               title="Vote"
               step="Step 3"
               image="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861972/blockchain-07_ipjgzd.png"
               description="You may now vote during proposals. Your voice matters in the community. Your are one of us, vote wisely."
             />
-            </Link>
           </div>
         </div>
       </div>
