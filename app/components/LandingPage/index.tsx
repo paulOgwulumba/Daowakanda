@@ -272,10 +272,12 @@ export function LandingPage() {
               </Link>
 
               <div className={styles['watch-video']}>
-                <img
-                  src="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861971/play-circle_jjnep0.png"
-                  alt="play icon"
-                />
+                <Link href="https://www.youtube.com/@DaoWakanda">
+                  <img
+                    src="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861971/play-circle_jjnep0.png"
+                    alt="play icon"
+                  />
+                </Link>
                 Watch Video
               </div>
             </div>
