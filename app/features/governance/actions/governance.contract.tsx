@@ -102,8 +102,7 @@ export const useGovernanceContract = () => {
         });
       } catch (error) {
         notify.error(
-          (error as unknown as Error).message ||
-            'There was a problem funding the app account with 0.2 Algos',
+          'There was a problem funding the app account with 0.2 Algos',
         );
         return { error };
       }
