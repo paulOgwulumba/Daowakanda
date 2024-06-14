@@ -1,4 +1,4 @@
-import { ProposalsClient } from '@/clients/proposalsUpdated.client';
+import { ProposalsClient } from '@/clients/proposalsRecent.client';
 import { APP_ID, ASSET_ID } from '@/constants/appId';
 import { useNotify } from '@/hooks';
 import {
@@ -38,7 +38,7 @@ export const useGovernanceContract = () => {
           ? await typedClient.voteYes(
               {
                 proposal_name: proposal.name,
-                membership_token: proposal.is_claimable ? ASSET_ID : undefined,
+                // membership_token: proposal.is_claimable ? ASSET_ID : undefined,
               },
               {
                 sender,
@@ -53,7 +53,7 @@ export const useGovernanceContract = () => {
           : await typedClient.voteNo(
               {
                 proposal_name: proposal.name,
-                membership_token: proposal.is_claimable ? ASSET_ID : undefined,
+                // membership_token: proposal.is_claimable ? ASSET_ID : undefined,
               },
               {
                 sender,
@@ -67,10 +67,7 @@ export const useGovernanceContract = () => {
             );
         notify.success('Your vote was recorded successfully');
       } catch (error) {
-        notify.error(
-          (error as unknown as Error).message ||
-            'There was a problem casting your vote',
-        );
+        notify.error('There was a problem casting your vote');
         return { error };
       }
     },
@@ -117,7 +114,7 @@ export const useGovernanceContract = () => {
             name: dto.name,
             description: dto.description,
             end_time: Number(dto.end_time),
-            membership_token: dto.is_claimable ? ASSET_ID : undefined,
+            // membership_token: dto.is_claimable ? ASSET_ID : undefined,
           },
           {
             sender,

@@ -1,2 +1,2 @@
 export const APP_ID = 659903830; //591685056
-export const ASSET_ID = 627600640; //591099355
+export const ASSET_ID = 627600054; //591099355
