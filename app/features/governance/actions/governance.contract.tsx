@@ -12,8 +12,9 @@ import { useCallback } from 'react';
 export const useGovernanceContract = () => {
   const { activeAddress, signer } = useWallet();
   const { notify } = useNotify();
+  //add mainnet or testnet link from .env file
   const algodClient = algokit.getAlgoClient({
-    server: 'https://testnet-api.algonode.cloud',
+    server: process.env.NEXT_PUBLIC_ALGO_SERVER || '',
   });
   const sender = { signer, addr: activeAddress || '' };
 
