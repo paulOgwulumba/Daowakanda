@@ -13,10 +13,13 @@ import { useWallet } from '@txnlab/use-wallet';
 import { useNotify } from '@/hooks';
 import { ClaimNftModal } from './connectModal/claimNft';
 import { dataOne, dataTwo } from './mock';
+import { useFaucetActions } from '@/features/faucet/actions/faucet.action';
+import { ThreeDots } from 'react-loader-spinner';
 
 export function FaucetPage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
   const [activeDropDownTwo, setActiveDropDownTwo] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [openSideNav, setOpenSideNav] = useState(false);
   const [dropDownActive, setDropDownActive] = useState(false);
   const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
@@ -25,6 +28,12 @@ export function FaucetPage() {
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
+  const {registerFaucet} = useFaucetActions();
+
+  // State variables to store values of input fields
+  const [telegramUsername, setTelegramUsername] = useState('');
+  const [telegramFirstName, setTelegramFirstName] = useState('');
+  const [telegramLastName, setTelegramLastName] = useState('');
 
   //check claim nft modal state
   const [claimNftPopUp, setClaimNftPopUp] = useState(false);
@@ -43,12 +52,6 @@ export function FaucetPage() {
       setClaimNftPopUp(false);
     }
   }, [timing]);
-
-  // State variables to track task completion status
-  const [followed, setFollowed] = useState(false);
-  const [likedAndRetweeted, setLikedAndRetweeted] = useState(false);
-  const [joinedTelegram, setJoinedTelegram] = useState(false);
-  const [walletAddress, setWalletAddress] = useState('');
 
   // State variable to store clipboard text
   const [clipboardText, setClipboardText] = useState('');
@@ -72,45 +75,50 @@ export function FaucetPage() {
   // Function to update the value of the specified field
   const setFieldValue = (fieldName: string, value: string) => {
     switch (fieldName) {
-      case 'twitter':
-        setTwitterValue(value);
+      case 'username':
+        setTelegramUsername(value);
         break;
-      case 'retweet':
-        setRetweetValue(value);
+      case 'firstname':
+        setTelegramFirstName(value);
         break;
-      case 'telegram':
-        setTelegramValue(value);
-        break;
-      case 'walletAddress':
-        setWalletAddressValue(value);
+      case 'lastname':
+        setTelegramLastName(value);
         break;
       default:
         console.error('Invalid field name:', fieldName);
     }
   };
 
-  // State variables to store values of input fields
-  const [twitterValue, setTwitterValue] = useState('');
-  const [retweetValue, setRetweetValue] = useState('');
-  const [telegramValue, setTelegramValue] = useState('');
-  const [walletAddressValue, setWalletAddressValue] = useState('');
+ 
 
   // Function to handle button click
-  const handleClaimNFT = () => {
+  const handleClaimNFT = async () => {
     // Check if all tasks are completed
+    setLoading(true);
     if (
-      twitterValue &&
-      retweetValue &&
-      telegramValue &&
-      walletAddressValue != ''
+      telegramUsername &&
+      telegramFirstName &&
+      telegramLastName 
     ) {
       // Perform NFT claiming logic
-      console.log('clicking...');
+      const res = await registerFaucet({
+        telegram_username: telegramUsername,
+        telegram_first_name: telegramFirstName,
+        telegram_last_name: telegramLastName
+      });
+
+      if (res.error) {
+        notify.error(res.error?.toString() || 'Network error');
+        setLoading(false);
+        return;
+      }
+      notify.success('Faucet Details successfully registered');
+      setLoading(false);
       setClaimNftPopUp(true);
       setTiming(35);
-      setTwitterValue('');
-      setRetweetValue('');
-      setTelegramValue('');
+      setTelegramUsername('');
+      setTelegramFirstName('');
+      setTelegramLastName('');
       console.log('Claiming NFT...');
     } else {
       // Tasks are not completed, do nothing or show a message
@@ -381,69 +389,7 @@ export function FaucetPage() {
               Complete the tasks below:
             </h1>
             <div className="m-5 md:m-0 text-[#d8d8d8d0]">
-              <div className="relative mb-1">
-                <div className="mb-5">
-                  <div className="flex">
-                    <label className="block m-2 text-sm font-medium text-white">
-                      1.
-                    </label>
-                    <p className="m-2 text-sm">
-                      Follow us on X{' '}
-                      <a href="https://twitter.com/DaoWakanda">
-                        <span className="text-[#68BBE3] cursor-pointer">
-                          @daoWakanda
-                        </span>
-                      </a>{' '}
-                      and input your profile link below :
-                    </p>
-                  </div>
-                  <div className="ml-7 flex bg-[#000] rounded-md text-sm">
-                    <input
-                      type="text"
-                      name="twitter"
-                      placeholder="Enter twitter url (e.g www.twitter.com/userexample)"
-                      className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
-                      value={twitterValue}
-                      onChange={(e) => setTwitterValue(e.target.value)} // Update state when input changes
-                    />
-                    <button
-                      className="m-3 text-[12px]"
-                      onClick={() => handlePasteButtonClick('twitter')}
-                    >
-                      Paste
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mb-5 w-[100%]">
-                <div className="flex">
-                  <h1 className="m-2 text-sm font-medium text-white">2.</h1>
-                  <div className="w-full flex bg-[#4D4D4D] rounded-md text-sm">
-                    <input
-                      value={retweetValue}
-                      onChange={(e) => setRetweetValue(e.target.value)}
-                      type="text"
-                      name="retweet"
-                      placeholder="Like and retweet pinned tweet"
-                      className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
-                    />
-                    {/* <button className="m-3 text-[12px]">
-                      <Link href={''}>
-                        {' '}
-                        <RiArrowRightSLine />
-                      </Link>
-                    </button> */}
-                    <button
-                      className="m-3 text-[12px]"
-                      onClick={() => handlePasteButtonClick('retweet')}
-                    >
-                      Paste
-                    </button>
-                  </div>
-                </div>
-              </div>
-
+              
               <div className="mb-5">
                 <div className="flex">
                   <label className="block m-2 text-sm font-medium text-white">
@@ -462,15 +408,15 @@ export function FaucetPage() {
                 <div className="ml-7 flex bg-[#000] rounded-md text-sm">
                   <input
                     type="text"
-                    name="telegram"
+                    name="telegram_username"
                     placeholder="Enter telegram username (e.g @userexample)"
                     className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
-                    value={telegramValue}
-                    onChange={(e) => setTelegramValue(e.target.value)} // Update state when input changes
+                    value={telegramUsername}
+                    onChange={(e) => setTelegramUsername(e.target.value)} // Update state when input changes
                   />
                   <button
                     className="m-3 text-[12px]"
-                    onClick={() => handlePasteButtonClick('telegram')}
+                    onClick={() => handlePasteButtonClick('username')}
                   >
                     Paste
                   </button>
@@ -494,15 +440,15 @@ export function FaucetPage() {
                 <div className="ml-7 flex bg-[#000] rounded-md text-sm">
                   <input
                     type="text"
-                    name="telegram"
+                    name="telegram_first_name"
                     placeholder="Enter telegram firstname (e.g John)"
                     className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
-                    value={telegramValue}
-                    onChange={(e) => setTelegramValue(e.target.value)} // Update state when input changes
+                    value={telegramFirstName}
+                    onChange={(e) => setTelegramFirstName(e.target.value)} // Update state when input changes
                   />
                   <button
                     className="m-3 text-[12px]"
-                    onClick={() => handlePasteButtonClick('telegram')}
+                    onClick={() => handlePasteButtonClick('firstname')}
                   >
                     Paste
                   </button>
@@ -526,22 +472,22 @@ export function FaucetPage() {
                 <div className="ml-7 flex bg-[#000] rounded-md text-sm">
                   <input
                     type="text"
-                    name="telegram"
+                    name="telegram_last_name"
                     placeholder="Enter telegram lastname (e.g Doe)"
                     className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
-                    value={telegramValue}
-                    onChange={(e) => setTelegramValue(e.target.value)} // Update state when input changes
+                    value={telegramLastName}
+                    onChange={(e) => setTelegramLastName(e.target.value)} // Update state when input changes
                   />
                   <button
                     className="m-3 text-[12px]"
-                    onClick={() => handlePasteButtonClick('telegram')}
+                    onClick={() => handlePasteButtonClick('lastname')}
                   >
                     Paste
                   </button>
                 </div>
               </div>
 
-              <div className="mb-5 w-[100%]">
+              {/* <div className="mb-5 w-[100%]">
                 <div className="flex">
                   <h1 className="m-2 text-sm font-medium text-white">4.</h1>
                   <div className="w-full flex bg-[#000] text-sm rounded-md">
@@ -573,30 +519,40 @@ export function FaucetPage() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div>
                 <button
                   type="button"
                   onClick={handleClaimNFT}
                   className={`w-full cursor-pointer flex justify-center py-2 px-4 border border-transparent rounded-2xl shadow-sm text-sm font-medium ${
                     // Conditional class to make the button inactive
-                    twitterValue &&
-                    retweetValue &&
-                    telegramValue &&
-                    walletAddressValue !== ''
+                    telegramUsername &&
+                    telegramFirstName &&
+                    telegramLastName 
                       ? 'text-black bg-[#4EE248]'
                       : 'text-black bg-[#DAF7A6] cursor-not-allowed'
                   }`}
                   disabled={
-                    twitterValue &&
-                    retweetValue &&
-                    telegramValue &&
-                    walletAddressValue !== ''
+                    telegramUsername &&
+                    telegramFirstName &&
+                    telegramLastName 
                       ? false
                       : true
                   }
                 >
-                  Claim NFT
+                 {loading && (
+                    <ThreeDots
+                      visible={true}
+                      height="30"
+                      width="80"
+                      color="#fff"
+                      radius="9"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  )}
+                  {loading ? `Claiming NFT...` : `Claim NFT`}
                 </button>
               </div>
             </div>
