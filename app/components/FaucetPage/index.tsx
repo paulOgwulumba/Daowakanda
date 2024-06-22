@@ -108,15 +108,15 @@ export function FaucetPage() {
       }
 
       setTimeout(() => {
-      notify.success('Faucet Details successfully registered');
-      setLoading(false);
-      setClaimNftPopUp(true);
-      setTiming(35);
-      setTelegramUsername('');
-      setTelegramFirstName('');
-      setTelegramLastName('');
-      console.log('Claiming NFT...');
-    }, 1500);
+        notify.success('Faucet Details successfully registered');
+        setLoading(false);
+        setClaimNftPopUp(true);
+        setTiming(35);
+        setTelegramUsername('');
+        setTelegramFirstName('');
+        setTelegramLastName('');
+        console.log('Claiming NFT...');
+      }, 1500);
     } else {
       // Tasks are not completed, do nothing or show a message
       notify.error('Please complete all tasks before claiming NFT.');

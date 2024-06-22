@@ -47,7 +47,10 @@ export const useGovernanceActions = () => {
 
   const createProposal = useCallback(async (dto: CreateProposalDto) => {
     try {
-      const response = await fetchWrapper.post('api/v1/proposals/proposal/', dto);
+      const response = await fetchWrapper.post(
+        'api/v1/proposals/proposal/',
+        dto,
+      );
 
       return response;
     } catch (error) {
@@ -59,7 +62,9 @@ export const useGovernanceActions = () => {
 
   const deleteProposal = useCallback(async (id: string) => {
     try {
-      const response = await fetchWrapper.delete(`api/v1/proposals/proposal/${id}/`);
+      const response = await fetchWrapper.delete(
+        `api/v1/proposals/proposal/${id}/`,
+      );
 
       return response;
     } catch (error) {
@@ -69,7 +74,10 @@ export const useGovernanceActions = () => {
 
   const verifyVote = useCallback(async (dto: VerifyVoteDto) => {
     try {
-      const response = await fetchWrapper.post('api/v1/proposals/verify-vote/', dto);
+      const response = await fetchWrapper.post(
+        'api/v1/proposals/verify-vote/',
+        dto,
+      );
       return response;
     } catch (error) {
       return { error };
