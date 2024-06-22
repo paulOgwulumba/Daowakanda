@@ -1,4 +1,4 @@
-@import "../../../styles/index.scss";
+@import '../../../styles/index.scss';
 
 .container {
   width: 100%;
@@ -8,12 +8,12 @@
   position: relative;
   background: #1b1b1f;
 
-  .mobile-header{
+  .mobile-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background: #4D4D4D4D;
+    background: #4d4d4d4d;
     color: #fff;
     min-height: 80px;
     padding: 0 16px;
@@ -22,32 +22,32 @@
     justify-content: space-between;
     z-index: 100;
 
-    .mobile-logo{
+    .mobile-logo {
       width: 32px;
       height: 32px;
 
       .link {
         width: 32px;
         height: 32px;
-        
-        img{
+
+        img {
           width: inherit;
           height: inherit;
         }
       }
     }
-    .mobile-menu-bar{
+    .mobile-menu-bar {
       width: 24px;
       height: 24px;
     }
   }
 
-  .desktop-header{
+  .desktop-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background: #4D4D4D4D;
+    background: #4d4d4d4d;
     color: #fff;
     min-height: 80px;
     padding: 0 72px;
@@ -59,14 +59,14 @@
     .link {
       width: 194px;
       min-height: 33px;
-      
-      img{
+
+      img {
         width: inherit;
         min-height: inherit;
       }
     }
 
-    .nav{
+    .nav {
       width: 332px;
       min-height: 30px;
       display: flex;
@@ -74,7 +74,7 @@
       justify-content: space-between;
       gap: 40px;
 
-      .nav-item{
+      .nav-item {
         font-size: 16px;
         font-weight: 600;
         color: #fff;
@@ -82,21 +82,21 @@
         cursor: pointer;
         font-family: 'Avenir LT Std';
 
-        .nav-dropdown{
+        .nav-dropdown {
           min-height: 175px;
           width: 60%;
-          background: #292A2D;
+          background: #292a2d;
           color: #000;
           position: absolute;
           top: 80px;
           left: 20%;
           display: grid;
-          grid-template-columns: repeat(3,1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 20px;
           padding: 16px;
           border-radius: 24px;
 
-          .card{
+          .card {
             width: 100%;
             min-height: 143px;
             display: flex;
@@ -104,19 +104,19 @@
             gap: 4px;
             padding: 16px;
             font-family: 'Avenir LT Std';
-            
-            &:hover{
+
+            &:hover {
               border-radius: 8px;
-              background: #5E5E62;
+              background: #5e5e62;
             }
 
-            .title{
+            .title {
               font-size: 20px;
               font-weight: 600;
               color: #fff;
             }
-            .desc{
-              color: #ABABAF;   
+            .desc {
+              color: #ababaf;
               font-size: 16px;
               font-weight: 350;
               line-height: 1.5;
@@ -124,9 +124,8 @@
           }
         }
       }
-      
     }
-    .join{
+    .join {
       width: 269px;
       min-height: 59px;
       border-radius: 50px;
@@ -134,14 +133,14 @@
       align-items: center;
       gap: 16px;
       padding: 16px 32px;
-      background: #2F3033;
-      font-family: "Avenir";
+      background: #2f3033;
+      font-family: 'Avenir';
       font-size: 20px;
       font-weight: 350;
       color: #fff;
       cursor: pointer;
 
-      img{
+      img {
         width: 24px;
         height: 24px;
       }
@@ -149,13 +148,13 @@
   }
 }
 /*Side nav bar*/
-.mobile-side-nav{
+.mobile-side-nav {
   min-height: 100vh;
-  background: #222222E5;
+  background: #222222e5;
   display: flex;
   flex-direction: column;
   gap: 87px;
-  z-index: 999; 
+  z-index: 999;
   width: 100vw;
   padding: 16px;
   position: fixed;
@@ -163,32 +162,32 @@
   left: -100%;
   animation: slide 0.5s forwards;
 
-  header{
+  header {
     min-height: 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    .mobile-logo{
+    .mobile-logo {
       width: 31px;
       height: 31px;
 
       .link {
         width: 31px;
         height: 31px;
-        
-        img{
+
+        img {
           width: inherit;
           height: inherit;
         }
       }
     }
-    .mobile-menu-bar{
+    .mobile-menu-bar {
       width: 31px;
       height: 31px;
     }
   }
-  .nav-section{
+  .nav-section {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -197,18 +196,18 @@
     min-height: 296px;
     width: 100%;
 
-    .nav-list{
+    .nav-list {
       width: 259px;
       display: flex;
       flex-direction: column;
       gap: 16px;
 
-      .section{
+      .section {
         display: flex;
         flex-direction: column;
         gap: 8px;
 
-        .nav-item{
+        .nav-item {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -219,8 +218,7 @@
           cursor: pointer;
         }
 
-
-        .tab{
+        .tab {
           display: flex;
           flex-direction: column;
           padding-left: 8px;
@@ -228,7 +226,7 @@
           left: -100%;
           animation: slideTab 0.5s forwards;
 
-          .tab-item{
+          .tab-item {
             font-family: 'Avenir LT Std';
             font-size: 14px;
             font-weight: 600;
@@ -236,7 +234,7 @@
         }
       }
 
-      .nav-item{
+      .nav-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -247,13 +245,13 @@
         cursor: pointer;
       }
     }
-    .nav-button{
+    .nav-button {
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #2F3033;
+      background: #2f3033;
       color: #fff;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
@@ -264,7 +262,7 @@
       gap: 16px;
       border: 1px solid #fff;
 
-      img{
+      img {
         width: 20px;
         height: 20px;
       }
@@ -272,7 +270,7 @@
   }
 }
 
-.main{
+.main {
   min-height: 80vh;
   width: 100%;
   display: flex;
@@ -281,33 +279,35 @@
   gap: 10px;
   margin-top: 25px;
 
-  @include tablet{
+  @include tablet {
     padding: 70px 72px;
     gap: 50px;
     margin-top: 80px;
   }
-
 }
 
 @keyframes slide {
-  100% { left: 0; }
+  100% {
+    left: 0;
+  }
 }
 
 @keyframes slideTab {
-  100% { left: 0; }
+  100% {
+    left: 0;
+  }
 }
 
-
 /*footer styles*/
-.footer{
+.footer {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100px;
-  background: #4D4D4D4D;
+  background: #4d4d4d4d;
   padding: 38px 72px;
 
-  .contain{
+  .contain {
     width: 95%;
     display: flex;
     align-items: center;
@@ -315,59 +315,58 @@
     justify-content: center;
     gap: 6px;
 
-    @include tablet{
+    @include tablet {
       justify-content: space-between;
       flex-direction: row;
       width: 100%;
     }
 
-    .left{
+    .left {
       display: flex;
       align-items: center;
       gap: 4px;
       color: #919094;
-      font-family: "Space Grotesk";
+      font-family: 'Space Grotesk';
       font-size: 14px;
       font-weight: 500;
 
-      @include tablet{
+      @include tablet {
         font-size: 16px;
       }
 
-      .dao{
-        color: #C5EE4F;
+      .dao {
+        color: #c5ee4f;
       }
     }
-    .middleText{
-      color: #D8D8D8;
-      font-family: "Avenir";
+    .middleText {
+      color: #d8d8d8;
+      font-family: 'Avenir';
       font-size: 16px;
       font-weight: 350;
       line-height: 32px;
       text-align: center;
 
-      @include tablet{
+      @include tablet {
         font-size: 16px;
         font-weight: 350;
         line-height: 32px;
       }
     }
-    .right{
+    .right {
       display: flex;
       align-items: center;
       gap: 32px;
       color: #919094;
 
-      .icon{
+      .icon {
         width: 20px;
         height: 18px;
 
-        @include tablet{
+        @include tablet {
           width: 18px;
           height: 16px;
         }
       }
     }
-
   }
 }

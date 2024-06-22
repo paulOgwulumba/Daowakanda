@@ -28,7 +28,7 @@ export function FaucetPage() {
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
-  const {registerFaucet} = useFaucetActions();
+  const { registerFaucet } = useFaucetActions();
 
   // State variables to store values of input fields
   const [telegramUsername, setTelegramUsername] = useState('');
@@ -89,22 +89,16 @@ export function FaucetPage() {
     }
   };
 
- 
-
   // Function to handle button click
   const handleClaimNFT = async () => {
     // Check if all tasks are completed
     setLoading(true);
-    if (
-      telegramUsername &&
-      telegramFirstName &&
-      telegramLastName 
-    ) {
+    if (telegramUsername && telegramFirstName && telegramLastName) {
       // Perform NFT claiming logic
       const res = await registerFaucet({
         telegram_username: telegramUsername,
         telegram_first_name: telegramFirstName,
-        telegram_last_name: telegramLastName
+        telegram_last_name: telegramLastName,
       });
 
       if (res.error) {
@@ -112,6 +106,7 @@ export function FaucetPage() {
         setLoading(false);
         return;
       }
+
       notify.success('Faucet Details successfully registered');
       setLoading(false);
       setClaimNftPopUp(true);
@@ -389,11 +384,11 @@ export function FaucetPage() {
               Complete the tasks below:
             </h1>
             <div className="m-5 md:m-0 text-[#d8d8d8d0]">
-              
               <div className="mb-5">
                 <div className="flex">
                   <label className="block m-2 text-sm font-medium text-white">
-                    1.
+                    {' '}
+                    1.{' '}
                   </label>
                   <p className="m-2 text-sm">
                     Join our Telegram group{' '}
@@ -526,21 +521,17 @@ export function FaucetPage() {
                   onClick={handleClaimNFT}
                   className={`w-full cursor-pointer flex justify-center py-2 px-4 border border-transparent rounded-2xl shadow-sm text-sm font-medium ${
                     // Conditional class to make the button inactive
-                    telegramUsername &&
-                    telegramFirstName &&
-                    telegramLastName 
+                    telegramUsername && telegramFirstName && telegramLastName
                       ? 'text-black bg-[#4EE248]'
                       : 'text-black bg-[#DAF7A6] cursor-not-allowed'
                   }`}
                   disabled={
-                    telegramUsername &&
-                    telegramFirstName &&
-                    telegramLastName 
+                    telegramUsername && telegramFirstName && telegramLastName
                       ? false
                       : true
                   }
                 >
-                 {loading && (
+                  {loading && (
                     <ThreeDots
                       visible={true}
                       height="30"

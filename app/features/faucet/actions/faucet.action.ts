@@ -18,6 +18,6 @@ export const useFaucetActions = () => {
   }, []);
 
   return {
-   registerFaucet,
+    registerFaucet,
   };
 };

@@ -1,4 +1,4 @@
-@import "../../../styles/index.scss";
+@import '../../../styles/index.scss';
 
 .container {
   width: 100%;
@@ -11,12 +11,15 @@
   //   max-width: 1200px;
   //   margin: 0 auto;
   // }
-  
 
   /*Hero Section*/
-  .hero-section{
-    background-image: linear-gradient(to right, rgba(0,0,0,0.99),
-              rgba(0,0,0,.2)), url("https://res.cloudinary.com/dlinprg6k/image/upload/v1709953978/wakanda-warrior_ofvi8k.jpg");
+  .hero-section {
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.99),
+        rgba(0, 0, 0, 0.2)
+      ),
+      url('https://res.cloudinary.com/dlinprg6k/image/upload/v1709953978/wakanda-warrior_ofvi8k.jpg');
     width: 100%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -28,7 +31,7 @@
     justify-content: center;
     padding-top: 150px;
 
-    @include tablet{
+    @include tablet {
       background-size: cover;
       height: 1024px;
       position: relative;
@@ -39,12 +42,12 @@
       padding-left: 72px;
     }
 
-    .mobile-header{
+    .mobile-header {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background: #4D4D4D4D;
+      background: #4d4d4d4d;
       color: #fff;
       min-height: 80px;
       padding: 0 16px;
@@ -52,7 +55,7 @@
       align-items: center;
       justify-content: space-between;
 
-      .mobile-logo{
+      .mobile-logo {
         width: 32px;
         height: 32px;
 
@@ -60,24 +63,24 @@
           width: 32px;
           height: 32px;
 
-          img{
+          img {
             width: inherit;
             height: inherit;
           }
         }
       }
-      .mobile-menu-bar{
+      .mobile-menu-bar {
         width: 24px;
         height: 24px;
       }
     }
 
-    .desktop-header{
+    .desktop-header {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background: #4D4D4D4D;
+      background: #4d4d4d4d;
       color: #fff;
       min-height: 80px;
       padding: 0 72px;
@@ -85,12 +88,12 @@
       align-items: center;
       justify-content: space-between;
 
-      img{
+      img {
         width: 194px;
         min-height: 33px;
       }
 
-      .nav{
+      .nav {
         width: 332px;
         min-height: 30px;
         display: flex;
@@ -98,7 +101,7 @@
         justify-content: space-between;
         gap: 40px;
 
-        .nav-item{
+        .nav-item {
           font-size: 16px;
           font-weight: 600;
           color: #fff;
@@ -106,21 +109,21 @@
           cursor: pointer;
           font-family: 'Avenir LT Std';
 
-          .nav-dropdown{
+          .nav-dropdown {
             min-height: 175px;
             width: 60%;
-            background: #292A2D;
+            background: #292a2d;
             color: #000;
             position: absolute;
             top: 80px;
             left: 20%;
             display: grid;
-            grid-template-columns: repeat(3,1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             padding: 16px;
             border-radius: 24px;
 
-            .card{
+            .card {
               width: 100%;
               min-height: 143px;
               display: flex;
@@ -128,19 +131,19 @@
               gap: 4px;
               padding: 16px;
               font-family: 'Avenir LT Std';
-              
-              &:hover{
+
+              &:hover {
                 border-radius: 8px;
-                background: #5E5E62;
+                background: #5e5e62;
               }
 
-              .title{
+              .title {
                 font-size: 20px;
                 font-weight: 600;
                 color: #fff;
               }
-              .desc{
-                color: #ABABAF;   
+              .desc {
+                color: #ababaf;
                 font-size: 16px;
                 font-weight: 350;
                 line-height: 1.5;
@@ -150,7 +153,7 @@
         }
       }
 
-      .join{
+      .join {
         min-width: 175px;
         min-height: 54px;
         border-radius: 16px;
@@ -158,21 +161,21 @@
         align-items: center;
         gap: 16px;
         padding: 13px 27px;
-        background:#D8D8D8;
-        font-family: "Plus Jakarta Sans", sans-serif;
+        background: #d8d8d8;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         font-size: 16px;
         font-weight: 500;
         color: #000;
         cursor: pointer;
 
-        img{
+        img {
           width: 20px;
           height: 5px;
         }
       }
     }
 
-    .lead-section{
+    .lead-section {
       display: flex;
       flex-direction: column;
       gap: 99px;
@@ -180,85 +183,85 @@
       padding: 0 16px;
       width: auto;
 
-      @include tablet{
+      @include tablet {
         min-height: 461px;
         width: 600px;
         padding-left: 0;
       }
 
-      .top-section{
+      .top-section {
         display: flex;
         flex-direction: column;
         min-height: 344px;
         gap: 32px;
 
-        @include tablet{
-          min-height: 268px;  
+        @include tablet {
+          min-height: 268px;
         }
 
-        .title{
+        .title {
           font-family: 'Avenir';
           font-size: 55px;
           font-weight: 900;
-          color: #C5EE4F;
+          color: #c5ee4f;
           text-align: center;
 
-          @include tablet{
+          @include tablet {
             font-size: 93px;
             text-align: left;
           }
         }
 
-        .body{
+        .body {
           font-family: 'Avenir LT Std';
           font-size: 20px;
           font-weight: 350;
           line-height: 1.5;
-          color: #fff;          
+          color: #fff;
           text-align: center;
 
-          @include tablet{
+          @include tablet {
             text-align: left;
             width: 600px;
           }
         }
 
-        .action-section{
+        .action-section {
           min-height: 128px;
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 32px;
 
-          @include tablet{
+          @include tablet {
             min-height: 56px;
             flex-direction: row;
           }
-          
-          .btn{
-            background: #C5EE4F;
+
+          .btn {
+            background: #c5ee4f;
             border-radius: 10px;
             gap: 10px;
             padding: 15px;
             cursor: pointer;
             padding: 16px;
-            color: #00484F;
+            color: #00484f;
             text-transform: capitalize;
-            font-family: "Plus Jakarta Sans", sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 18px;
             font-weight: 700;
           }
 
-          .watch-video{
+          .watch-video {
             display: flex;
             gap: 8px;
             align-items: center;
-            font-family: "Plus Jakarta Sans", sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 18px;
             font-weight: 400;
             color: #fff;
 
-            img{
+            img {
               width: 40px;
               height: 40px;
             }
@@ -266,60 +269,60 @@
         }
       }
 
-      .bottom-section{
+      .bottom-section {
         display: flex;
         align-items: center;
         justify-content: space-between;
         min-height: 94px;
         gap: 15px;
         padding: 16px;
-        background: #F4F4F41A;
+        background: #f4f4f41a;
 
-        @include tablet{
+        @include tablet {
           width: 600px;
         }
 
-        .stats{
+        .stats {
           display: flex;
           gap: 5px;
           align-items: center;
-          font-family: "Plus Jakarta Sans", sans-serif;
+          font-family: 'Plus Jakarta Sans', sans-serif;
           font-size: 31px;
           font-weight: 500;
-          color: #C7C6CA;
+          color: #c7c6ca;
 
-          @include tablet{
+          @include tablet {
             font-size: 42px;
           }
 
-          .task{
+          .task {
             display: flex;
             gap: 2px;
             flex-direction: column;
             font-size: 10px;
             font-weight: 400;
 
-            @include tablet{
+            @include tablet {
               font-size: 13px;
             }
           }
         }
 
-        img{
+        img {
           width: 13.2px;
           height: 28.31px;
 
-          @include tablet{
+          @include tablet {
             width: 17.71px;
-            height: 38px;  
+            height: 38px;
           }
         }
       }
     }
   }
 
-   /*How it works Section*/
-  .how-section{
+  /*How it works Section*/
+  .how-section {
     width: 100%;
     min-height: 950px;
     display: flex;
@@ -330,33 +333,33 @@
     gap: 16px;
     background: #212121;
 
-    @include tablet{
+    @include tablet {
       min-height: 541px;
       padding: 64px 72px;
       gap: 32px;
     }
 
-    .text-lead{
+    .text-lead {
       color: #fff;
       font-family: 'Avenir';
       font-size: 24px;
       font-weight: 900;
 
-      @include tablet{
+      @include tablet {
         font-size: 40px;
       }
     }
 
-    .body{
+    .body {
       min-height: 285px;
       width: 100%;
       padding: 16px 0px;
       gap: 24px;
 
-      .top{
+      .top {
         display: none;
 
-        @include tablet{
+        @include tablet {
           min-height: 108px;
           display: grid;
           gap: 24px;
@@ -364,7 +367,7 @@
           position: relative;
         }
 
-        .top-card{
+        .top-card {
           grid-column: auto;
           display: flex;
           flex-direction: column;
@@ -374,53 +377,53 @@
           font-family: 'Avenir LT Std';
           font-size: 20px;
           font-weight: 600;
-          color: #C7C6CA;
+          color: #c7c6ca;
 
-          img{
+          img {
             width: 60px;
             height: 60px;
             border-radius: 50px;
             padding: 10px;
-            background: #A5A6F6;
+            background: #a5a6f6;
             z-index: 10;
           }
         }
 
-        .top-card:first-of-type{
-          img{
-            background: #FCDDEC!important;
+        .top-card:first-of-type {
+          img {
+            background: #fcddec !important;
           }
         }
-        .top-card:last-of-type{
-          img{
-            background: #BDFFAC!important;
+        .top-card:last-of-type {
+          img {
+            background: #bdffac !important;
           }
         }
       }
 
-      .top::before{
-        content: "";
+      .top::before {
+        content: '';
         height: 3px;
-        background:#4D4D4D4D;
+        background: #4d4d4d4d;
         width: 70%;
         position: absolute;
         top: 67%;
         left: 15%;
       }
 
-      .bottom{
+      .bottom {
         margin-top: 20px;
         min-height: 756px;
         display: grid;
         gap: 24px;
         grid-template-columns: repeat(1, 1fr);
 
-        @include tablet{
+        @include tablet {
           min-height: 121px;
           grid-template-columns: repeat(3, 1fr);
         }
 
-        .card{
+        .card {
           grid-column: auto;
           display: flex;
           flex-direction: column;
@@ -429,66 +432,65 @@
           gap: 24px;
           font-family: 'Avenir LT Std';
           padding: 16px;
-          background: #1B1B1F;
+          background: #1b1b1f;
           border-radius: 8px;
           cursor: pointer;
 
-          .step{
+          .step {
             display: block;
             font-family: 'Avenir LT Std';
             font-size: 20px;
             font-weight: 600;
-            color: #C7C6CA;
+            color: #c7c6ca;
 
-            @include tablet{
+            @include tablet {
               display: none;
             }
           }
-          img{
+          img {
             display: block;
             width: 60px;
             height: 60px;
             border-radius: 50px;
             padding: 10px;
-            background: #A5A6F6;
+            background: #a5a6f6;
             cursor: pointer;
 
-            @include tablet{
+            @include tablet {
               display: none;
             }
           }
 
-          .title{
+          .title {
             font-size: 20px;
-            color: #C7C6CA;
+            color: #c7c6ca;
           }
-          .description{
+          .description {
             font-family: 'Avenir LT Std';
             font-size: 16px;
             font-weight: 350;
-            color: #ABABAF;
+            color: #ababaf;
             line-height: 1.5;
             text-align: center;
           }
         }
-        .card:first-of-type{
-          img{
-            background: #FCDDEC!important;
+        .card:first-of-type {
+          img {
+            background: #fcddec !important;
           }
         }
-        .card:last-of-type{
-          img{
-            background: #BDFFAC!important;
+        .card:last-of-type {
+          img {
+            background: #bdffac !important;
           }
         }
       }
     }
   }
- 
 }
 
 /*Blog section*/
-.blog-section{
+.blog-section {
   width: 100%;
   min-height: 640px;
   padding: 64px 16px;
@@ -497,73 +499,76 @@
   gap: 32px;
   align-items: center;
   justify-content: center;
-  background-image:linear-gradient(to right, rgba(0,0,0,0.6),
-  rgba(0,0,0,.6)),  url("https://res.cloudinary.com/dlinprg6k/image/upload/v1709995272/imagebg1_sysdb1.jpg");
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0.6)
+    ),
+    url('https://res.cloudinary.com/dlinprg6k/image/upload/v1709995272/imagebg1_sysdb1.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 
-  @include tablet{
+  @include tablet {
     min-height: 651px;
     padding: 43px 72px;
   }
 
-  .lead{
+  .lead {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 4px;
 
-    .title{
+    .title {
       color: #fff;
       font-family: 'Avenir';
       font-size: 24px;
       font-weight: 900;
 
-      @include tablet{
+      @include tablet {
         font-size: 40px;
       }
     }
 
-    .desc{
-      font-family: "Plus Jakarta Sans", sans-serif;
+    .desc {
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 16px;
       font-weight: 400;
       color: #919094;
       text-align: center;
 
-      @include tablet{
+      @include tablet {
         font-size: 24px;
       }
     }
   }
 
-  .bottom{
+  .bottom {
     width: 100%;
     min-height: 398px;
     gap: 21px;
     display: grid;
-    grid-template-columns: repeat(1,1fr);
+    grid-template-columns: repeat(1, 1fr);
 
-    @include tablet{
+    @include tablet {
       min-height: 436px;
-      grid-template-columns: repeat(2,1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
 
-    .special-card{
+    .special-card {
       display: none;
 
-      @include tablet{
+      @include tablet {
         display: block;
         grid-column: auto;
         width: inherit;
         min-height: inherit;
-        background: #1E1E1E;
+        background: #1e1e1e;
         border-radius: 32px;
       }
-      
-    
-      img{
+
+      img {
         width: 100%;
         height: 73%;
         object-fit: cover;
@@ -571,7 +576,7 @@
         border-top-right-radius: 32px;
       }
 
-      .card-detail{
+      .card-detail {
         min-height: 170px;
         width: 100%;
         display: flex;
@@ -579,66 +584,63 @@
         gap: 9px;
         padding: 37px 34px;
 
-        .topic{
+        .topic {
           font-family: 'Avenir';
           font-size: 24px;
           font-weight: 900;
           line-height: 1.4;
           color: #fff;
         }
-        .author{
+        .author {
           text-transform: capitalize;
-          color: #D8D8D8;
-          font-family: "Plus Jakarta Sans", sans-serif;
+          color: #d8d8d8;
+          font-family: 'Plus Jakarta Sans', sans-serif;
           font-size: 16px;
           font-weight: 400;
         }
-        .date{
-          color: #6F6F6F;
-          font-family: "Plus Jakarta Sans", sans-serif;
+        .date {
+          color: #6f6f6f;
+          font-family: 'Plus Jakarta Sans', sans-serif;
           font-size: 16px;
           font-weight: 300;
         }
       }
     }
 
-    .cards{
+    .cards {
       grid-column: auto;
       display: grid;
       grid-template-columns: repeat(1, 1fr);
       gap: 21px;
 
-
-      .card{
+      .card {
         grid-column: auto;
         min-height: 125px;
         display: flex;
         align-items: center;
         cursor: pointer;
 
-        @include tablet{
+        @include tablet {
           min-height: 200px;
         }
 
-        
-        img{
+        img {
           width: 125px;
           min-height: 125px;
           border-top-left-radius: 32px;
           border-bottom-left-radius: 32px;
 
-
-          @include tablet{
+          @include tablet {
             width: 30%;
             height: 100%;
           }
         }
 
-        .card-detail{
+        .card-detail {
           width: 70%;
           min-height: 125px;
           padding: 20px 0 12px 15px;
-          background: #1E1E1E;
+          background: #1e1e1e;
           display: flex;
           align-items: flex-start;
           justify-content: flex-start;
@@ -647,42 +649,42 @@
           border-top-right-radius: 32px;
           border-bottom-right-radius: 32px;
 
-          @include tablet{
+          @include tablet {
             width: 70%;
             height: 100%;
             padding: 50px 0 32px 30px;
             gap: 20px;
           }
 
-          .topic{
+          .topic {
             font-family: 'Avenir';
             font-size: 16px;
             font-weight: 900;
             line-height: 1.4;
             color: #fff;
 
-            @include tablet{
+            @include tablet {
               font-size: 24px;
             }
           }
-          .author{
+          .author {
             text-transform: capitalize;
-            color: #D8D8D8;
-            font-family: "Plus Jakarta Sans", sans-serif;
+            color: #d8d8d8;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 14px;
             font-weight: 400;
 
-            @include tablet{
+            @include tablet {
               font-size: 24px;
             }
           }
-          .date{
-            color: #6F6F6F;
-            font-family: "Plus Jakarta Sans", sans-serif;
+          .date {
+            color: #6f6f6f;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 14px;
             font-weight: 300;
 
-            @include tablet{
+            @include tablet {
               font-size: 24px;
             }
           }
@@ -690,10 +692,9 @@
       }
     }
   }
-
 }
 /*Join community*/
-.join-community{
+.join-community {
   width: 100%;
   min-height: 544px;
   padding: 64px 16px;
@@ -702,17 +703,21 @@
   gap: 32px;
   align-items: center;
   justify-content: center;
-  background-image:linear-gradient(to right, rgba(0,0,0,0.7),
-  rgba(0,0,0,.7)),  url("https://res.cloudinary.com/dlinprg6k/image/upload/v1709995308/imagebg2_s1yft3.jpg");
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.7)
+    ),
+    url('https://res.cloudinary.com/dlinprg6k/image/upload/v1709995308/imagebg2_s1yft3.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 
-  @include tablet{
+  @include tablet {
     min-height: 569px;
     padding: 64px 72px;
   }
 
-  .lead{
+  .lead {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -720,125 +725,125 @@
     gap: 4px;
     text-align: center;
 
-    .title{
+    .title {
       color: #fff;
       font-family: 'Avenir';
       font-size: 24px;
       font-weight: 900;
 
-      @include tablet{
+      @include tablet {
         font-size: 40px;
       }
     }
 
-    .desc{
-      font-family: "Plus Jakarta Sans", sans-serif;
+    .desc {
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 16px;
       font-weight: 400;
       color: #919094;
 
-      @include tablet{
+      @include tablet {
         font-size: 24px;
       }
     }
   }
 
-  .cards{
+  .cards {
     min-height: 302px;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
 
-    @include tablet{
+    @include tablet {
       min-height: 312px;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px 24px;
     }
 
-    .card{
+    .card {
       grid-column: auto;
       min-height: 82px;
       width: 100%;
       padding: 16px;
       display: flex;
       gap: 8px;
-      background: #1E1E1E;
+      background: #1e1e1e;
       align-items: center;
       border-radius: 16px;
       cursor: pointer;
 
-      @include tablet{
+      @include tablet {
         min-height: 150px;
         gap: 32px;
         padding: 32px;
       }
 
-      img{
+      img {
         width: 40px;
         height: 40px;
 
-        @include tablet{
+        @include tablet {
           width: auto;
           height: auto;
         }
       }
 
-      .card-detail{
+      .card-detail {
         display: flex;
         flex-direction: column;
         gap: 4px;
 
-        .topic{
+        .topic {
           color: #fff;
           font-family: 'Avenir';
           font-size: 15px;
           font-weight: 900;
 
-          @include tablet{
+          @include tablet {
             font-size: 24px;
           }
         }
 
-        .text{
-          font-family: "Plus Jakarta Sans", sans-serif;
+        .text {
+          font-family: 'Plus Jakarta Sans', sans-serif;
           font-size: 14px;
           font-weight: 400;
           color: #919094;
 
-          @include tablet{
+          @include tablet {
             font-size: 16px;
           }
         }
       }
     }
-    .card:last-of-type{
+    .card:last-of-type {
       grid-column: 3 / 1;
       min-height: 82px;
 
-      @include tablet{
+      @include tablet {
         grid-column: 2 / span 2;
       }
     }
-    .card:nth-of-type(1):hover{
+    .card:nth-of-type(1):hover {
       background: #056da1;
     }
-    .card:nth-of-type(2):hover{
+    .card:nth-of-type(2):hover {
       background: #000;
     }
-    .card:nth-of-type(3):hover{
+    .card:nth-of-type(3):hover {
       background: rgb(161, 80, 4);
     }
-    .card:nth-of-type(4):hover{
-      background:  #056da1;
+    .card:nth-of-type(4):hover {
+      background: #056da1;
     }
-    .card:nth-of-type(5):hover{
+    .card:nth-of-type(5):hover {
       background: rgb(121, 119, 119);
     }
   }
 }
 /*Subscribe styles*/
-.subscribe{
+.subscribe {
   width: 100%;
   min-height: 270px;
   padding: 64px 16px;
@@ -847,17 +852,21 @@
   gap: 32px;
   align-items: center;
   justify-content: center;
-  background-image:linear-gradient(to right, rgba(0,0,0,0.8),
-  rgba(0,0,0,.8)),  url("https://res.cloudinary.com/dlinprg6k/image/upload/v1709995308/imagebg2_s1yft3.jpg");
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.8)
+    ),
+    url('https://res.cloudinary.com/dlinprg6k/image/upload/v1709995308/imagebg2_s1yft3.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 
-  @include tablet{
+  @include tablet {
     min-height: 321px;
     padding: 64px 72px;
   }
 
-  .lead{
+  .lead {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -865,29 +874,29 @@
     gap: 4px;
     text-align: center;
 
-    .title{
+    .title {
       color: #fff;
       font-family: 'Avenir';
       font-size: 20px;
       font-weight: 900;
 
-      @include tablet{
+      @include tablet {
         font-size: 40px;
       }
     }
 
-    .desc{
-      font-family: "Plus Jakarta Sans", sans-serif;
+    .desc {
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 16px;
       font-weight: 400;
       color: #919094;
 
-      @include tablet{
+      @include tablet {
         font-size: 24px;
       }
     }
   }
-  .form{
+  .form {
     border: 1px solid #fff;
     width: 100%;
     min-height: 54px;
@@ -895,31 +904,31 @@
     border-radius: 50px;
     display: flex;
     gap: 4px;
-    background: #FFFFFF;
+    background: #ffffff;
 
-    @include tablet{
+    @include tablet {
       min-height: 64px;
       gap: 2px;
       width: 629px;
     }
 
-    input{
+    input {
       border: none;
       padding-left: 12px;
       width: 70%;
       min-height: 100%;
-      font-family: "Plus Jakarta Sans", sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 14px;
       font-weight: 300;
       outline: none;
       color: #919094;
 
-      @include tablet{
+      @include tablet {
         font-size: 20px;
         width: 75%;
       }
     }
-    button{
+    button {
       width: 30%;
       cursor: pointer;
       background: #000;
@@ -935,7 +944,7 @@
       font-weight: 900;
       color: #fff;
 
-      @include tablet{
+      @include tablet {
         font-size: 20px;
         width: 25%;
       }
@@ -943,7 +952,7 @@
   }
 }
 /*Notify styles*/
-.notify{
+.notify {
   width: 100%;
   min-height: 370px;
   padding: 64px 16px;
@@ -952,15 +961,15 @@
   gap: 32px;
   align-items: center;
   justify-content: center;
-  background: #2A84EE;
+  background: #2a84ee;
 
-  @include tablet{
+  @include tablet {
     min-height: 228px;
     padding: 64px 72px;
     flex-direction: row;
   }
 
-  .telegram-box{
+  .telegram-box {
     height: 50px;
     width: 50px;
     background: #fff;
@@ -969,22 +978,22 @@
     align-items: center;
     justify-content: center;
 
-    @include tablet{
+    @include tablet {
       width: 100px;
       height: 100px;
     }
-    .telegram{
-      color: #2A84EE;
+    .telegram {
+      color: #2a84ee;
       width: 27px;
       height: 22px;
 
-      @include tablet{
+      @include tablet {
         width: 100px;
         height: 100px;
       }
     }
   }
-  .lead{
+  .lead {
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -992,40 +1001,40 @@
     align-items: center;
     justify-content: center;
 
-    @include tablet{
+    @include tablet {
       width: 50%;
       align-items: flex-start;
       justify-content: flex-start;
     }
 
-    .title{
+    .title {
       color: #fff;
       font-family: 'Avenir';
       font-size: 20px;
       font-weight: 900;
 
-      @include tablet{
+      @include tablet {
         font-size: 32px;
       }
     }
 
-    .desc{
-      font-family: "Plus Jakarta Sans", sans-serif;
+    .desc {
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 16px;
       font-weight: 400;
-      color: #F0F0F0;
+      color: #f0f0f0;
       width: 284px;
       display: flex;
       text-align: center;
 
-      @include tablet{
+      @include tablet {
         font-size: 20px;
         width: auto;
         text-align: left;
       }
     }
   }
-  .notify-button{
+  .notify-button {
     width: 132px;
     min-height: 52px;
     padding: 16px;
@@ -1035,12 +1044,12 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-family: "Plus Jakarta Sans", sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 16px;
     font-weight: 400;
     color: #161616;
 
-    @include tablet{
+    @include tablet {
       font-size: 20px;
       width: 164px;
       min-height: 57px;
@@ -1048,7 +1057,7 @@
   }
 }
 /*Footer styles*/
-.footer{
+.footer {
   width: 100%;
   min-height: 320px;
   padding: 80px 16px;
@@ -1057,43 +1066,43 @@
   grid-template-columns: repeat(1, 1fr);
   background: #121316;
 
-  @include tablet{
+  @include tablet {
     padding: 80px 72px;
     gap: 220px;
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .card{
+  .card {
     display: flex;
     flex-direction: column;
     gap: 32px;
     grid-column: auto;
 
-    @include tablet{
-      
+    @include tablet {
     }
 
-    .title{
+    .title {
       color: #fff;
       font-family: 'Avenir LT Std';
       font-size: 20px;
       font-weight: 750;
     }
 
-    .lower-section{
+    .lower-section {
       display: flex;
       flex-direction: column;
       gap: 8px;
 
-      .item{
+      .item {
         display: flex;
         gap: 8px;
-        color: #ABABAF;
+        color: #ababaf;
         font-family: 'Avenir LT Std';
         font-size: 16px;
         font-weight: 350;
 
-        .icon, img{
+        .icon,
+        img {
           width: 20px;
           height: 20px;
         }
@@ -1103,13 +1112,13 @@
 }
 
 /*Side nav bar*/
-.mobile-side-nav{
+.mobile-side-nav {
   min-height: 100vh;
-  background: #222222E5;
+  background: #222222e5;
   display: flex;
   flex-direction: column;
   gap: 87px;
-  z-index: 99999; 
+  z-index: 99999;
   width: 100vw;
   padding: 16px;
   position: fixed;
@@ -1117,32 +1126,32 @@
   left: -100%;
   animation: slide 0.5s forwards;
 
-  header{
+  header {
     min-height: 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    .mobile-logo{
+    .mobile-logo {
       width: 31px;
       height: 31px;
 
       .link {
         width: 31px;
         height: 31px;
-        
-        img{
+
+        img {
           width: inherit;
           height: inherit;
         }
       }
     }
-    .mobile-menu-bar{
+    .mobile-menu-bar {
       width: 31px;
       height: 31px;
     }
   }
-  .nav-section{
+  .nav-section {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1151,18 +1160,18 @@
     min-height: 296px;
     width: 100%;
 
-    .nav-list{
+    .nav-list {
       width: 259px;
       display: flex;
       flex-direction: column;
       gap: 16px;
 
-      .section{
+      .section {
         display: flex;
         flex-direction: column;
         gap: 8px;
 
-        .nav-item{
+        .nav-item {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -1173,8 +1182,7 @@
           cursor: pointer;
         }
 
-
-        .tab{
+        .tab {
           display: flex;
           flex-direction: column;
           padding-left: 8px;
@@ -1182,7 +1190,7 @@
           left: -100%;
           animation: slideTab 0.5s forwards;
 
-          .tab-item{
+          .tab-item {
             font-family: 'Avenir LT Std';
             font-size: 14px;
             font-weight: 600;
@@ -1190,7 +1198,7 @@
         }
       }
 
-      .nav-item{
+      .nav-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -1201,7 +1209,7 @@
         cursor: pointer;
       }
     }
-    .nav-button{
+    .nav-button {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1219,9 +1227,13 @@
 }
 
 @keyframes slide {
-  100% { left: 0; }
+  100% {
+    left: 0;
+  }
 }
 
 @keyframes slideTab {
-  100% { left: 0; }
+  100% {
+    left: 0;
+  }
 }

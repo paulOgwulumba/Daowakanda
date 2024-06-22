@@ -4,7 +4,7 @@
  * DO NOT MODIFY IT BY HAND.
  * requires: @algorandfoundation/algokit-utils: ^2
  */
-import * as algokit from '@algorandfoundation/algokit-utils'
+import * as algokit from '@algorandfoundation/algokit-utils';
 import type {
   ABIAppCallArg,
   AppCallTransactionResult,
@@ -15,222 +15,230 @@ import type {
   CoreAppCallArgs,
   RawAppCallArgs,
   TealTemplateParams,
-} from '@algorandfoundation/algokit-utils/types/app'
+} from '@algorandfoundation/algokit-utils/types/app';
 import type {
   AppClientCallCoreParams,
   AppClientCompilationParams,
   AppClientDeployCoreParams,
   AppDetails,
   ApplicationClient,
-} from '@algorandfoundation/algokit-utils/types/app-client'
-import type { AppSpec } from '@algorandfoundation/algokit-utils/types/app-spec'
-import type { SendTransactionResult, TransactionToSign, SendTransactionFrom, SendTransactionParams } from '@algorandfoundation/algokit-utils/types/transaction'
-import type { ABIResult, TransactionWithSigner } from 'algosdk'
-import { Algodv2, OnApplicationComplete, Transaction, AtomicTransactionComposer, modelsv2 } from 'algosdk'
+} from '@algorandfoundation/algokit-utils/types/app-client';
+import type { AppSpec } from '@algorandfoundation/algokit-utils/types/app-spec';
+import type {
+  SendTransactionResult,
+  TransactionToSign,
+  SendTransactionFrom,
+  SendTransactionParams,
+} from '@algorandfoundation/algokit-utils/types/transaction';
+import type { ABIResult, TransactionWithSigner } from 'algosdk';
+import {
+  Algodv2,
+  OnApplicationComplete,
+  Transaction,
+  AtomicTransactionComposer,
+  modelsv2,
+} from 'algosdk';
 export const APP_SPEC: AppSpec = {
-  "hints": {
-    "add_proposal(string,string,uint64)void": {
-      "call_config": {
-        "no_op": "CALL"
-      }
-    },
-    "read_proposal(string)(string,string,bool,uint64,uint64,uint64)": {
-      "structs": {
-        "output": {
-          "name": "Proposal",
-          "elements": [
-            [
-              "name",
-              "string"
-            ],
-            [
-              "description",
-              "string"
-            ],
-            [
-              "is_open",
-              "bool"
-            ],
-            [
-              "end_time",
-              "uint64"
-            ],
-            [
-              "yes_count",
-              "uint64"
-            ],
-            [
-              "no_count",
-              "uint64"
-            ]
-          ]
-        }
+  hints: {
+    'add_proposal(string,string,uint64)void': {
+      call_config: {
+        no_op: 'CALL',
       },
-      "call_config": {
-        "no_op": "CALL"
-      }
     },
-    "vote_yes(string)void": {
-      "call_config": {
-        "no_op": "CALL"
-      }
-    },
-    "vote_no(string)void": {
-      "call_config": {
-        "no_op": "CALL"
-      }
-    },
-    "delete_proposal(string)void": {
-      "call_config": {
-        "no_op": "CALL"
-      }
-    },
-    "generate_membership_token(pay,string)uint64": {
-      "call_config": {
-        "no_op": "CALL"
-      }
-    }
-  },
-  "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50Y2Jsb2NrIDAgMSAyOSA2NTUzNgpieXRlY2Jsb2NrIDB4IDB4MDAgMHgxNTFmN2M3NQp0eG4gTnVtQXBwQXJncwppbnRjXzAgLy8gMAo9PQpibnogbWFpbl9sMTQKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHg3Y2UxMmMwMiAvLyAiYWRkX3Byb3Bvc2FsKHN0cmluZyxzdHJpbmcsdWludDY0KXZvaWQiCj09CmJueiBtYWluX2wxMwp0eG5hIEFwcGxpY2F0aW9uQXJncyAwCnB1c2hieXRlcyAweGQ3NzhhZDI1IC8vICJyZWFkX3Byb3Bvc2FsKHN0cmluZykoc3RyaW5nLHN0cmluZyxib29sLHVpbnQ2NCx1aW50NjQsdWludDY0KSIKPT0KYm56IG1haW5fbDEyCnR4bmEgQXBwbGljYXRpb25BcmdzIDAKcHVzaGJ5dGVzIDB4NDRkMDczOTUgLy8gInZvdGVfeWVzKHN0cmluZyl2b2lkIgo9PQpibnogbWFpbl9sMTEKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHgwZTE4NzAzNCAvLyAidm90ZV9ubyhzdHJpbmcpdm9pZCIKPT0KYm56IG1haW5fbDEwCnR4bmEgQXBwbGljYXRpb25BcmdzIDAKcHVzaGJ5dGVzIDB4ODljYjhhOWEgLy8gImRlbGV0ZV9wcm9wb3NhbChzdHJpbmcpdm9pZCIKPT0KYm56IG1haW5fbDkKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHgwN2Y5NTk4ZCAvLyAiZ2VuZXJhdGVfbWVtYmVyc2hpcF90b2tlbihwYXksc3RyaW5nKXVpbnQ2NCIKPT0KYm56IG1haW5fbDgKZXJyCm1haW5fbDg6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgZ2VuZXJhdGVtZW1iZXJzaGlwdG9rZW5jYXN0ZXJfMTMKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDk6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgZGVsZXRlcHJvcG9zYWxjYXN0ZXJfMTIKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDEwOgp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCiE9CiYmCmFzc2VydApjYWxsc3ViIHZvdGVub2Nhc3Rlcl8xMQppbnRjXzEgLy8gMQpyZXR1cm4KbWFpbl9sMTE6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgdm90ZXllc2Nhc3Rlcl8xMAppbnRjXzEgLy8gMQpyZXR1cm4KbWFpbl9sMTI6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgcmVhZHByb3Bvc2FsY2FzdGVyXzkKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDEzOgp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCiE9CiYmCmFzc2VydApjYWxsc3ViIGFkZHByb3Bvc2FsY2FzdGVyXzgKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDE0Ogp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CmJueiBtYWluX2wxNgplcnIKbWFpbl9sMTY6CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCj09CmFzc2VydApjYWxsc3ViIGNyZWF0ZV8wCmludGNfMSAvLyAxCnJldHVybgoKLy8gY3JlYXRlCmNyZWF0ZV8wOgpwcm90byAwIDAKcmV0c3ViCgovLyBob2xkc19hbnlfd2FrYW5kYV90b2tlbgpob2xkc2FueXdha2FuZGF0b2tlbl8xOgpwcm90byAxIDEKaW50Y18xIC8vIDEKcmV0c3ViCgovLyBhZGRfcHJvcG9zYWwKYWRkcHJvcG9zYWxfMjoKcHJvdG8gMyAwCmludGNfMCAvLyAwCmJ5dGVjXzAgLy8gIiIKaW50Y18wIC8vIDAKZHVwbiAzCmJ5dGVjXzAgLy8gIiIKZHVwCnR4biBTZW5kZXIKY2FsbHN1YiBob2xkc2FueXdha2FuZGF0b2tlbl8xCi8vIHVuYXV0aG9yaXplZAphc3NlcnQKaW50Y18xIC8vIDEKIQohCmZyYW1lX2J1cnkgMAppbnRjXzAgLy8gMApmcmFtZV9idXJ5IDIKaW50Y18wIC8vIDAKZnJhbWVfYnVyeSAzCmZyYW1lX2RpZyAtMwpmcmFtZV9idXJ5IDcKZnJhbWVfZGlnIDcKZnJhbWVfYnVyeSA2CmludGNfMiAvLyAyOQpmcmFtZV9idXJ5IDQKZnJhbWVfZGlnIDQKZnJhbWVfZGlnIDcKbGVuCisKZnJhbWVfYnVyeSA1CmZyYW1lX2RpZyA1CmludGNfMyAvLyA2NTUzNgo8CmFzc2VydApmcmFtZV9kaWcgNAppdG9iCmV4dHJhY3QgNiAwCmZyYW1lX2RpZyAtMgpmcmFtZV9idXJ5IDcKZnJhbWVfZGlnIDYKZnJhbWVfZGlnIDcKY29uY2F0CmZyYW1lX2J1cnkgNgpmcmFtZV9kaWcgNQpmcmFtZV9idXJ5IDQKZnJhbWVfZGlnIDQKaXRvYgpleHRyYWN0IDYgMApjb25jYXQKYnl0ZWNfMSAvLyAweDAwCmludGNfMCAvLyAwCmZyYW1lX2RpZyAwCnNldGJpdApjb25jYXQKZnJhbWVfZGlnIC0xCml0b2IKY29uY2F0CmZyYW1lX2RpZyAyCml0b2IKY29uY2F0CmZyYW1lX2RpZyAzCml0b2IKY29uY2F0CmZyYW1lX2RpZyA2CmNvbmNhdApmcmFtZV9idXJ5IDEKZnJhbWVfZGlnIC0zCmV4dHJhY3QgMiAwCmJveF9kZWwKcG9wCmZyYW1lX2RpZyAtMwpleHRyYWN0IDIgMApmcmFtZV9kaWcgMQpib3hfcHV0CnJldHN1YgoKLy8gcmVhZF9wcm9wb3NhbApyZWFkcHJvcG9zYWxfMzoKcHJvdG8gMSAxCmJ5dGVjXzAgLy8gIiIKZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCmJveF9nZXQKc3RvcmUgMQpzdG9yZSAwCmxvYWQgMQphc3NlcnQKbG9hZCAwCmZyYW1lX2J1cnkgMApyZXRzdWIKCi8vIHZvdGVfeWVzCnZvdGV5ZXNfNDoKcHJvdG8gMSAwCmludGNfMCAvLyAwCmJ5dGVjXzAgLy8gIiIKaW50Y18wIC8vIDAKZHVwCmJ5dGVjXzAgLy8gIiIKaW50Y18wIC8vIDAKZHVwbiAzCmJ5dGVjXzAgLy8gIiIKZHVwCnR4biBTZW5kZXIKY2FsbHN1YiBob2xkc2FueXdha2FuZGF0b2tlbl8xCi8vIHVuYXV0aG9yaXplZAphc3NlcnQKZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCmJveF9nZXQKc3RvcmUgMwpzdG9yZSAyCmxvYWQgMwphc3NlcnQKbG9hZCAyCmZyYW1lX2J1cnkgMQpmcmFtZV9kaWcgMQpwdXNoaW50IDEzIC8vIDEzCmV4dHJhY3RfdWludDY0CmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMAppbnRjXzEgLy8gMQorCmZyYW1lX2J1cnkgMgpmcmFtZV9kaWcgMQpwdXNoaW50IDIxIC8vIDIxCmV4dHJhY3RfdWludDY0CmZyYW1lX2J1cnkgMwpmcmFtZV9kaWcgMQpmcmFtZV9kaWcgMQpwdXNoaW50IDIgLy8gMgpleHRyYWN0X3VpbnQxNgpkaWcgMQpsZW4Kc3Vic3RyaW5nMwpmcmFtZV9idXJ5IDQKZnJhbWVfZGlnIDEKcHVzaGludCAzMiAvLyAzMgpnZXRiaXQKZnJhbWVfYnVyeSA1CmZyYW1lX2RpZyAxCnB1c2hpbnQgNSAvLyA1CmV4dHJhY3RfdWludDY0CmZyYW1lX2J1cnkgNgpmcmFtZV9kaWcgLTEKZnJhbWVfYnVyeSAxMApmcmFtZV9kaWcgMTAKZnJhbWVfYnVyeSA5CmludGNfMiAvLyAyOQpmcmFtZV9idXJ5IDcKZnJhbWVfZGlnIDcKZnJhbWVfZGlnIDEwCmxlbgorCmZyYW1lX2J1cnkgOApmcmFtZV9kaWcgOAppbnRjXzMgLy8gNjU1MzYKPAphc3NlcnQKZnJhbWVfZGlnIDcKaXRvYgpleHRyYWN0IDYgMApmcmFtZV9kaWcgNApmcmFtZV9idXJ5IDEwCmZyYW1lX2RpZyA5CmZyYW1lX2RpZyAxMApjb25jYXQKZnJhbWVfYnVyeSA5CmZyYW1lX2RpZyA4CmZyYW1lX2J1cnkgNwpmcmFtZV9kaWcgNwppdG9iCmV4dHJhY3QgNiAwCmNvbmNhdApieXRlY18xIC8vIDB4MDAKaW50Y18wIC8vIDAKZnJhbWVfZGlnIDUKc2V0Yml0CmNvbmNhdApmcmFtZV9kaWcgNgppdG9iCmNvbmNhdApmcmFtZV9kaWcgMgppdG9iCmNvbmNhdApmcmFtZV9kaWcgMwppdG9iCmNvbmNhdApmcmFtZV9kaWcgOQpjb25jYXQKZnJhbWVfYnVyeSAxCmZyYW1lX2RpZyAtMQpleHRyYWN0IDIgMApib3hfZGVsCnBvcApmcmFtZV9kaWcgLTEKZXh0cmFjdCAyIDAKZnJhbWVfZGlnIDEKYm94X3B1dApyZXRzdWIKCi8vIHZvdGVfbm8Kdm90ZW5vXzU6CnByb3RvIDEgMAppbnRjXzAgLy8gMApieXRlY18wIC8vICIiCmludGNfMCAvLyAwCmR1cApieXRlY18wIC8vICIiCmludGNfMCAvLyAwCmR1cG4gMwpieXRlY18wIC8vICIiCmR1cAp0eG4gU2VuZGVyCmNhbGxzdWIgaG9sZHNhbnl3YWthbmRhdG9rZW5fMQovLyB1bmF1dGhvcml6ZWQKYXNzZXJ0CmZyYW1lX2RpZyAtMQpleHRyYWN0IDIgMApib3hfZ2V0CnN0b3JlIDUKc3RvcmUgNApsb2FkIDUKYXNzZXJ0CmxvYWQgNApmcmFtZV9idXJ5IDEKZnJhbWVfZGlnIDEKcHVzaGludCAyMSAvLyAyMQpleHRyYWN0X3VpbnQ2NApmcmFtZV9idXJ5IDAKZnJhbWVfZGlnIDAKaW50Y18xIC8vIDEKKwpmcmFtZV9idXJ5IDIKZnJhbWVfZGlnIDEKcHVzaGludCAxMyAvLyAxMwpleHRyYWN0X3VpbnQ2NApmcmFtZV9idXJ5IDMKZnJhbWVfZGlnIDEKZnJhbWVfZGlnIDEKcHVzaGludCAyIC8vIDIKZXh0cmFjdF91aW50MTYKZGlnIDEKbGVuCnN1YnN0cmluZzMKZnJhbWVfYnVyeSA0CmZyYW1lX2RpZyAxCnB1c2hpbnQgMzIgLy8gMzIKZ2V0Yml0CmZyYW1lX2J1cnkgNQpmcmFtZV9kaWcgMQpwdXNoaW50IDUgLy8gNQpleHRyYWN0X3VpbnQ2NApmcmFtZV9idXJ5IDYKZnJhbWVfZGlnIC0xCmZyYW1lX2J1cnkgMTAKZnJhbWVfZGlnIDEwCmZyYW1lX2J1cnkgOQppbnRjXzIgLy8gMjkKZnJhbWVfYnVyeSA3CmZyYW1lX2RpZyA3CmZyYW1lX2RpZyAxMApsZW4KKwpmcmFtZV9idXJ5IDgKZnJhbWVfZGlnIDgKaW50Y18zIC8vIDY1NTM2CjwKYXNzZXJ0CmZyYW1lX2RpZyA3Cml0b2IKZXh0cmFjdCA2IDAKZnJhbWVfZGlnIDQKZnJhbWVfYnVyeSAxMApmcmFtZV9kaWcgOQpmcmFtZV9kaWcgMTAKY29uY2F0CmZyYW1lX2J1cnkgOQpmcmFtZV9kaWcgOApmcmFtZV9idXJ5IDcKZnJhbWVfZGlnIDcKaXRvYgpleHRyYWN0IDYgMApjb25jYXQKYnl0ZWNfMSAvLyAweDAwCmludGNfMCAvLyAwCmZyYW1lX2RpZyA1CnNldGJpdApjb25jYXQKZnJhbWVfZGlnIDYKaXRvYgpjb25jYXQKZnJhbWVfZGlnIDMKaXRvYgpjb25jYXQKZnJhbWVfZGlnIDIKaXRvYgpjb25jYXQKZnJhbWVfZGlnIDkKY29uY2F0CmZyYW1lX2J1cnkgMQpmcmFtZV9kaWcgLTEKZXh0cmFjdCAyIDAKYm94X2RlbApwb3AKZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCmZyYW1lX2RpZyAxCmJveF9wdXQKcmV0c3ViCgovLyBkZWxldGVfcHJvcG9zYWwKZGVsZXRlcHJvcG9zYWxfNjoKcHJvdG8gMSAwCnR4biBTZW5kZXIKY2FsbHN1YiBob2xkc2FueXdha2FuZGF0b2tlbl8xCi8vIHVuYXV0aG9yaXplZAphc3NlcnQKZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCmJveF9kZWwKcG9wCnJldHN1YgoKLy8gZ2VuZXJhdGVfbWVtYmVyc2hpcF90b2tlbgpnZW5lcmF0ZW1lbWJlcnNoaXB0b2tlbl83Ogpwcm90byAyIDEKaW50Y18wIC8vIDAKdHhuIFNlbmRlcgpnbG9iYWwgQ3JlYXRvckFkZHJlc3MKPT0KLy8gdW5hdXRob3JpemVkCmFzc2VydApmcmFtZV9kaWcgLTIKZ3R4bnMgUmVjZWl2ZXIKZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKPT0KLy8gcGF5bWVudCBtdXN0IGJlIHRvIGFwcCBhZGRyZXNzCmFzc2VydAppdHhuX2JlZ2luCnB1c2hpbnQgMyAvLyBhY2ZnCml0eG5fZmllbGQgVHlwZUVudW0KZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCml0eG5fZmllbGQgQ29uZmlnQXNzZXROYW1lCnB1c2hpbnQgMjAwMCAvLyAyMDAwCml0eG5fZmllbGQgQ29uZmlnQXNzZXRUb3RhbAppbnRjXzEgLy8gMQppdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0RGVmYXVsdEZyb3plbgpnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwppdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0TWFuYWdlcgpnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwppdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0Q2xhd2JhY2sKZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKaXR4bl9maWVsZCBDb25maWdBc3NldEZyZWV6ZQpnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwppdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0UmVzZXJ2ZQppbnRjXzAgLy8gMAppdHhuX2ZpZWxkIEZlZQppdHhuX3N1Ym1pdApyZXRzdWIKCi8vIGFkZF9wcm9wb3NhbF9jYXN0ZXIKYWRkcHJvcG9zYWxjYXN0ZXJfODoKcHJvdG8gMCAwCmJ5dGVjXzAgLy8gIiIKZHVwCmludGNfMCAvLyAwCnR4bmEgQXBwbGljYXRpb25BcmdzIDEKZnJhbWVfYnVyeSAwCnR4bmEgQXBwbGljYXRpb25BcmdzIDIKZnJhbWVfYnVyeSAxCnR4bmEgQXBwbGljYXRpb25BcmdzIDMKYnRvaQpmcmFtZV9idXJ5IDIKZnJhbWVfZGlnIDAKZnJhbWVfZGlnIDEKZnJhbWVfZGlnIDIKY2FsbHN1YiBhZGRwcm9wb3NhbF8yCnJldHN1YgoKLy8gcmVhZF9wcm9wb3NhbF9jYXN0ZXIKcmVhZHByb3Bvc2FsY2FzdGVyXzk6CnByb3RvIDAgMApieXRlY18wIC8vICIiCmR1cAp0eG5hIEFwcGxpY2F0aW9uQXJncyAxCmZyYW1lX2J1cnkgMQpmcmFtZV9kaWcgMQpjYWxsc3ViIHJlYWRwcm9wb3NhbF8zCmZyYW1lX2J1cnkgMApieXRlY18yIC8vIDB4MTUxZjdjNzUKZnJhbWVfZGlnIDAKY29uY2F0CmxvZwpyZXRzdWIKCi8vIHZvdGVfeWVzX2Nhc3Rlcgp2b3RleWVzY2FzdGVyXzEwOgpwcm90byAwIDAKYnl0ZWNfMCAvLyAiIgp0eG5hIEFwcGxpY2F0aW9uQXJncyAxCmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMApjYWxsc3ViIHZvdGV5ZXNfNApyZXRzdWIKCi8vIHZvdGVfbm9fY2FzdGVyCnZvdGVub2Nhc3Rlcl8xMToKcHJvdG8gMCAwCmJ5dGVjXzAgLy8gIiIKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQpmcmFtZV9idXJ5IDAKZnJhbWVfZGlnIDAKY2FsbHN1YiB2b3Rlbm9fNQpyZXRzdWIKCi8vIGRlbGV0ZV9wcm9wb3NhbF9jYXN0ZXIKZGVsZXRlcHJvcG9zYWxjYXN0ZXJfMTI6CnByb3RvIDAgMApieXRlY18wIC8vICIiCnR4bmEgQXBwbGljYXRpb25BcmdzIDEKZnJhbWVfYnVyeSAwCmZyYW1lX2RpZyAwCmNhbGxzdWIgZGVsZXRlcHJvcG9zYWxfNgpyZXRzdWIKCi8vIGdlbmVyYXRlX21lbWJlcnNoaXBfdG9rZW5fY2FzdGVyCmdlbmVyYXRlbWVtYmVyc2hpcHRva2VuY2FzdGVyXzEzOgpwcm90byAwIDAKaW50Y18wIC8vIDAKZHVwCmJ5dGVjXzAgLy8gIiIKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQpmcmFtZV9idXJ5IDIKdHhuIEdyb3VwSW5kZXgKaW50Y18xIC8vIDEKLQpmcmFtZV9idXJ5IDEKZnJhbWVfZGlnIDEKZ3R4bnMgVHlwZUVudW0KaW50Y18xIC8vIHBheQo9PQphc3NlcnQKZnJhbWVfZGlnIDEKZnJhbWVfZGlnIDIKY2FsbHN1YiBnZW5lcmF0ZW1lbWJlcnNoaXB0b2tlbl83CmZyYW1lX2J1cnkgMApieXRlY18yIC8vIDB4MTUxZjdjNzUKZnJhbWVfZGlnIDAKaXRvYgpjb25jYXQKbG9nCnJldHN1Yg==",
-    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKcHVzaGludCAwIC8vIDAKcmV0dXJu"
-  },
-  "state": {
-    "global": {
-      "num_byte_slices": 0,
-      "num_uints": 0
-    },
-    "local": {
-      "num_byte_slices": 0,
-      "num_uints": 0
-    }
-  },
-  "schema": {
-    "global": {
-      "declared": {},
-      "reserved": {}
-    },
-    "local": {
-      "declared": {},
-      "reserved": {}
-    }
-  },
-  "contract": {
-    "name": "proposals",
-    "methods": [
-      {
-        "name": "add_proposal",
-        "args": [
-          {
-            "type": "string",
-            "name": "name"
-          },
-          {
-            "type": "string",
-            "name": "description"
-          },
-          {
-            "type": "uint64",
-            "name": "end_time"
-          }
-        ],
-        "returns": {
-          "type": "void"
-        }
-      },
-      {
-        "name": "read_proposal",
-        "args": [
-          {
-            "type": "string",
-            "name": "name"
-          }
-        ],
-        "returns": {
-          "type": "(string,string,bool,uint64,uint64,uint64)"
-        }
-      },
-      {
-        "name": "vote_yes",
-        "args": [
-          {
-            "type": "string",
-            "name": "proposal_name"
-          }
-        ],
-        "returns": {
-          "type": "void"
-        }
-      },
-      {
-        "name": "vote_no",
-        "args": [
-          {
-            "type": "string",
-            "name": "proposal_name"
-          }
-        ],
-        "returns": {
-          "type": "void"
-        }
-      },
-      {
-        "name": "delete_proposal",
-        "args": [
-          {
-            "type": "string",
-            "name": "proposal_name"
-          }
-        ],
-        "returns": {
-          "type": "void"
-        }
-      },
-      {
-        "name": "generate_membership_token",
-        "args": [
-          {
-            "type": "pay",
-            "name": "seed"
-          },
-          {
-            "type": "string",
-            "name": "token_name"
-          }
-        ],
-        "returns": {
-          "type": "uint64"
+    'read_proposal(string)(string,string,bool,uint64,uint64,uint64)': {
+      structs: {
+        output: {
+          name: 'Proposal',
+          elements: [
+            ['name', 'string'],
+            ['description', 'string'],
+            ['is_open', 'bool'],
+            ['end_time', 'uint64'],
+            ['yes_count', 'uint64'],
+            ['no_count', 'uint64'],
+          ],
         },
-        "desc": "create membership token and receive initial seed payment"
-      }
-    ],
-    "networks": {}
+      },
+      call_config: {
+        no_op: 'CALL',
+      },
+    },
+    'vote_yes(string)void': {
+      call_config: {
+        no_op: 'CALL',
+      },
+    },
+    'vote_no(string)void': {
+      call_config: {
+        no_op: 'CALL',
+      },
+    },
+    'delete_proposal(string)void': {
+      call_config: {
+        no_op: 'CALL',
+      },
+    },
+    'generate_membership_token(pay,string)uint64': {
+      call_config: {
+        no_op: 'CALL',
+      },
+    },
   },
-  "bare_call_config": {
-    "no_op": "CREATE"
-  }
-}
+  source: {
+    approval:
+      'I3ByYWdtYSB2ZXJzaW9uIDgKaW50Y2Jsb2NrIDAgMSAyOSA2NTUzNgpieXRlY2Jsb2NrIDB4IDB4MDAgMHgxNTFmN2M3NQp0eG4gTnVtQXBwQXJncwppbnRjXzAgLy8gMAo9PQpibnogbWFpbl9sMTQKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHg3Y2UxMmMwMiAvLyAiYWRkX3Byb3Bvc2FsKHN0cmluZyxzdHJpbmcsdWludDY0KXZvaWQiCj09CmJueiBtYWluX2wxMwp0eG5hIEFwcGxpY2F0aW9uQXJncyAwCnB1c2hieXRlcyAweGQ3NzhhZDI1IC8vICJyZWFkX3Byb3Bvc2FsKHN0cmluZykoc3RyaW5nLHN0cmluZyxib29sLHVpbnQ2NCx1aW50NjQsdWludDY0KSIKPT0KYm56IG1haW5fbDEyCnR4bmEgQXBwbGljYXRpb25BcmdzIDAKcHVzaGJ5dGVzIDB4NDRkMDczOTUgLy8gInZvdGVfeWVzKHN0cmluZyl2b2lkIgo9PQpibnogbWFpbl9sMTEKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHgwZTE4NzAzNCAvLyAidm90ZV9ubyhzdHJpbmcpdm9pZCIKPT0KYm56IG1haW5fbDEwCnR4bmEgQXBwbGljYXRpb25BcmdzIDAKcHVzaGJ5dGVzIDB4ODljYjhhOWEgLy8gImRlbGV0ZV9wcm9wb3NhbChzdHJpbmcpdm9pZCIKPT0KYm56IG1haW5fbDkKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHgwN2Y5NTk4ZCAvLyAiZ2VuZXJhdGVfbWVtYmVyc2hpcF90b2tlbihwYXksc3RyaW5nKXVpbnQ2NCIKPT0KYm56IG1haW5fbDgKZXJyCm1haW5fbDg6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgZ2VuZXJhdGVtZW1iZXJzaGlwdG9rZW5jYXN0ZXJfMTMKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDk6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgZGVsZXRlcHJvcG9zYWxjYXN0ZXJfMTIKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDEwOgp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCiE9CiYmCmFzc2VydApjYWxsc3ViIHZvdGVub2Nhc3Rlcl8xMQppbnRjXzEgLy8gMQpyZXR1cm4KbWFpbl9sMTE6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgdm90ZXllc2Nhc3Rlcl8xMAppbnRjXzEgLy8gMQpyZXR1cm4KbWFpbl9sMTI6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgcmVhZHByb3Bvc2FsY2FzdGVyXzkKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDEzOgp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCiE9CiYmCmFzc2VydApjYWxsc3ViIGFkZHByb3Bvc2FsY2FzdGVyXzgKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDE0Ogp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CmJueiBtYWluX2wxNgplcnIKbWFpbl9sMTY6CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCj09CmFzc2VydApjYWxsc3ViIGNyZWF0ZV8wCmludGNfMSAvLyAxCnJldHVybgoKLy8gY3JlYXRlCmNyZWF0ZV8wOgpwcm90byAwIDAKcmV0c3ViCgovLyBob2xkc19hbnlfd2FrYW5kYV90b2tlbgpob2xkc2FueXdha2FuZGF0b2tlbl8xOgpwcm90byAxIDEKaW50Y18xIC8vIDEKcmV0c3ViCgovLyBhZGRfcHJvcG9zYWwKYWRkcHJvcG9zYWxfMjoKcHJvdG8gMyAwCmludGNfMCAvLyAwCmJ5dGVjXzAgLy8gIiIKaW50Y18wIC8vIDAKZHVwbiAzCmJ5dGVjXzAgLy8gIiIKZHVwCnR4biBTZW5kZXIKY2FsbHN1YiBob2xkc2FueXdha2FuZGF0b2tlbl8xCi8vIHVuYXV0aG9yaXplZAphc3NlcnQKaW50Y18xIC8vIDEKIQohCmZyYW1lX2J1cnkgMAppbnRjXzAgLy8gMApmcmFtZV9idXJ5IDIKaW50Y18wIC8vIDAKZnJhbWVfYnVyeSAzCmZyYW1lX2RpZyAtMwpmcmFtZV9idXJ5IDcKZnJhbWVfZGlnIDcKZnJhbWVfYnVyeSA2CmludGNfMiAvLyAyOQpmcmFtZV9idXJ5IDQKZnJhbWVfZGlnIDQKZnJhbWVfZGlnIDcKbGVuCisKZnJhbWVfYnVyeSA1CmZyYW1lX2RpZyA1CmludGNfMyAvLyA2NTUzNgo8CmFzc2VydApmcmFtZV9kaWcgNAppdG9iCmV4dHJhY3QgNiAwCmZyYW1lX2RpZyAtMgpmcmFtZV9idXJ5IDcKZnJhbWVfZGlnIDYKZnJhbWVfZGlnIDcKY29uY2F0CmZyYW1lX2J1cnkgNgpmcmFtZV9kaWcgNQpmcmFtZV9idXJ5IDQKZnJhbWVfZGlnIDQKaXRvYgpleHRyYWN0IDYgMApjb25jYXQKYnl0ZWNfMSAvLyAweDAwCmludGNfMCAvLyAwCmZyYW1lX2RpZyAwCnNldGJpdApjb25jYXQKZnJhbWVfZGlnIC0xCml0b2IKY29uY2F0CmZyYW1lX2RpZyAyCml0b2IKY29uY2F0CmZyYW1lX2RpZyAzCml0b2IKY29uY2F0CmZyYW1lX2RpZyA2CmNvbmNhdApmcmFtZV9idXJ5IDEKZnJhbWVfZGlnIC0zCmV4dHJhY3QgMiAwCmJveF9kZWwKcG9wCmZyYW1lX2RpZyAtMwpleHRyYWN0IDIgMApmcmFtZV9kaWcgMQpib3hfcHV0CnJldHN1YgoKLy8gcmVhZF9wcm9wb3NhbApyZWFkcHJvcG9zYWxfMzoKcHJvdG8gMSAxCmJ5dGVjXzAgLy8gIiIKZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCmJveF9nZXQKc3RvcmUgMQpzdG9yZSAwCmxvYWQgMQphc3NlcnQKbG9hZCAwCmZyYW1lX2J1cnkgMApyZXRzdWIKCi8vIHZvdGVfeWVzCnZvdGV5ZXNfNDoKcHJvdG8gMSAwCmludGNfMCAvLyAwCmJ5dGVjXzAgLy8gIiIKaW50Y18wIC8vIDAKZHVwCmJ5dGVjXzAgLy8gIiIKaW50Y18wIC8vIDAKZHVwbiAzCmJ5dGVjXzAgLy8gIiIKZHVwCnR4biBTZW5kZXIKY2FsbHN1YiBob2xkc2FueXdha2FuZGF0b2tlbl8xCi8vIHVuYXV0aG9yaXplZAphc3NlcnQKZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCmJveF9nZXQKc3RvcmUgMwpzdG9yZSAyCmxvYWQgMwphc3NlcnQKbG9hZCAyCmZyYW1lX2J1cnkgMQpmcmFtZV9kaWcgMQpwdXNoaW50IDEzIC8vIDEzCmV4dHJhY3RfdWludDY0CmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMAppbnRjXzEgLy8gMQorCmZyYW1lX2J1cnkgMgpmcmFtZV9kaWcgMQpwdXNoaW50IDIxIC8vIDIxCmV4dHJhY3RfdWludDY0CmZyYW1lX2J1cnkgMwpmcmFtZV9kaWcgMQpmcmFtZV9kaWcgMQpwdXNoaW50IDIgLy8gMgpleHRyYWN0X3VpbnQxNgpkaWcgMQpsZW4Kc3Vic3RyaW5nMwpmcmFtZV9idXJ5IDQKZnJhbWVfZGlnIDEKcHVzaGludCAzMiAvLyAzMgpnZXRiaXQKZnJhbWVfYnVyeSA1CmZyYW1lX2RpZyAxCnB1c2hpbnQgNSAvLyA1CmV4dHJhY3RfdWludDY0CmZyYW1lX2J1cnkgNgpmcmFtZV9kaWcgLTEKZnJhbWVfYnVyeSAxMApmcmFtZV9kaWcgMTAKZnJhbWVfYnVyeSA5CmludGNfMiAvLyAyOQpmcmFtZV9idXJ5IDcKZnJhbWVfZGlnIDcKZnJhbWVfZGlnIDEwCmxlbgorCmZyYW1lX2J1cnkgOApmcmFtZV9kaWcgOAppbnRjXzMgLy8gNjU1MzYKPAphc3NlcnQKZnJhbWVfZGlnIDcKaXRvYgpleHRyYWN0IDYgMApmcmFtZV9kaWcgNApmcmFtZV9idXJ5IDEwCmZyYW1lX2RpZyA5CmZyYW1lX2RpZyAxMApjb25jYXQKZnJhbWVfYnVyeSA5CmZyYW1lX2RpZyA4CmZyYW1lX2J1cnkgNwpmcmFtZV9kaWcgNwppdG9iCmV4dHJhY3QgNiAwCmNvbmNhdApieXRlY18xIC8vIDB4MDAKaW50Y18wIC8vIDAKZnJhbWVfZGlnIDUKc2V0Yml0CmNvbmNhdApmcmFtZV9kaWcgNgppdG9iCmNvbmNhdApmcmFtZV9kaWcgMgppdG9iCmNvbmNhdApmcmFtZV9kaWcgMwppdG9iCmNvbmNhdApmcmFtZV9kaWcgOQpjb25jYXQKZnJhbWVfYnVyeSAxCmZyYW1lX2RpZyAtMQpleHRyYWN0IDIgMApib3hfZGVsCnBvcApmcmFtZV9kaWcgLTEKZXh0cmFjdCAyIDAKZnJhbWVfZGlnIDEKYm94X3B1dApyZXRzdWIKCi8vIHZvdGVfbm8Kdm90ZW5vXzU6CnByb3RvIDEgMAppbnRjXzAgLy8gMApieXRlY18wIC8vICIiCmludGNfMCAvLyAwCmR1cApieXRlY18wIC8vICIiCmludGNfMCAvLyAwCmR1cG4gMwpieXRlY18wIC8vICIiCmR1cAp0eG4gU2VuZGVyCmNhbGxzdWIgaG9sZHNhbnl3YWthbmRhdG9rZW5fMQovLyB1bmF1dGhvcml6ZWQKYXNzZXJ0CmZyYW1lX2RpZyAtMQpleHRyYWN0IDIgMApib3hfZ2V0CnN0b3JlIDUKc3RvcmUgNApsb2FkIDUKYXNzZXJ0CmxvYWQgNApmcmFtZV9idXJ5IDEKZnJhbWVfZGlnIDEKcHVzaGludCAyMSAvLyAyMQpleHRyYWN0X3VpbnQ2NApmcmFtZV9idXJ5IDAKZnJhbWVfZGlnIDAKaW50Y18xIC8vIDEKKwpmcmFtZV9idXJ5IDIKZnJhbWVfZGlnIDEKcHVzaGludCAxMyAvLyAxMwpleHRyYWN0X3VpbnQ2NApmcmFtZV9idXJ5IDMKZnJhbWVfZGlnIDEKZnJhbWVfZGlnIDEKcHVzaGludCAyIC8vIDIKZXh0cmFjdF91aW50MTYKZGlnIDEKbGVuCnN1YnN0cmluZzMKZnJhbWVfYnVyeSA0CmZyYW1lX2RpZyAxCnB1c2hpbnQgMzIgLy8gMzIKZ2V0Yml0CmZyYW1lX2J1cnkgNQpmcmFtZV9kaWcgMQpwdXNoaW50IDUgLy8gNQpleHRyYWN0X3VpbnQ2NApmcmFtZV9idXJ5IDYKZnJhbWVfZGlnIC0xCmZyYW1lX2J1cnkgMTAKZnJhbWVfZGlnIDEwCmZyYW1lX2J1cnkgOQppbnRjXzIgLy8gMjkKZnJhbWVfYnVyeSA3CmZyYW1lX2RpZyA3CmZyYW1lX2RpZyAxMApsZW4KKwpmcmFtZV9idXJ5IDgKZnJhbWVfZGlnIDgKaW50Y18zIC8vIDY1NTM2CjwKYXNzZXJ0CmZyYW1lX2RpZyA3Cml0b2IKZXh0cmFjdCA2IDAKZnJhbWVfZGlnIDQKZnJhbWVfYnVyeSAxMApmcmFtZV9kaWcgOQpmcmFtZV9kaWcgMTAKY29uY2F0CmZyYW1lX2J1cnkgOQpmcmFtZV9kaWcgOApmcmFtZV9idXJ5IDcKZnJhbWVfZGlnIDcKaXRvYgpleHRyYWN0IDYgMApjb25jYXQKYnl0ZWNfMSAvLyAweDAwCmludGNfMCAvLyAwCmZyYW1lX2RpZyA1CnNldGJpdApjb25jYXQKZnJhbWVfZGlnIDYKaXRvYgpjb25jYXQKZnJhbWVfZGlnIDMKaXRvYgpjb25jYXQKZnJhbWVfZGlnIDIKaXRvYgpjb25jYXQKZnJhbWVfZGlnIDkKY29uY2F0CmZyYW1lX2J1cnkgMQpmcmFtZV9kaWcgLTEKZXh0cmFjdCAyIDAKYm94X2RlbApwb3AKZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCmZyYW1lX2RpZyAxCmJveF9wdXQKcmV0c3ViCgovLyBkZWxldGVfcHJvcG9zYWwKZGVsZXRlcHJvcG9zYWxfNjoKcHJvdG8gMSAwCnR4biBTZW5kZXIKY2FsbHN1YiBob2xkc2FueXdha2FuZGF0b2tlbl8xCi8vIHVuYXV0aG9yaXplZAphc3NlcnQKZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCmJveF9kZWwKcG9wCnJldHN1YgoKLy8gZ2VuZXJhdGVfbWVtYmVyc2hpcF90b2tlbgpnZW5lcmF0ZW1lbWJlcnNoaXB0b2tlbl83Ogpwcm90byAyIDEKaW50Y18wIC8vIDAKdHhuIFNlbmRlcgpnbG9iYWwgQ3JlYXRvckFkZHJlc3MKPT0KLy8gdW5hdXRob3JpemVkCmFzc2VydApmcmFtZV9kaWcgLTIKZ3R4bnMgUmVjZWl2ZXIKZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKPT0KLy8gcGF5bWVudCBtdXN0IGJlIHRvIGFwcCBhZGRyZXNzCmFzc2VydAppdHhuX2JlZ2luCnB1c2hpbnQgMyAvLyBhY2ZnCml0eG5fZmllbGQgVHlwZUVudW0KZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCml0eG5fZmllbGQgQ29uZmlnQXNzZXROYW1lCnB1c2hpbnQgMjAwMCAvLyAyMDAwCml0eG5fZmllbGQgQ29uZmlnQXNzZXRUb3RhbAppbnRjXzEgLy8gMQppdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0RGVmYXVsdEZyb3plbgpnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwppdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0TWFuYWdlcgpnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwppdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0Q2xhd2JhY2sKZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKaXR4bl9maWVsZCBDb25maWdBc3NldEZyZWV6ZQpnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwppdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0UmVzZXJ2ZQppbnRjXzAgLy8gMAppdHhuX2ZpZWxkIEZlZQppdHhuX3N1Ym1pdApyZXRzdWIKCi8vIGFkZF9wcm9wb3NhbF9jYXN0ZXIKYWRkcHJvcG9zYWxjYXN0ZXJfODoKcHJvdG8gMCAwCmJ5dGVjXzAgLy8gIiIKZHVwCmludGNfMCAvLyAwCnR4bmEgQXBwbGljYXRpb25BcmdzIDEKZnJhbWVfYnVyeSAwCnR4bmEgQXBwbGljYXRpb25BcmdzIDIKZnJhbWVfYnVyeSAxCnR4bmEgQXBwbGljYXRpb25BcmdzIDMKYnRvaQpmcmFtZV9idXJ5IDIKZnJhbWVfZGlnIDAKZnJhbWVfZGlnIDEKZnJhbWVfZGlnIDIKY2FsbHN1YiBhZGRwcm9wb3NhbF8yCnJldHN1YgoKLy8gcmVhZF9wcm9wb3NhbF9jYXN0ZXIKcmVhZHByb3Bvc2FsY2FzdGVyXzk6CnByb3RvIDAgMApieXRlY18wIC8vICIiCmR1cAp0eG5hIEFwcGxpY2F0aW9uQXJncyAxCmZyYW1lX2J1cnkgMQpmcmFtZV9kaWcgMQpjYWxsc3ViIHJlYWRwcm9wb3NhbF8zCmZyYW1lX2J1cnkgMApieXRlY18yIC8vIDB4MTUxZjdjNzUKZnJhbWVfZGlnIDAKY29uY2F0CmxvZwpyZXRzdWIKCi8vIHZvdGVfeWVzX2Nhc3Rlcgp2b3RleWVzY2FzdGVyXzEwOgpwcm90byAwIDAKYnl0ZWNfMCAvLyAiIgp0eG5hIEFwcGxpY2F0aW9uQXJncyAxCmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMApjYWxsc3ViIHZvdGV5ZXNfNApyZXRzdWIKCi8vIHZvdGVfbm9fY2FzdGVyCnZvdGVub2Nhc3Rlcl8xMToKcHJvdG8gMCAwCmJ5dGVjXzAgLy8gIiIKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQpmcmFtZV9idXJ5IDAKZnJhbWVfZGlnIDAKY2FsbHN1YiB2b3Rlbm9fNQpyZXRzdWIKCi8vIGRlbGV0ZV9wcm9wb3NhbF9jYXN0ZXIKZGVsZXRlcHJvcG9zYWxjYXN0ZXJfMTI6CnByb3RvIDAgMApieXRlY18wIC8vICIiCnR4bmEgQXBwbGljYXRpb25BcmdzIDEKZnJhbWVfYnVyeSAwCmZyYW1lX2RpZyAwCmNhbGxzdWIgZGVsZXRlcHJvcG9zYWxfNgpyZXRzdWIKCi8vIGdlbmVyYXRlX21lbWJlcnNoaXBfdG9rZW5fY2FzdGVyCmdlbmVyYXRlbWVtYmVyc2hpcHRva2VuY2FzdGVyXzEzOgpwcm90byAwIDAKaW50Y18wIC8vIDAKZHVwCmJ5dGVjXzAgLy8gIiIKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQpmcmFtZV9idXJ5IDIKdHhuIEdyb3VwSW5kZXgKaW50Y18xIC8vIDEKLQpmcmFtZV9idXJ5IDEKZnJhbWVfZGlnIDEKZ3R4bnMgVHlwZUVudW0KaW50Y18xIC8vIHBheQo9PQphc3NlcnQKZnJhbWVfZGlnIDEKZnJhbWVfZGlnIDIKY2FsbHN1YiBnZW5lcmF0ZW1lbWJlcnNoaXB0b2tlbl83CmZyYW1lX2J1cnkgMApieXRlY18yIC8vIDB4MTUxZjdjNzUKZnJhbWVfZGlnIDAKaXRvYgpjb25jYXQKbG9nCnJldHN1Yg==',
+    clear: 'I3ByYWdtYSB2ZXJzaW9uIDgKcHVzaGludCAwIC8vIDAKcmV0dXJu',
+  },
+  state: {
+    global: {
+      num_byte_slices: 0,
+      num_uints: 0,
+    },
+    local: {
+      num_byte_slices: 0,
+      num_uints: 0,
+    },
+  },
+  schema: {
+    global: {
+      declared: {},
+      reserved: {},
+    },
+    local: {
+      declared: {},
+      reserved: {},
+    },
+  },
+  contract: {
+    name: 'proposals',
+    methods: [
+      {
+        name: 'add_proposal',
+        args: [
+          {
+            type: 'string',
+            name: 'name',
+          },
+          {
+            type: 'string',
+            name: 'description',
+          },
+          {
+            type: 'uint64',
+            name: 'end_time',
+          },
+        ],
+        returns: {
+          type: 'void',
+        },
+      },
+      {
+        name: 'read_proposal',
+        args: [
+          {
+            type: 'string',
+            name: 'name',
+          },
+        ],
+        returns: {
+          type: '(string,string,bool,uint64,uint64,uint64)',
+        },
+      },
+      {
+        name: 'vote_yes',
+        args: [
+          {
+            type: 'string',
+            name: 'proposal_name',
+          },
+        ],
+        returns: {
+          type: 'void',
+        },
+      },
+      {
+        name: 'vote_no',
+        args: [
+          {
+            type: 'string',
+            name: 'proposal_name',
+          },
+        ],
+        returns: {
+          type: 'void',
+        },
+      },
+      {
+        name: 'delete_proposal',
+        args: [
+          {
+            type: 'string',
+            name: 'proposal_name',
+          },
+        ],
+        returns: {
+          type: 'void',
+        },
+      },
+      {
+        name: 'generate_membership_token',
+        args: [
+          {
+            type: 'pay',
+            name: 'seed',
+          },
+          {
+            type: 'string',
+            name: 'token_name',
+          },
+        ],
+        returns: {
+          type: 'uint64',
+        },
+        desc: 'create membership token and receive initial seed payment',
+      },
+    ],
+    networks: {},
+  },
+  bare_call_config: {
+    no_op: 'CREATE',
+  },
+};
 
 /**
  * Defines an onCompletionAction of 'no_op'
  */
-export type OnCompleteNoOp =  { onCompleteAction?: 'no_op' | OnApplicationComplete.NoOpOC }
+export type OnCompleteNoOp = {
+  onCompleteAction?: 'no_op' | OnApplicationComplete.NoOpOC;
+};
 /**
  * Defines an onCompletionAction of 'opt_in'
  */
-export type OnCompleteOptIn =  { onCompleteAction: 'opt_in' | OnApplicationComplete.OptInOC }
+export type OnCompleteOptIn = {
+  onCompleteAction: 'opt_in' | OnApplicationComplete.OptInOC;
+};
 /**
  * Defines an onCompletionAction of 'close_out'
  */
-export type OnCompleteCloseOut =  { onCompleteAction: 'close_out' | OnApplicationComplete.CloseOutOC }
+export type OnCompleteCloseOut = {
+  onCompleteAction: 'close_out' | OnApplicationComplete.CloseOutOC;
+};
 /**
  * Defines an onCompletionAction of 'delete_application'
  */
-export type OnCompleteDelApp =  { onCompleteAction: 'delete_application' | OnApplicationComplete.DeleteApplicationOC }
+export type OnCompleteDelApp = {
+  onCompleteAction:
+    | 'delete_application'
+    | OnApplicationComplete.DeleteApplicationOC;
+};
 /**
  * Defines an onCompletionAction of 'update_application'
  */
-export type OnCompleteUpdApp =  { onCompleteAction: 'update_application' | OnApplicationComplete.UpdateApplicationOC }
+export type OnCompleteUpdApp = {
+  onCompleteAction:
+    | 'update_application'
+    | OnApplicationComplete.UpdateApplicationOC;
+};
 /**
  * A state record containing a single unsigned integer
  */
@@ -238,12 +246,12 @@ export type IntegerState = {
   /**
    * Gets the state value as a BigInt.
    */
-  asBigInt(): bigint
+  asBigInt(): bigint;
   /**
    * Gets the state value as a number.
    */
-  asNumber(): number
-}
+  asNumber(): number;
+};
 /**
  * A state record containing binary data
  */
@@ -251,20 +259,39 @@ export type BinaryState = {
   /**
    * Gets the state value as a Uint8Array
    */
-  asByteArray(): Uint8Array
+  asByteArray(): Uint8Array;
   /**
    * Gets the state value as a string
    */
-  asString(): string
-}
+  asString(): string;
+};
 
-export type AppCreateCallTransactionResult = AppCallTransactionResult & Partial<AppCompilationResult> & AppReference
-export type AppUpdateCallTransactionResult = AppCallTransactionResult & Partial<AppCompilationResult>
+export type AppCreateCallTransactionResult = AppCallTransactionResult &
+  Partial<AppCompilationResult> &
+  AppReference;
+export type AppUpdateCallTransactionResult = AppCallTransactionResult &
+  Partial<AppCompilationResult>;
 
-export type AppClientComposeCallCoreParams = Omit<AppClientCallCoreParams, 'sendParams'> & {
-  sendParams?: Omit<SendTransactionParams, 'skipSending' | 'atc' | 'skipWaiting' | 'maxRoundsToWaitForConfirmation' | 'populateAppCallResources'>
-}
-export type AppClientComposeExecuteParams = Pick<SendTransactionParams, 'skipWaiting' | 'maxRoundsToWaitForConfirmation' | 'populateAppCallResources' | 'suppressLog'>
+export type AppClientComposeCallCoreParams = Omit<
+  AppClientCallCoreParams,
+  'sendParams'
+> & {
+  sendParams?: Omit<
+    SendTransactionParams,
+    | 'skipSending'
+    | 'atc'
+    | 'skipWaiting'
+    | 'maxRoundsToWaitForConfirmation'
+    | 'populateAppCallResources'
+  >;
+};
+export type AppClientComposeExecuteParams = Pick<
+  SendTransactionParams,
+  | 'skipWaiting'
+  | 'maxRoundsToWaitForConfirmation'
+  | 'populateAppCallResources'
+  | 'suppressLog'
+>;
 
 /**
  * Defines the types of available calls and state of the Proposals smart contract.
@@ -273,83 +300,121 @@ export type Proposals = {
   /**
    * Maps method signatures / names to their argument and return types.
    */
-  methods:
-    & Record<'add_proposal(string,string,uint64)void' | 'add_proposal', {
+  methods: Record<
+    'add_proposal(string,string,uint64)void' | 'add_proposal',
+    {
       argsObj: {
-        name: string
-        description: string
-        end_time: bigint | number
+        name: string;
+        description: string;
+        end_time: bigint | number;
+      };
+      argsTuple: [name: string, description: string, end_time: bigint | number];
+      returns: void;
+    }
+  > &
+    Record<
+      | 'read_proposal(string)(string,string,bool,uint64,uint64,uint64)'
+      | 'read_proposal',
+      {
+        argsObj: {
+          name: string;
+        };
+        argsTuple: [name: string];
+        returns: Proposal;
       }
-      argsTuple: [name: string, description: string, end_time: bigint | number]
-      returns: void
-    }>
-    & Record<'read_proposal(string)(string,string,bool,uint64,uint64,uint64)' | 'read_proposal', {
-      argsObj: {
-        name: string
+    > &
+    Record<
+      'vote_yes(string)void' | 'vote_yes',
+      {
+        argsObj: {
+          proposal_name: string;
+        };
+        argsTuple: [proposal_name: string];
+        returns: void;
       }
-      argsTuple: [name: string]
-      returns: Proposal
-    }>
-    & Record<'vote_yes(string)void' | 'vote_yes', {
-      argsObj: {
-        proposal_name: string
+    > &
+    Record<
+      'vote_no(string)void' | 'vote_no',
+      {
+        argsObj: {
+          proposal_name: string;
+        };
+        argsTuple: [proposal_name: string];
+        returns: void;
       }
-      argsTuple: [proposal_name: string]
-      returns: void
-    }>
-    & Record<'vote_no(string)void' | 'vote_no', {
-      argsObj: {
-        proposal_name: string
+    > &
+    Record<
+      'delete_proposal(string)void' | 'delete_proposal',
+      {
+        argsObj: {
+          proposal_name: string;
+        };
+        argsTuple: [proposal_name: string];
+        returns: void;
       }
-      argsTuple: [proposal_name: string]
-      returns: void
-    }>
-    & Record<'delete_proposal(string)void' | 'delete_proposal', {
-      argsObj: {
-        proposal_name: string
+    > &
+    Record<
+      | 'generate_membership_token(pay,string)uint64'
+      | 'generate_membership_token',
+      {
+        argsObj: {
+          seed:
+            | TransactionToSign
+            | Transaction
+            | Promise<SendTransactionResult>;
+          token_name: string;
+        };
+        argsTuple: [
+          seed:
+            | TransactionToSign
+            | Transaction
+            | Promise<SendTransactionResult>,
+          token_name: string,
+        ];
+        returns: bigint;
       }
-      argsTuple: [proposal_name: string]
-      returns: void
-    }>
-    & Record<'generate_membership_token(pay,string)uint64' | 'generate_membership_token', {
-      argsObj: {
-        seed: TransactionToSign | Transaction | Promise<SendTransactionResult>
-        token_name: string
-      }
-      argsTuple: [seed: TransactionToSign | Transaction | Promise<SendTransactionResult>, token_name: string]
-      returns: bigint
-    }>
-}
+    >;
+};
 /**
  * Defines the possible abi call signatures
  */
-export type ProposalsSig = keyof Proposals['methods']
+export type ProposalsSig = keyof Proposals['methods'];
 /**
  * Defines an object containing all relevant parameters for a single call to the contract. Where TSignature is undefined, a bare call is made
  */
 export type TypedCallParams<TSignature extends ProposalsSig | undefined> = {
-  method: TSignature
-  methodArgs: TSignature extends undefined ? undefined : Array<ABIAppCallArg | undefined>
-} & AppClientCallCoreParams & CoreAppCallArgs
+  method: TSignature;
+  methodArgs: TSignature extends undefined
+    ? undefined
+    : Array<ABIAppCallArg | undefined>;
+} & AppClientCallCoreParams &
+  CoreAppCallArgs;
 /**
  * Defines the arguments required for a bare call
  */
-export type BareCallArgs = Omit<RawAppCallArgs, keyof CoreAppCallArgs>
+export type BareCallArgs = Omit<RawAppCallArgs, keyof CoreAppCallArgs>;
 /**
  * Represents a Proposal result as a struct
  */
 export type Proposal = {
-  name: string
-  description: string
-  is_open: boolean
-  end_time: bigint
-  yes_count: bigint
-  no_count: bigint
-}
+  name: string;
+  description: string;
+  is_open: boolean;
+  end_time: bigint;
+  yes_count: bigint;
+  no_count: bigint;
+};
 /**
  * Converts the tuple representation of a Proposal to the struct representation
  */
-export function Proposal([name, description, is_open, end_time, yes_count, no_count]: [string, string, boolean, bigint, bigint, bigint] ) {
+export function Proposal([
+  name,
+  description,
+  is_open,
+  end_time,
+  yes_count,
+  no_count,
+]: [string, string, boolean, bigint, bigint, bigint]) {
   return {
     name,
     description,
@@ -357,37 +422,38 @@ export function Proposal([name, description, is_open, end_time, yes_count, no_co
     end_time,
     yes_count,
     no_count,
-  }
+  };
 }
 /**
  * Maps a method signature from the Proposals smart contract to the method's arguments in either tuple of struct form
  */
-export type MethodArgs<TSignature extends ProposalsSig> = Proposals['methods'][TSignature]['argsObj' | 'argsTuple']
+export type MethodArgs<TSignature extends ProposalsSig> =
+  Proposals['methods'][TSignature]['argsObj' | 'argsTuple'];
 /**
  * Maps a method signature from the Proposals smart contract to the method's return type
  */
-export type MethodReturn<TSignature extends ProposalsSig> = Proposals['methods'][TSignature]['returns']
+export type MethodReturn<TSignature extends ProposalsSig> =
+  Proposals['methods'][TSignature]['returns'];
 
 /**
  * A factory for available 'create' calls
  */
-export type ProposalsCreateCalls = (typeof ProposalsCallFactory)['create']
+export type ProposalsCreateCalls = (typeof ProposalsCallFactory)['create'];
 /**
  * Defines supported create methods for this smart contract
  */
 export type ProposalsCreateCallParams =
-  | (TypedCallParams<undefined> & (OnCompleteNoOp))
+  | TypedCallParams<undefined> & OnCompleteNoOp;
 /**
  * Defines arguments required for the deploy method.
  */
 export type ProposalsDeployArgs = {
-  deployTimeParams?: TealTemplateParams
+  deployTimeParams?: TealTemplateParams;
   /**
    * A delegate which takes a create call factory and returns the create call params for this smart contract
    */
-  createCall?: (callFactory: ProposalsCreateCalls) => ProposalsCreateCallParams
-}
-
+  createCall?: (callFactory: ProposalsCreateCalls) => ProposalsCreateCallParams;
+};
 
 /**
  * Exposes methods for constructing all available smart contract calls
@@ -404,14 +470,20 @@ export abstract class ProposalsCallFactory {
        * @param params Any parameters for the call
        * @returns A TypedCallParams object for the call
        */
-      bare(params: BareCallArgs & AppClientCallCoreParams & CoreAppCallArgs & AppClientCompilationParams & (OnCompleteNoOp) = {}) {
+      bare(
+        params: BareCallArgs &
+          AppClientCallCoreParams &
+          CoreAppCallArgs &
+          AppClientCompilationParams &
+          OnCompleteNoOp = {},
+      ) {
         return {
           method: undefined,
           methodArgs: undefined,
           ...params,
-        }
+        };
       },
-    }
+    };
   }
 
   /**
@@ -421,12 +493,17 @@ export abstract class ProposalsCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static addProposal(args: MethodArgs<'add_proposal(string,string,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static addProposal(
+    args: MethodArgs<'add_proposal(string,string,uint64)void'>,
+    params: AppClientCallCoreParams & CoreAppCallArgs,
+  ) {
     return {
       method: 'add_proposal(string,string,uint64)void' as const,
-      methodArgs: Array.isArray(args) ? args : [args.name, args.description, args.end_time],
+      methodArgs: Array.isArray(args)
+        ? args
+        : [args.name, args.description, args.end_time],
       ...params,
-    }
+    };
   }
   /**
    * Constructs a no op call for the read_proposal(string)(string,string,bool,uint64,uint64,uint64) ABI method
@@ -435,12 +512,16 @@ export abstract class ProposalsCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static readProposal(args: MethodArgs<'read_proposal(string)(string,string,bool,uint64,uint64,uint64)'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static readProposal(
+    args: MethodArgs<'read_proposal(string)(string,string,bool,uint64,uint64,uint64)'>,
+    params: AppClientCallCoreParams & CoreAppCallArgs,
+  ) {
     return {
-      method: 'read_proposal(string)(string,string,bool,uint64,uint64,uint64)' as const,
+      method:
+        'read_proposal(string)(string,string,bool,uint64,uint64,uint64)' as const,
       methodArgs: Array.isArray(args) ? args : [args.name],
       ...params,
-    }
+    };
   }
   /**
    * Constructs a no op call for the vote_yes(string)void ABI method
@@ -449,12 +530,15 @@ export abstract class ProposalsCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static voteYes(args: MethodArgs<'vote_yes(string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static voteYes(
+    args: MethodArgs<'vote_yes(string)void'>,
+    params: AppClientCallCoreParams & CoreAppCallArgs,
+  ) {
     return {
       method: 'vote_yes(string)void' as const,
       methodArgs: Array.isArray(args) ? args : [args.proposal_name],
       ...params,
-    }
+    };
   }
   /**
    * Constructs a no op call for the vote_no(string)void ABI method
@@ -463,12 +547,15 @@ export abstract class ProposalsCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static voteNo(args: MethodArgs<'vote_no(string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static voteNo(
+    args: MethodArgs<'vote_no(string)void'>,
+    params: AppClientCallCoreParams & CoreAppCallArgs,
+  ) {
     return {
       method: 'vote_no(string)void' as const,
       methodArgs: Array.isArray(args) ? args : [args.proposal_name],
       ...params,
-    }
+    };
   }
   /**
    * Constructs a no op call for the delete_proposal(string)void ABI method
@@ -477,12 +564,15 @@ export abstract class ProposalsCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static deleteProposal(args: MethodArgs<'delete_proposal(string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static deleteProposal(
+    args: MethodArgs<'delete_proposal(string)void'>,
+    params: AppClientCallCoreParams & CoreAppCallArgs,
+  ) {
     return {
       method: 'delete_proposal(string)void' as const,
       methodArgs: Array.isArray(args) ? args : [args.proposal_name],
       ...params,
-    }
+    };
   }
   /**
    * Constructs a no op call for the generate_membership_token(pay,string)uint64 ABI method
@@ -493,12 +583,15 @@ export abstract class ProposalsCallFactory {
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static generateMembershipToken(args: MethodArgs<'generate_membership_token(pay,string)uint64'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static generateMembershipToken(
+    args: MethodArgs<'generate_membership_token(pay,string)uint64'>,
+    params: AppClientCallCoreParams & CoreAppCallArgs,
+  ) {
     return {
       method: 'generate_membership_token(pay,string)uint64' as const,
       methodArgs: Array.isArray(args) ? args : [args.seed, args.token_name],
       ...params,
-    }
+    };
   }
 }
 
@@ -509,9 +602,9 @@ export class ProposalsClient {
   /**
    * The underlying `ApplicationClient` for when you want to have more flexibility
    */
-  public readonly appClient: ApplicationClient
+  public readonly appClient: ApplicationClient;
 
-  private readonly sender: SendTransactionFrom | undefined
+  private readonly sender: SendTransactionFrom | undefined;
 
   /**
    * Creates a new instance of `ProposalsClient`
@@ -520,11 +613,14 @@ export class ProposalsClient {
    * @param algod An algod client instance
    */
   constructor(appDetails: AppDetails, private algod: Algodv2) {
-    this.sender = appDetails.sender
-    this.appClient = algokit.getAppClient({
-      ...appDetails,
-      app: APP_SPEC
-    }, algod)
+    this.sender = appDetails.sender;
+    this.appClient = algokit.getAppClient(
+      {
+        ...appDetails,
+        app: APP_SPEC,
+      },
+      algod,
+    );
   }
 
   /**
@@ -534,14 +630,25 @@ export class ProposalsClient {
    * @param returnValueFormatter An optional delegate to format the return value if required
    * @returns The smart contract response with an updated return value
    */
-  protected mapReturnValue<TReturn, TResult extends AppCallTransactionResult = AppCallTransactionResult>(result: AppCallTransactionResult, returnValueFormatter?: (value: any) => TReturn): AppCallTransactionResultOfType<TReturn> & TResult {
-    if(result.return?.decodeError) {
-      throw result.return.decodeError
+  protected mapReturnValue<
+    TReturn,
+    TResult extends AppCallTransactionResult = AppCallTransactionResult,
+  >(
+    result: AppCallTransactionResult,
+    returnValueFormatter?: (value: any) => TReturn,
+  ): AppCallTransactionResultOfType<TReturn> & TResult {
+    if (result.return?.decodeError) {
+      throw result.return.decodeError;
     }
-    const returnValue = result.return?.returnValue !== undefined && returnValueFormatter !== undefined
-      ? returnValueFormatter(result.return.returnValue)
-      : result.return?.returnValue as TReturn | undefined
-      return { ...result, return: returnValue } as AppCallTransactionResultOfType<TReturn> & TResult
+    const returnValue =
+      result.return?.returnValue !== undefined &&
+      returnValueFormatter !== undefined
+        ? returnValueFormatter(result.return.returnValue)
+        : (result.return?.returnValue as TReturn | undefined);
+    return {
+      ...result,
+      return: returnValue,
+    } as AppCallTransactionResultOfType<TReturn> & TResult;
   }
 
   /**
@@ -551,8 +658,14 @@ export class ProposalsClient {
    * @param returnValueFormatter An optional delegate which when provided will be used to map non-undefined return values to the target type
    * @returns The result of the smart contract call
    */
-  public async call<TSignature extends keyof Proposals['methods']>(typedCallParams: TypedCallParams<TSignature>, returnValueFormatter?: (value: any) => MethodReturn<TSignature>) {
-    return this.mapReturnValue<MethodReturn<TSignature>>(await this.appClient.call(typedCallParams), returnValueFormatter)
+  public async call<TSignature extends keyof Proposals['methods']>(
+    typedCallParams: TypedCallParams<TSignature>,
+    returnValueFormatter?: (value: any) => MethodReturn<TSignature>,
+  ) {
+    return this.mapReturnValue<MethodReturn<TSignature>>(
+      await this.appClient.call(typedCallParams),
+      returnValueFormatter,
+    );
   }
 
   /**
@@ -561,20 +674,22 @@ export class ProposalsClient {
    * @param params The arguments for the contract calls and any additional parameters for the call
    * @returns The deployment result
    */
-  public deploy(params: ProposalsDeployArgs & AppClientDeployCoreParams = {}): ReturnType<ApplicationClient['deploy']> {
-    const createArgs = params.createCall?.(ProposalsCallFactory.create)
+  public deploy(
+    params: ProposalsDeployArgs & AppClientDeployCoreParams = {},
+  ): ReturnType<ApplicationClient['deploy']> {
+    const createArgs = params.createCall?.(ProposalsCallFactory.create);
     return this.appClient.deploy({
       ...params,
       createArgs,
       createOnCompleteAction: createArgs?.onCompleteAction,
-    })
+    });
   }
 
   /**
    * Gets available create methods
    */
   public get create() {
-    const $this = this
+    const $this = this;
     return {
       /**
        * Creates a new instance of the proposals smart contract using a bare call.
@@ -582,10 +697,18 @@ export class ProposalsClient {
        * @param args The arguments for the bare call
        * @returns The create result
        */
-      async bare(args: BareCallArgs & AppClientCallCoreParams & AppClientCompilationParams & CoreAppCallArgs & (OnCompleteNoOp) = {}) {
-        return $this.mapReturnValue<undefined, AppCreateCallTransactionResult>(await $this.appClient.create(args))
+      async bare(
+        args: BareCallArgs &
+          AppClientCallCoreParams &
+          AppClientCompilationParams &
+          CoreAppCallArgs &
+          OnCompleteNoOp = {},
+      ) {
+        return $this.mapReturnValue<undefined, AppCreateCallTransactionResult>(
+          await $this.appClient.create(args),
+        );
       },
-    }
+    };
   }
 
   /**
@@ -594,8 +717,10 @@ export class ProposalsClient {
    * @param args The arguments for the bare call
    * @returns The clear_state result
    */
-  public clearState(args: BareCallArgs & AppClientCallCoreParams & CoreAppCallArgs = {}) {
-    return this.appClient.clearState(args)
+  public clearState(
+    args: BareCallArgs & AppClientCallCoreParams & CoreAppCallArgs = {},
+  ) {
+    return this.appClient.clearState(args);
   }
 
   /**
@@ -605,8 +730,11 @@ export class ProposalsClient {
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public addProposal(args: MethodArgs<'add_proposal(string,string,uint64)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
-    return this.call(ProposalsCallFactory.addProposal(args, params))
+  public addProposal(
+    args: MethodArgs<'add_proposal(string,string,uint64)void'>,
+    params: AppClientCallCoreParams & CoreAppCallArgs = {},
+  ) {
+    return this.call(ProposalsCallFactory.addProposal(args, params));
   }
 
   /**
@@ -616,8 +744,11 @@ export class ProposalsClient {
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public readProposal(args: MethodArgs<'read_proposal(string)(string,string,bool,uint64,uint64,uint64)'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
-    return this.call(ProposalsCallFactory.readProposal(args, params), Proposal)
+  public readProposal(
+    args: MethodArgs<'read_proposal(string)(string,string,bool,uint64,uint64,uint64)'>,
+    params: AppClientCallCoreParams & CoreAppCallArgs = {},
+  ) {
+    return this.call(ProposalsCallFactory.readProposal(args, params), Proposal);
   }
 
   /**
@@ -627,8 +758,11 @@ export class ProposalsClient {
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public voteYes(args: MethodArgs<'vote_yes(string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
-    return this.call(ProposalsCallFactory.voteYes(args, params))
+  public voteYes(
+    args: MethodArgs<'vote_yes(string)void'>,
+    params: AppClientCallCoreParams & CoreAppCallArgs = {},
+  ) {
+    return this.call(ProposalsCallFactory.voteYes(args, params));
   }
 
   /**
@@ -638,8 +772,11 @@ export class ProposalsClient {
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public voteNo(args: MethodArgs<'vote_no(string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
-    return this.call(ProposalsCallFactory.voteNo(args, params))
+  public voteNo(
+    args: MethodArgs<'vote_no(string)void'>,
+    params: AppClientCallCoreParams & CoreAppCallArgs = {},
+  ) {
+    return this.call(ProposalsCallFactory.voteNo(args, params));
   }
 
   /**
@@ -649,8 +786,11 @@ export class ProposalsClient {
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public deleteProposal(args: MethodArgs<'delete_proposal(string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
-    return this.call(ProposalsCallFactory.deleteProposal(args, params))
+  public deleteProposal(
+    args: MethodArgs<'delete_proposal(string)void'>,
+    params: AppClientCallCoreParams & CoreAppCallArgs = {},
+  ) {
+    return this.call(ProposalsCallFactory.deleteProposal(args, params));
   }
 
   /**
@@ -662,76 +802,164 @@ export class ProposalsClient {
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public generateMembershipToken(args: MethodArgs<'generate_membership_token(pay,string)uint64'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
-    return this.call(ProposalsCallFactory.generateMembershipToken(args, params))
+  public generateMembershipToken(
+    args: MethodArgs<'generate_membership_token(pay,string)uint64'>,
+    params: AppClientCallCoreParams & CoreAppCallArgs = {},
+  ) {
+    return this.call(
+      ProposalsCallFactory.generateMembershipToken(args, params),
+    );
   }
 
   public compose(): ProposalsComposer {
-    const client = this
-    const atc = new AtomicTransactionComposer()
-    let promiseChain:Promise<unknown> = Promise.resolve()
-    const resultMappers: Array<undefined | ((x: any) => any)> = []
+    const client = this;
+    const atc = new AtomicTransactionComposer();
+    let promiseChain: Promise<unknown> = Promise.resolve();
+    const resultMappers: Array<undefined | ((x: any) => any)> = [];
     return {
-      addProposal(args: MethodArgs<'add_proposal(string,string,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
-        promiseChain = promiseChain.then(() => client.addProposal(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
-        resultMappers.push(undefined)
-        return this
+      addProposal(
+        args: MethodArgs<'add_proposal(string,string,uint64)void'>,
+        params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
+      ) {
+        promiseChain = promiseChain.then(() =>
+          client.addProposal(args, {
+            ...params,
+            sendParams: { ...params?.sendParams, skipSending: true, atc },
+          }),
+        );
+        resultMappers.push(undefined);
+        return this;
       },
-      readProposal(args: MethodArgs<'read_proposal(string)(string,string,bool,uint64,uint64,uint64)'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
-        promiseChain = promiseChain.then(() => client.readProposal(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
-        resultMappers.push(Proposal)
-        return this
+      readProposal(
+        args: MethodArgs<'read_proposal(string)(string,string,bool,uint64,uint64,uint64)'>,
+        params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
+      ) {
+        promiseChain = promiseChain.then(() =>
+          client.readProposal(args, {
+            ...params,
+            sendParams: { ...params?.sendParams, skipSending: true, atc },
+          }),
+        );
+        resultMappers.push(Proposal);
+        return this;
       },
-      voteYes(args: MethodArgs<'vote_yes(string)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
-        promiseChain = promiseChain.then(() => client.voteYes(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
-        resultMappers.push(undefined)
-        return this
+      voteYes(
+        args: MethodArgs<'vote_yes(string)void'>,
+        params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
+      ) {
+        promiseChain = promiseChain.then(() =>
+          client.voteYes(args, {
+            ...params,
+            sendParams: { ...params?.sendParams, skipSending: true, atc },
+          }),
+        );
+        resultMappers.push(undefined);
+        return this;
       },
-      voteNo(args: MethodArgs<'vote_no(string)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
-        promiseChain = promiseChain.then(() => client.voteNo(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
-        resultMappers.push(undefined)
-        return this
+      voteNo(
+        args: MethodArgs<'vote_no(string)void'>,
+        params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
+      ) {
+        promiseChain = promiseChain.then(() =>
+          client.voteNo(args, {
+            ...params,
+            sendParams: { ...params?.sendParams, skipSending: true, atc },
+          }),
+        );
+        resultMappers.push(undefined);
+        return this;
       },
-      deleteProposal(args: MethodArgs<'delete_proposal(string)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
-        promiseChain = promiseChain.then(() => client.deleteProposal(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
-        resultMappers.push(undefined)
-        return this
+      deleteProposal(
+        args: MethodArgs<'delete_proposal(string)void'>,
+        params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
+      ) {
+        promiseChain = promiseChain.then(() =>
+          client.deleteProposal(args, {
+            ...params,
+            sendParams: { ...params?.sendParams, skipSending: true, atc },
+          }),
+        );
+        resultMappers.push(undefined);
+        return this;
       },
-      generateMembershipToken(args: MethodArgs<'generate_membership_token(pay,string)uint64'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs) {
-        promiseChain = promiseChain.then(() => client.generateMembershipToken(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
-        resultMappers.push(undefined)
-        return this
+      generateMembershipToken(
+        args: MethodArgs<'generate_membership_token(pay,string)uint64'>,
+        params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
+      ) {
+        promiseChain = promiseChain.then(() =>
+          client.generateMembershipToken(args, {
+            ...params,
+            sendParams: { ...params?.sendParams, skipSending: true, atc },
+          }),
+        );
+        resultMappers.push(undefined);
+        return this;
       },
-      clearState(args?: BareCallArgs & AppClientComposeCallCoreParams & CoreAppCallArgs) {
-        promiseChain = promiseChain.then(() => client.clearState({...args, sendParams: {...args?.sendParams, skipSending: true, atc}}))
-        resultMappers.push(undefined)
-        return this
+      clearState(
+        args?: BareCallArgs & AppClientComposeCallCoreParams & CoreAppCallArgs,
+      ) {
+        promiseChain = promiseChain.then(() =>
+          client.clearState({
+            ...args,
+            sendParams: { ...args?.sendParams, skipSending: true, atc },
+          }),
+        );
+        resultMappers.push(undefined);
+        return this;
       },
-      addTransaction(txn: TransactionWithSigner | TransactionToSign | Transaction | Promise<SendTransactionResult>, defaultSender?: SendTransactionFrom) {
-        promiseChain = promiseChain.then(async () => atc.addTransaction(await algokit.getTransactionWithSigner(txn, defaultSender ?? client.sender)))
-        return this
+      addTransaction(
+        txn:
+          | TransactionWithSigner
+          | TransactionToSign
+          | Transaction
+          | Promise<SendTransactionResult>,
+        defaultSender?: SendTransactionFrom,
+      ) {
+        promiseChain = promiseChain.then(async () =>
+          atc.addTransaction(
+            await algokit.getTransactionWithSigner(
+              txn,
+              defaultSender ?? client.sender,
+            ),
+          ),
+        );
+        return this;
       },
       async atc() {
-        await promiseChain
-        return atc
+        await promiseChain;
+        return atc;
       },
       async simulate(options?: SimulateOptions) {
-        await promiseChain
-        const result = await atc.simulate(client.algod, new modelsv2.SimulateRequest({ txnGroups: [], ...options }))
+        await promiseChain;
+        const result = await atc.simulate(
+          client.algod,
+          new modelsv2.SimulateRequest({ txnGroups: [], ...options }),
+        );
         return {
           ...result,
-          returns: result.methodResults?.map((val, i) => resultMappers[i] !== undefined ? resultMappers[i]!(val.returnValue) : val.returnValue)
-        }
+          returns: result.methodResults?.map((val, i) =>
+            resultMappers[i] !== undefined
+              ? resultMappers[i]!(val.returnValue)
+              : val.returnValue,
+          ),
+        };
       },
       async execute(sendParams?: AppClientComposeExecuteParams) {
-        await promiseChain
-        const result = await algokit.sendAtomicTransactionComposer({ atc, sendParams }, client.algod)
+        await promiseChain;
+        const result = await algokit.sendAtomicTransactionComposer(
+          { atc, sendParams },
+          client.algod,
+        );
         return {
           ...result,
-          returns: result.returns?.map((val, i) => resultMappers[i] !== undefined ? resultMappers[i]!(val.returnValue) : val.returnValue)
-        }
-      }
-    } as unknown as ProposalsComposer
+          returns: result.returns?.map((val, i) =>
+            resultMappers[i] !== undefined
+              ? resultMappers[i]!(val.returnValue)
+              : val.returnValue,
+          ),
+        };
+      },
+    } as unknown as ProposalsComposer;
   }
 }
 export type ProposalsComposer<TReturns extends [...any[]] = []> = {
@@ -742,7 +970,12 @@ export type ProposalsComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  addProposal(args: MethodArgs<'add_proposal(string,string,uint64)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): ProposalsComposer<[...TReturns, MethodReturn<'add_proposal(string,string,uint64)void'>]>
+  addProposal(
+    args: MethodArgs<'add_proposal(string,string,uint64)void'>,
+    params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
+  ): ProposalsComposer<
+    [...TReturns, MethodReturn<'add_proposal(string,string,uint64)void'>]
+  >;
 
   /**
    * Calls the read_proposal(string)(string,string,bool,uint64,uint64,uint64) ABI method.
@@ -751,7 +984,15 @@ export type ProposalsComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  readProposal(args: MethodArgs<'read_proposal(string)(string,string,bool,uint64,uint64,uint64)'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): ProposalsComposer<[...TReturns, MethodReturn<'read_proposal(string)(string,string,bool,uint64,uint64,uint64)'>]>
+  readProposal(
+    args: MethodArgs<'read_proposal(string)(string,string,bool,uint64,uint64,uint64)'>,
+    params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
+  ): ProposalsComposer<
+    [
+      ...TReturns,
+      MethodReturn<'read_proposal(string)(string,string,bool,uint64,uint64,uint64)'>,
+    ]
+  >;
 
   /**
    * Calls the vote_yes(string)void ABI method.
@@ -760,7 +1001,10 @@ export type ProposalsComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  voteYes(args: MethodArgs<'vote_yes(string)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): ProposalsComposer<[...TReturns, MethodReturn<'vote_yes(string)void'>]>
+  voteYes(
+    args: MethodArgs<'vote_yes(string)void'>,
+    params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
+  ): ProposalsComposer<[...TReturns, MethodReturn<'vote_yes(string)void'>]>;
 
   /**
    * Calls the vote_no(string)void ABI method.
@@ -769,7 +1013,10 @@ export type ProposalsComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  voteNo(args: MethodArgs<'vote_no(string)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): ProposalsComposer<[...TReturns, MethodReturn<'vote_no(string)void'>]>
+  voteNo(
+    args: MethodArgs<'vote_no(string)void'>,
+    params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
+  ): ProposalsComposer<[...TReturns, MethodReturn<'vote_no(string)void'>]>;
 
   /**
    * Calls the delete_proposal(string)void ABI method.
@@ -778,7 +1025,12 @@ export type ProposalsComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  deleteProposal(args: MethodArgs<'delete_proposal(string)void'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): ProposalsComposer<[...TReturns, MethodReturn<'delete_proposal(string)void'>]>
+  deleteProposal(
+    args: MethodArgs<'delete_proposal(string)void'>,
+    params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
+  ): ProposalsComposer<
+    [...TReturns, MethodReturn<'delete_proposal(string)void'>]
+  >;
 
   /**
    * Calls the generate_membership_token(pay,string)uint64 ABI method.
@@ -789,7 +1041,12 @@ export type ProposalsComposer<TReturns extends [...any[]] = []> = {
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  generateMembershipToken(args: MethodArgs<'generate_membership_token(pay,string)uint64'>, params?: AppClientComposeCallCoreParams & CoreAppCallArgs): ProposalsComposer<[...TReturns, MethodReturn<'generate_membership_token(pay,string)uint64'>]>
+  generateMembershipToken(
+    args: MethodArgs<'generate_membership_token(pay,string)uint64'>,
+    params?: AppClientComposeCallCoreParams & CoreAppCallArgs,
+  ): ProposalsComposer<
+    [...TReturns, MethodReturn<'generate_membership_token(pay,string)uint64'>]
+  >;
 
   /**
    * Makes a clear_state call to an existing instance of the proposals smart contract.
@@ -797,7 +1054,9 @@ export type ProposalsComposer<TReturns extends [...any[]] = []> = {
    * @param args The arguments for the bare call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  clearState(args?: BareCallArgs & AppClientComposeCallCoreParams & CoreAppCallArgs): ProposalsComposer<[...TReturns, undefined]>
+  clearState(
+    args?: BareCallArgs & AppClientComposeCallCoreParams & CoreAppCallArgs,
+  ): ProposalsComposer<[...TReturns, undefined]>;
 
   /**
    * Adds a transaction to the composer
@@ -805,29 +1064,43 @@ export type ProposalsComposer<TReturns extends [...any[]] = []> = {
    * @param txn One of: A TransactionWithSigner object (returned as is), a TransactionToSign object (signer is obtained from the signer property), a Transaction object (signer is extracted from the defaultSender parameter), an async SendTransactionResult returned by one of algokit utils helpers (signer is obtained from the defaultSender parameter)
    * @param defaultSender The default sender to be used to obtain a signer where the object provided to the transaction parameter does not include a signer.
    */
-  addTransaction(txn: TransactionWithSigner | TransactionToSign | Transaction | Promise<SendTransactionResult>, defaultSender?: SendTransactionFrom): ProposalsComposer<TReturns>
+  addTransaction(
+    txn:
+      | TransactionWithSigner
+      | TransactionToSign
+      | Transaction
+      | Promise<SendTransactionResult>,
+    defaultSender?: SendTransactionFrom,
+  ): ProposalsComposer<TReturns>;
   /**
    * Returns the underlying AtomicTransactionComposer instance
    */
-  atc(): Promise<AtomicTransactionComposer>
+  atc(): Promise<AtomicTransactionComposer>;
   /**
    * Simulates the transaction group and returns the result
    */
-  simulate(options?: SimulateOptions): Promise<ProposalsComposerSimulateResult<TReturns>>
+  simulate(
+    options?: SimulateOptions,
+  ): Promise<ProposalsComposerSimulateResult<TReturns>>;
   /**
    * Executes the transaction group and returns the results
    */
-  execute(sendParams?: AppClientComposeExecuteParams): Promise<ProposalsComposerResults<TReturns>>
-}
-export type SimulateOptions = Omit<ConstructorParameters<typeof modelsv2.SimulateRequest>[0], 'txnGroups'>
+  execute(
+    sendParams?: AppClientComposeExecuteParams,
+  ): Promise<ProposalsComposerResults<TReturns>>;
+};
+export type SimulateOptions = Omit<
+  ConstructorParameters<typeof modelsv2.SimulateRequest>[0],
+  'txnGroups'
+>;
 export type ProposalsComposerSimulateResult<TReturns extends [...any[]]> = {
-  returns: TReturns
-  methodResults: ABIResult[]
-  simulateResponse: modelsv2.SimulateResponse
-}
+  returns: TReturns;
+  methodResults: ABIResult[];
+  simulateResponse: modelsv2.SimulateResponse;
+};
 export type ProposalsComposerResults<TReturns extends [...any[]]> = {
-  returns: TReturns
-  groupId: string
-  txIds: string[]
-  transactions: Transaction[]
-}
+  returns: TReturns;
+  groupId: string;
+  txIds: string[];
+  transactions: Transaction[];
+};
