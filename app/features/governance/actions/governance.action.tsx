@@ -17,7 +17,7 @@ export const useGovernanceActions = () => {
 
   const getAllProposals = useCallback(async () => {
     try {
-      const response = await fetchWrapper.get('proposals/proposal/');
+      const response = await fetchWrapper.get('api/v1/proposals/proposal/');
       if (Array.isArray(response)) {
         setProposals(response);
       }
@@ -32,7 +32,7 @@ export const useGovernanceActions = () => {
 
   const getAllVotes = useCallback(async () => {
     try {
-      const response = await fetchWrapper.get('proposals/vote/');
+      const response = await fetchWrapper.get('api/v1/proposals/vote/');
       if (Array.isArray(response)) {
         setVotes(response);
       }
@@ -47,7 +47,7 @@ export const useGovernanceActions = () => {
 
   const createProposal = useCallback(async (dto: CreateProposalDto) => {
     try {
-      const response = await fetchWrapper.post('proposals/proposal/', dto);
+      const response = await fetchWrapper.post('api/v1/proposals/proposal/', dto);
 
       return response;
     } catch (error) {
@@ -59,7 +59,7 @@ export const useGovernanceActions = () => {
 
   const deleteProposal = useCallback(async (id: string) => {
     try {
-      const response = await fetchWrapper.delete(`proposals/proposal/${id}/`);
+      const response = await fetchWrapper.delete(`api/v1/proposals/proposal/${id}/`);
 
       return response;
     } catch (error) {
@@ -69,7 +69,7 @@ export const useGovernanceActions = () => {
 
   const verifyVote = useCallback(async (dto: VerifyVoteDto) => {
     try {
-      const response = await fetchWrapper.post('proposals/verify-vote/', dto);
+      const response = await fetchWrapper.post('api/v1/proposals/verify-vote/', dto);
       return response;
     } catch (error) {
       return { error };
@@ -78,7 +78,7 @@ export const useGovernanceActions = () => {
 
   const castVote = useCallback(async (dto: CreateVoteDto) => {
     try {
-      const response = await fetchWrapper.post('proposals/vote/', dto);
+      const response = await fetchWrapper.post('api/v1/proposals/vote/', dto);
       return response;
     } catch (error) {
       return { error };
