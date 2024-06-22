@@ -102,11 +102,12 @@ export function FaucetPage() {
       });
 
       if (res.error) {
-        notify.error(res.error?.toString() || 'Network error');
+        notify.error('Faucet Verification failed. Try again.');
         setLoading(false);
         return;
       }
 
+      setTimeout(() => {
       notify.success('Faucet Details successfully registered');
       setLoading(false);
       setClaimNftPopUp(true);
@@ -115,6 +116,7 @@ export function FaucetPage() {
       setTelegramFirstName('');
       setTelegramLastName('');
       console.log('Claiming NFT...');
+    }, 1500);
     } else {
       // Tasks are not completed, do nothing or show a message
       notify.error('Please complete all tasks before claiming NFT.');
