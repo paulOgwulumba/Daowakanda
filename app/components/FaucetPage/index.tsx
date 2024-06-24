@@ -34,6 +34,7 @@ export function FaucetPage() {
   const [telegramUsername, setTelegramUsername] = useState('');
   const [telegramFirstName, setTelegramFirstName] = useState('');
   const [telegramLastName, setTelegramLastName] = useState('');
+  const [twitter, setTwitter] = useState('');
 
   //check claim nft modal state
   const [claimNftPopUp, setClaimNftPopUp] = useState(false);
@@ -83,6 +84,9 @@ export function FaucetPage() {
         break;
       case 'lastname':
         setTelegramLastName(value);
+        break;
+      case 'twitter':
+        setTwitter(value);
         break;
       default:
         console.error('Invalid field name:', fieldName);
@@ -383,7 +387,7 @@ export function FaucetPage() {
         <div className=" flex justify-center items-center">
           <div className="w-[100%] m-5 bg-[#333333] md:w-[50%] md:p-5 border border-white rounded-2xl ">
             <h1 className="text-[13px] m-5 md:m-0 md:text-[#FFF] md:text-[18px]">
-              Complete the tasks below:
+              Connect your Wallet & Complete the tasks below:
             </h1>
             <div className="m-5 md:m-0 text-[#d8d8d8d0]">
               <div className="mb-5">
@@ -483,6 +487,38 @@ export function FaucetPage() {
                   </button>
                 </div>
               </div>
+              <div className="mb-5">
+                <div className="flex">
+                  <label className="block m-2 text-sm font-medium text-white">
+                    4.
+                  </label>
+                  <p className="m-2 text-sm">
+                    Follow our twitter page{' '}
+                    <Link href="https://twitter.com/DaoWakanda">
+                      <span className="text-[#68BBE3] cursor-pointer">
+                        @daoWakanda
+                      </span>
+                    </Link>{' '}
+                    and input your twitter username below :
+                  </p>
+                </div>
+                <div className="ml-7 flex bg-[#000] rounded-md text-sm">
+                  <input
+                    type="text"
+                    name="twitter"
+                    placeholder="Enter your twitter username (e.g @John)"
+                    className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
+                    value={twitter}
+                    onChange={(e) => setTwitter(e.target.value)} // Update state when input changes
+                  />
+                  <button
+                    className="m-3 text-[12px]"
+                    onClick={() => handlePasteButtonClick('twitter')}
+                  >
+                    Paste
+                  </button>
+                </div>
+              </div>
 
               {/* <div className="mb-5 w-[100%]">
                 <div className="flex">
@@ -523,12 +559,18 @@ export function FaucetPage() {
                   onClick={handleClaimNFT}
                   className={`w-full cursor-pointer flex justify-center py-2 px-4 border border-transparent rounded-2xl shadow-sm text-sm font-medium ${
                     // Conditional class to make the button inactive
-                    telegramUsername && telegramFirstName && telegramLastName
+                    telegramUsername &&
+                    telegramFirstName &&
+                    telegramLastName &&
+                    activeAddress
                       ? 'text-black bg-[#4EE248]'
                       : 'text-black bg-[#DAF7A6] cursor-not-allowed'
                   }`}
                   disabled={
-                    telegramUsername && telegramFirstName && telegramLastName
+                    telegramUsername &&
+                    telegramFirstName &&
+                    telegramLastName &&
+                    activeAddress
                       ? false
                       : true
                   }
