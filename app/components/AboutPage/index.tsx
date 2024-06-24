@@ -194,13 +194,15 @@ export function AboutPage() {
                 <Link href="/faucet">Faucet</Link>
               </div>
             </div>
-            <div className={styles['join']}>
-              <img
-                src="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709864873/new-twitter_ptrdzc.png"
-                alt="twitter-logo"
-              />
-              Join X
-            </div>
+            <Link href={`https://twitter.com/DaoWakanda`}>
+              <div className={styles['join']}>
+                <img
+                  src="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709864873/new-twitter_ptrdzc.png"
+                  alt="twitter-logo"
+                />
+                Join X
+              </div>
+            </Link>
           </div>
         )}
       </div>
