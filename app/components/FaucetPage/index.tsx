@@ -429,13 +429,13 @@ export function FaucetPage() {
                     2.
                   </label>
                   <p className="m-2 text-sm">
-                    Join our Telegram group{' '}
+                    Send a message to our Telegram group{' '}
                     <Link href="https://t.me/daowakanda">
                       <span className="text-[#68BBE3] cursor-pointer">
                         @daoWakanda
                       </span>
                     </Link>{' '}
-                    and input your first name below :
+                    to verify you are not a bot :
                   </p>
                 </div>
                 <div className="ml-7 flex bg-[#000] rounded-md text-sm">
@@ -461,13 +461,13 @@ export function FaucetPage() {
                     3.
                   </label>
                   <p className="m-2 text-sm">
-                    Join our Telegram group{' '}
+                  Pin  our Telegram group{' '}
                     <Link href="https://t.me/daowakanda">
                       <span className="text-[#68BBE3] cursor-pointer">
                         @daoWakanda
                       </span>
                     </Link>{' '}
-                    and input your last name below :
+                    and send a screenshot to the group:
                   </p>
                 </div>
                 <div className="ml-7 flex bg-[#000] rounded-md text-sm">
@@ -497,6 +497,38 @@ export function FaucetPage() {
                     <Link href="https://twitter.com/DaoWakanda">
                       <span className="text-[#68BBE3] cursor-pointer">
                         @daoWakanda
+                      </span>
+                    </Link>{' '}
+                    and input your twitter username below :
+                  </p>
+                </div>
+                <div className="ml-7 flex bg-[#000] rounded-md text-sm">
+                  <input
+                    type="text"
+                    name="twitter"
+                    placeholder="Enter your twitter username (e.g @John)"
+                    className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
+                    value={twitter}
+                    onChange={(e) => setTwitter(e.target.value)} // Update state when input changes
+                  />
+                  <button
+                    className="m-3 text-[12px]"
+                    onClick={() => handlePasteButtonClick('twitter')}
+                  >
+                    Paste
+                  </button>
+                </div>
+              </div>
+              <div className="mb-5">
+                <div className="flex">
+                  <label className="block m-2 text-sm font-medium text-white">
+                    5.
+                  </label>
+                  <p className="m-2 text-sm">
+                    Like and retweet {' '}
+                    <Link href="https://twitter.com/DaoWakanda/status/1807755696034951457?t=w9CKoOthdN30JkIzWHERvg&s=19">
+                      <span className="text-[#68BBE3] cursor-pointer">
+                      pinned tweet
                       </span>
                     </Link>{' '}
                     and input your twitter username below :
@@ -637,3 +669,4 @@ export function FaucetPage() {
     </div>
   );
 }
+
