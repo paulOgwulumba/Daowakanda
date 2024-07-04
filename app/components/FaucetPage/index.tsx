@@ -378,9 +378,18 @@ export function FaucetPage() {
               <hr className="bg-gray-100 border-0 h-px my-4" />
             </div>
           </div>
-          <div className="w-[100%] m-2 flex justify-center items-center md:w-full md:flex md:justify-center md:items-center text-gray-300">
+          <div className="w-[100%] m-2 flex flex-col justify-center items-center md:w-full md:flex md:flex-col md:justify-center md:items-center text-gray-300">
             <p className="w-[90%] text-center md:w-full md:flex md:justify-center md:items-center">
               Obtain Wakanda NFT to participate in governance and proposals
+            </p>
+            <p className="w-[90%] text-center md:w-full md:flex md:justify-center md:items-center">
+              Click
+              <span className='text-[#4EE248]'>
+                <Link href="https://bank.testnet.algorand.network/">
+                  {' '} here {' '}
+                </Link>
+              </span>
+                to claim free testnet algos
             </p>
           </div>
         </div>
@@ -393,104 +402,7 @@ export function FaucetPage() {
               <div className="mb-5">
                 <div className="flex">
                   <label className="block m-2 text-sm font-medium text-white">
-                    {' '}
-                    1.{' '}
-                  </label>
-                  <p className="m-2 text-sm">
-                    Join our Telegram group{' '}
-                    <Link href="https://t.me/daowakanda">
-                      <span className="text-[#68BBE3] cursor-pointer">
-                        @daoWakanda
-                      </span>
-                    </Link>{' '}
-                    and input your username below :
-                  </p>
-                </div>
-                <div className="ml-7 flex bg-[#000] rounded-md text-sm">
-                  <input
-                    type="text"
-                    name="telegram_username"
-                    placeholder="Enter telegram username (e.g @userexample)"
-                    className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
-                    value={telegramUsername}
-                    onChange={(e) => setTelegramUsername(e.target.value)} // Update state when input changes
-                  />
-                  <button
-                    className="m-3 text-[12px]"
-                    onClick={() => handlePasteButtonClick('username')}
-                  >
-                    Paste
-                  </button>
-                </div>
-              </div>
-              <div className="mb-5">
-                <div className="flex">
-                  <label className="block m-2 text-sm font-medium text-white">
-                    2.
-                  </label>
-                  <p className="m-2 text-sm">
-                    Send a message to our Telegram group{' '}
-                    <Link href="https://t.me/daowakanda">
-                      <span className="text-[#68BBE3] cursor-pointer">
-                        @daoWakanda
-                      </span>
-                    </Link>{' '}
-                    to verify you are not a bot :
-                  </p>
-                </div>
-                <div className="ml-7 flex bg-[#000] rounded-md text-sm">
-                  <input
-                    type="text"
-                    name="telegram_first_name"
-                    placeholder="Enter telegram firstname (e.g John)"
-                    className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
-                    value={telegramFirstName}
-                    onChange={(e) => setTelegramFirstName(e.target.value)} // Update state when input changes
-                  />
-                  <button
-                    className="m-3 text-[12px]"
-                    onClick={() => handlePasteButtonClick('firstname')}
-                  >
-                    Paste
-                  </button>
-                </div>
-              </div>
-              <div className="mb-5">
-                <div className="flex">
-                  <label className="block m-2 text-sm font-medium text-white">
-                    3.
-                  </label>
-                  <p className="m-2 text-sm">
-                  Pin  our Telegram group{' '}
-                    <Link href="https://t.me/daowakanda">
-                      <span className="text-[#68BBE3] cursor-pointer">
-                        @daoWakanda
-                      </span>
-                    </Link>{' '}
-                    and send a screenshot to the group:
-                  </p>
-                </div>
-                <div className="ml-7 flex bg-[#000] rounded-md text-sm">
-                  <input
-                    type="text"
-                    name="telegram_last_name"
-                    placeholder="Enter telegram lastname (e.g Doe)"
-                    className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
-                    value={telegramLastName}
-                    onChange={(e) => setTelegramLastName(e.target.value)} // Update state when input changes
-                  />
-                  <button
-                    className="m-3 text-[12px]"
-                    onClick={() => handlePasteButtonClick('lastname')}
-                  >
-                    Paste
-                  </button>
-                </div>
-              </div>
-              <div className="mb-5">
-                <div className="flex">
-                  <label className="block m-2 text-sm font-medium text-white">
-                    4.
+                    1.
                   </label>
                   <p className="m-2 text-sm">
                     Follow our twitter page{' '}
@@ -522,7 +434,7 @@ export function FaucetPage() {
               <div className="mb-5">
                 <div className="flex">
                   <label className="block m-2 text-sm font-medium text-white">
-                    5.
+                    2.
                   </label>
                   <p className="m-2 text-sm">
                     Like and retweet {' '}
@@ -546,6 +458,103 @@ export function FaucetPage() {
                   <button
                     className="m-3 text-[12px]"
                     onClick={() => handlePasteButtonClick('twitter')}
+                  >
+                    Paste
+                  </button>
+                </div>
+              </div>
+              <div className="mb-5">
+                <div className="flex">
+                  <label className="block m-2 text-sm font-medium text-white">
+                    {' '}
+                    3.{' '}
+                  </label>
+                  <p className="m-2 text-sm">
+                    Join our Telegram group{' '}
+                    <Link href="https://t.me/daowakanda">
+                      <span className="text-[#68BBE3] cursor-pointer">
+                        @daoWakanda
+                      </span>
+                    </Link>{' '}
+                    and input your username below :
+                  </p>
+                </div>
+                <div className="ml-7 flex bg-[#000] rounded-md text-sm">
+                  <input
+                    type="text"
+                    name="telegram_username"
+                    placeholder="Enter telegram username (e.g @userexample)"
+                    className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
+                    value={telegramUsername}
+                    onChange={(e) => setTelegramUsername(e.target.value)} // Update state when input changes
+                  />
+                  <button
+                    className="m-3 text-[12px]"
+                    onClick={() => handlePasteButtonClick('username')}
+                  >
+                    Paste
+                  </button>
+                </div>
+              </div>
+              <div className="mb-5">
+                <div className="flex">
+                  <label className="block m-2 text-sm font-medium text-white">
+                    4.
+                  </label>
+                  <p className="m-2 text-sm">
+                    Send a message to our Telegram group{' '}
+                    <Link href="https://t.me/daowakanda">
+                      <span className="text-[#68BBE3] cursor-pointer">
+                        @daoWakanda
+                      </span>
+                    </Link>{' '}
+                    to verify you are not a bot :
+                  </p>
+                </div>
+                <div className="ml-7 flex bg-[#000] rounded-md text-sm">
+                  <input
+                    type="text"
+                    name="telegram_first_name"
+                    placeholder="Enter telegram firstname (e.g John)"
+                    className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
+                    value={telegramFirstName}
+                    onChange={(e) => setTelegramFirstName(e.target.value)} // Update state when input changes
+                  />
+                  <button
+                    className="m-3 text-[12px]"
+                    onClick={() => handlePasteButtonClick('firstname')}
+                  >
+                    Paste
+                  </button>
+                </div>
+              </div>
+              <div className="mb-5">
+                <div className="flex">
+                  <label className="block m-2 text-sm font-medium text-white">
+                    5.
+                  </label>
+                  <p className="m-2 text-sm">
+                  Pin  our Telegram group{' '}
+                    <Link href="https://t.me/daowakanda">
+                      <span className="text-[#68BBE3] cursor-pointer">
+                        @daoWakanda
+                      </span>
+                    </Link>{' '}
+                    and send a screenshot to the group:
+                  </p>
+                </div>
+                <div className="ml-7 flex bg-[#000] rounded-md text-sm">
+                  <input
+                    type="text"
+                    name="telegram_last_name"
+                    placeholder="Enter telegram lastname (e.g Doe)"
+                    className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
+                    value={telegramLastName}
+                    onChange={(e) => setTelegramLastName(e.target.value)} // Update state when input changes
+                  />
+                  <button
+                    className="m-3 text-[12px]"
+                    onClick={() => handlePasteButtonClick('lastname')}
                   >
                     Paste
                   </button>
