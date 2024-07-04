@@ -528,7 +528,7 @@ export function FaucetPage() {
                     Like and retweet {' '}
                     <Link href="https://twitter.com/DaoWakanda/status/1807755696034951457?t=w9CKoOthdN30JkIzWHERvg&s=19">
                       <span className="text-[#68BBE3] cursor-pointer">
-                      pinned tweet
+                        pinned tweet
                       </span>
                     </Link>{' '}
                     and input your twitter username below :
