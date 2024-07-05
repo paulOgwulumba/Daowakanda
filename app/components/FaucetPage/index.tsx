@@ -385,9 +385,10 @@ export function FaucetPage() {
             <p className="w-[90%] text-center md:w-full md:flex md:justify-center md:items-center">
               Click
               <span className="text-[#4EE248]">
-                <Link 
-                href="https://bank.testnet.algorand.network/"
-                target='_blank'>
+                <Link
+                  href="https://bank.testnet.algorand.network/"
+                  target="_blank"
+                >
                   {' '}
                   here{' '}
                 </Link>
@@ -409,9 +410,7 @@ export function FaucetPage() {
                   </label>
                   <p className="m-2 text-sm">
                     Follow our twitter page{' '}
-                    <Link 
-                    href="https://twitter.com/DaoWakanda"
-                    target='_blank'>
+                    <Link href="https://twitter.com/DaoWakanda" target="_blank">
                       <span className="text-[#68BBE3] cursor-pointer">
                         @daoWakanda
                       </span>
@@ -443,9 +442,9 @@ export function FaucetPage() {
                   </label>
                   <p className="m-2 text-sm">
                     Like and Quote retweet our{' '}
-                    <Link 
-                    href="https://twitter.com/DaoWakanda/status/1807755696034951457?t=w9CKoOthdN30JkIzWHERvg&s=19"
-                     target='_blank'
+                    <Link
+                      href="https://twitter.com/DaoWakanda/status/1807755696034951457?t=w9CKoOthdN30JkIzWHERvg&s=19"
+                      target="_blank"
                     >
                       <span className="text-[#68BBE3] cursor-pointer">
                         pinned Post.
@@ -480,9 +479,7 @@ export function FaucetPage() {
                   </label>
                   <p className="m-2 text-sm">
                     Join our Telegram group{' '}
-                    <Link 
-                    href="https://t.me/daowakanda"
-                    target='_blank'>
+                    <Link href="https://t.me/daowakanda" target="_blank">
                       <span className="text-[#68BBE3] cursor-pointer">
                         @daoWakanda
                       </span>
@@ -514,9 +511,7 @@ export function FaucetPage() {
                   </label>
                   <p className="m-2 text-sm">
                     Send a message to our Telegram group{' '}
-                    <Link 
-                    href="https://t.me/daowakanda"
-                    target='_blank'>
+                    <Link href="https://t.me/daowakanda" target="_blank">
                       <span className="text-[#68BBE3] cursor-pointer">
                         @daoWakanda
                       </span>
@@ -548,9 +543,7 @@ export function FaucetPage() {
                   </label>
                   <p className="m-2 text-sm">
                     Pin our Telegram group{' '}
-                    <Link 
-                    href="https://t.me/daowakanda"
-                    target='_blank'>
+                    <Link href="https://t.me/daowakanda" target="_blank">
                       <span className="text-[#68BBE3] cursor-pointer">
                         @daoWakanda
                       </span>
