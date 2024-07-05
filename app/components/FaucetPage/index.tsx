@@ -384,12 +384,13 @@ export function FaucetPage() {
             </p>
             <p className="w-[90%] text-center md:w-full md:flex md:justify-center md:items-center">
               Click
-              <span className='text-[#4EE248]'>
+              <span className="text-[#4EE248]">
                 <Link href="https://bank.testnet.algorand.network/">
-                  {' '} here {' '}
+                  {' '}
+                  here{' '}
                 </Link>
               </span>
-                to claim free testnet algos
+              to claim free testnet algos
             </p>
           </div>
         </div>
@@ -437,7 +438,7 @@ export function FaucetPage() {
                     2.
                   </label>
                   <p className="m-2 text-sm">
-                    Like and retweet {' '}
+                    Like and retweet{' '}
                     <Link href="https://twitter.com/DaoWakanda/status/1807755696034951457?t=w9CKoOthdN30JkIzWHERvg&s=19">
                       <span className="text-[#68BBE3] cursor-pointer">
                         pinned tweet
@@ -534,7 +535,7 @@ export function FaucetPage() {
                     5.
                   </label>
                   <p className="m-2 text-sm">
-                  Pin  our Telegram group{' '}
+                    Pin our Telegram group{' '}
                     <Link href="https://t.me/daowakanda">
                       <span className="text-[#68BBE3] cursor-pointer">
                         @daoWakanda
@@ -678,4 +679,3 @@ export function FaucetPage() {
     </div>
   );
 }
-
