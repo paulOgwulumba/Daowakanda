@@ -396,7 +396,7 @@ export function FaucetPage() {
         </div>
         <div className=" flex justify-center items-center">
           <div className="w-[100%] m-5 bg-[#333333] md:w-[50%] md:p-5 border border-white rounded-2xl ">
-            <h1 className="text-[13px] m-5 md:m-0 md:text-[#FFF] md:text-[18px]">
+            <h1 className="text-[13px] text-white m-5 md:m-0 md:text-[#FFF] md:text-[18px]">
               Connect your Wallet & Complete the tasks below:
             </h1>
             <div className="m-5 md:m-0 text-[#d8d8d8d0]">
@@ -438,23 +438,24 @@ export function FaucetPage() {
                     2.
                   </label>
                   <p className="m-2 text-sm">
-                    Like and retweet{' '}
+                    Like and Quote retweet our{' '}
                     <Link href="https://twitter.com/DaoWakanda/status/1807755696034951457?t=w9CKoOthdN30JkIzWHERvg&s=19">
                       <span className="text-[#68BBE3] cursor-pointer">
-                        pinned tweet
+                        pinned Post.
                       </span>
                     </Link>{' '}
-                    and input your twitter username below :
+                    Tag three (3) friends and input the link to your post below
+                    :
                   </p>
                 </div>
                 <div className="ml-7 flex bg-[#000] rounded-md text-sm">
                   <input
                     type="text"
                     name="twitter"
-                    placeholder="Enter your twitter username (e.g @John)"
+                    placeholder="Input post link"
                     className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
-                    value={twitter}
-                    onChange={(e) => setTwitter(e.target.value)} // Update state when input changes
+                    // value={twitter}
+                    // onChange={(e) => setTwitter(e.target.value)} // Update state when input changes
                   />
                   <button
                     className="m-3 text-[12px]"
