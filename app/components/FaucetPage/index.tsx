@@ -30,7 +30,7 @@ export function FaucetPage() {
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
   const { registerFaucet } = useFaucetActions();
-  const {push} = useRouter();
+  const { push } = useRouter();
 
   //claimNFT URL
   const URLNFT = `https://testnet.goplausible.xyz/claim/t77eat6zemvvw4twwzx6g538j381q2zwcrrmn2z9gmavvhdpww0dw8xxtyfcr7hr0hq9x5vrt8ts3ccrmzywhjb0ncx542001by0630`;
@@ -40,6 +40,7 @@ export function FaucetPage() {
   const [telegramFirstName, setTelegramFirstName] = useState('');
   const [telegramLastName, setTelegramLastName] = useState('');
   const [twitter, setTwitter] = useState('');
+  const [pinnedPosts, setPinPosts] = useState('');
 
   //check claim nft modal state
   const [claimNftPopUp, setClaimNftPopUp] = useState(false);
@@ -93,18 +94,21 @@ export function FaucetPage() {
       case 'twitter':
         setTwitter(value);
         break;
+      case 'pinPosts':
+        setPinPosts(value);
+        break;
       default:
         console.error('Invalid field name:', fieldName);
     }
   };
 
   const switchRedirectClaimNFT = () => {
-    if(isMobile) {
+    if (isMobile) {
       return push(URLNFT);
-    }else{
+    } else {
       return setClaimNftPopUp(true);
     }
-  }
+  };
 
   // Function to handle button click
   const handleClaimNFT = async () => {
@@ -474,12 +478,12 @@ export function FaucetPage() {
                     name="twitter"
                     placeholder="Input post link"
                     className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
-                    // value={twitter}
-                    // onChange={(e) => setTwitter(e.target.value)} // Update state when input changes
+                    value={pinnedPosts}
+                    onChange={(e) => setPinPosts(e.target.value)} // Update state when input changes
                   />
                   <button
                     className="m-3 text-[12px]"
-                    onClick={() => handlePasteButtonClick('twitter')}
+                    onClick={() => handlePasteButtonClick('pinPosts')}
                   >
                     Paste
                   </button>
@@ -625,6 +629,8 @@ export function FaucetPage() {
                     telegramUsername &&
                     telegramFirstName &&
                     telegramLastName &&
+                    twitter &&
+                    pinnedPosts &&
                     activeAddress
                       ? 'text-black bg-[#4EE248]'
                       : 'text-black bg-[#DAF7A6] cursor-not-allowed'
@@ -633,6 +639,8 @@ export function FaucetPage() {
                     telegramUsername &&
                     telegramFirstName &&
                     telegramLastName &&
+                    twitter &&
+                    pinnedPosts &&
                     activeAddress
                       ? false
                       : true
