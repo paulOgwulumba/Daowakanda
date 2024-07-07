@@ -15,6 +15,7 @@ import { ClaimNftModal } from './connectModal/claimNft';
 import { dataOne, dataTwo } from './mock';
 import { useFaucetActions } from '@/features/faucet/actions/faucet.action';
 import { ThreeDots } from 'react-loader-spinner';
+import { useRouter } from 'next/router';
 
 export function FaucetPage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
@@ -29,6 +30,10 @@ export function FaucetPage() {
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
   const { registerFaucet } = useFaucetActions();
+  const {push} = useRouter();
+
+  //claimNFT URL
+  const URLNFT = `https://testnet.goplausible.xyz/claim/t77eat6zemvvw4twwzx6g538j381q2zwcrrmn2z9gmavvhdpww0dw8xxtyfcr7hr0hq9x5vrt8ts3ccrmzywhjb0ncx542001by0630`;
 
   // State variables to store values of input fields
   const [telegramUsername, setTelegramUsername] = useState('');
@@ -93,6 +98,14 @@ export function FaucetPage() {
     }
   };
 
+  const switchRedirectClaimNFT = () => {
+    if(isMobile) {
+      return push(URLNFT);
+    }else{
+      return setClaimNftPopUp(true);
+    }
+  }
+
   // Function to handle button click
   const handleClaimNFT = async () => {
     // Check if all tasks are completed
@@ -114,7 +127,8 @@ export function FaucetPage() {
       setTimeout(() => {
         notify.success('Faucet Details successfully registered');
         setLoading(false);
-        setClaimNftPopUp(true);
+        // setClaimNftPopUp(true);
+        switchRedirectClaimNFT();
         setTiming(35);
         setTelegramUsername('');
         setTelegramFirstName('');
