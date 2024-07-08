@@ -401,8 +401,8 @@ export function FaucetPage() {
               Obtain Wakanda NFT to participate in governance and proposals
             </p>
             <p className="w-[90%] text-center md:w-full md:flex md:justify-center md:items-center">
-              Click
-              <span className="text-[#4EE248]">
+              Click{' '}
+              <span className="text-[#4EE248] mx-0 md:mx-1 ">
                 <Link
                   href="https://bank.testnet.algorand.network/"
                   target="_blank"
