@@ -15,6 +15,7 @@ import { ClaimNftModal } from './connectModal/claimNft';
 import { dataOne, dataTwo } from './mock';
 import { useFaucetActions } from '@/features/faucet/actions/faucet.action';
 import { ThreeDots } from 'react-loader-spinner';
+import { useRouter } from 'next/router';
 
 export function FaucetPage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
@@ -29,12 +30,17 @@ export function FaucetPage() {
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
   const { registerFaucet } = useFaucetActions();
+  const { push } = useRouter();
+
+  //claimNFT URL
+  const URLNFT = `https://testnet.goplausible.xyz/claim/t77eat6zemvvw4twwzx6g538j381q2zwcrrmn2z9gmavvhdpww0dw8xxtyfcr7hr0hq9x5vrt8ts3ccrmzywhjb0ncx542001by0630`;
 
   // State variables to store values of input fields
   const [telegramUsername, setTelegramUsername] = useState('');
   const [telegramFirstName, setTelegramFirstName] = useState('');
   const [telegramLastName, setTelegramLastName] = useState('');
   const [twitter, setTwitter] = useState('');
+  const [pinnedPosts, setPinPosts] = useState('');
 
   //check claim nft modal state
   const [claimNftPopUp, setClaimNftPopUp] = useState(false);
@@ -88,8 +94,19 @@ export function FaucetPage() {
       case 'twitter':
         setTwitter(value);
         break;
+      case 'pinPosts':
+        setPinPosts(value);
+        break;
       default:
         console.error('Invalid field name:', fieldName);
+    }
+  };
+
+  const switchRedirectClaimNFT = () => {
+    if (isMobile) {
+      return push(URLNFT);
+    } else {
+      return setClaimNftPopUp(true);
     }
   };
 
@@ -114,7 +131,8 @@ export function FaucetPage() {
       setTimeout(() => {
         notify.success('Faucet Details successfully registered');
         setLoading(false);
-        setClaimNftPopUp(true);
+        // setClaimNftPopUp(true);
+        switchRedirectClaimNFT();
         setTiming(35);
         setTelegramUsername('');
         setTelegramFirstName('');
@@ -423,7 +441,7 @@ export function FaucetPage() {
                     type="text"
                     name="twitter"
                     placeholder="Enter your twitter username (e.g @John)"
-                    className="p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md" 
+                    className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
                     value={twitter}
                     onChange={(e) => setTwitter(e.target.value)} // Update state when input changes
                   />
@@ -443,7 +461,7 @@ export function FaucetPage() {
                   <p className="m-2 text-sm">
                     Like and Quote retweet our{' '}
                     <Link
-                      href="https://twitter.com/DaoWakanda/status/1807755696034951457?t=w9CKoOthdN30JkIzWHERvg&s=19"
+                      href="https://x.com/DaoWakanda/status/1810254442677096949"
                       target="_blank"
                     >
                       <span className="text-[#68BBE3] cursor-pointer">
@@ -460,12 +478,12 @@ export function FaucetPage() {
                     name="twitter"
                     placeholder="Input post link"
                     className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
-                    // value={twitter}
-                    // onChange={(e) => setTwitter(e.target.value)} // Update state when input changes
+                    value={pinnedPosts}
+                    onChange={(e) => setPinPosts(e.target.value)} // Update state when input changes
                   />
                   <button
                     className="m-3 text-[12px]"
-                    onClick={() => handlePasteButtonClick('twitter')}
+                    onClick={() => handlePasteButtonClick('pinPosts')}
                   >
                     Paste
                   </button>
@@ -611,6 +629,8 @@ export function FaucetPage() {
                     telegramUsername &&
                     telegramFirstName &&
                     telegramLastName &&
+                    twitter &&
+                    pinnedPosts &&
                     activeAddress
                       ? 'text-black bg-[#4EE248]'
                       : 'text-black bg-[#DAF7A6] cursor-not-allowed'
@@ -619,6 +639,8 @@ export function FaucetPage() {
                     telegramUsername &&
                     telegramFirstName &&
                     telegramLastName &&
+                    twitter &&
+                    pinnedPosts &&
                     activeAddress
                       ? false
                       : true
