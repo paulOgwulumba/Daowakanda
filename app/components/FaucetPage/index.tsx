@@ -423,7 +423,7 @@ export function FaucetPage() {
                     type="text"
                     name="twitter"
                     placeholder="Enter your twitter username (e.g @John)"
-                    className=" p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md"
+                    className="p-2 md:p-2 pr-10 block w-[90%] shadow-sm sm:text-sm bg-[#4D4D4D] rounded-md" 
                     value={twitter}
                     onChange={(e) => setTwitter(e.target.value)} // Update state when input changes
                   />
