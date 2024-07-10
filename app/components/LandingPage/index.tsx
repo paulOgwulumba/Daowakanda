@@ -379,7 +379,7 @@ export function LandingPage() {
               <div className={styles['card-detail']}>
                 <div className={styles['topic']}>
                   Introducing the DaoWakanda Testnet: Claim Your Free NFT and
-                  Engage in Governancer
+                  Engage in Governance
                 </div>
                 <div className={styles['author']}>Author: Daowakanda</div>
                 <div className={styles['date']}>July 10 , 2024</div>
