@@ -368,24 +368,30 @@ export function LandingPage() {
         </div>
         <div className={styles['bottom']}>
           <div className={styles['special-card']}>
-            <img
-              src="https://res.cloudinary.com/dlinprg6k/image/upload/v1709953986/frame74_jlrdow.jpg"
-              alt="blog-post"
-            />
-            <div className={styles['card-detail']}>
-              <div className={styles['topic']}>
-                DaoWakanda-Connect 2023 Recap
+            <Link
+              href="https://medium.com/@daowakanda/introducing-the-daowakanda-testnet-claim-your-free-nft-and-engage-in-governance-682156156d2e"
+              target="blank"
+            >
+              <img
+                src="https://res.cloudinary.com/dlinprg6k/image/upload/v1720618394/faucetImage_f5szql.webp"
+                alt="blog-post"
+              />
+              <div className={styles['card-detail']}>
+                <div className={styles['topic']}>
+                  Introducing the DaoWakanda Testnet: Claim Your Free NFT and
+                  Engage in Governancer
+                </div>
+                <div className={styles['author']}>Author: Daowakanda</div>
+                <div className={styles['date']}>July 10 , 2024</div>
               </div>
-              <div className={styles['author']}>Author: Micah Tom</div>
-              <div className={styles['date']}>December 31 , 2023</div>
-            </div>
+            </Link>
           </div>
           <div className={styles['cards']}>
             <BlogCard
-              image="https://res.cloudinary.com/dlinprg6k/image/upload/v1709953981/frame75_sfgaao.jpg"
-              topic="DaoWakanda Monthly Report: November"
-              name="admin"
-              date="December 31 , 2023"
+              image="https://res.cloudinary.com/dlinprg6k/image/upload/v1709953978/wakanda-warrior_ofvi8k.jpg"
+              topic="Daowakanda: Pioneering Community Engagement and Participation on the Algorand Blockchain"
+              name="Daowakanda"
+              date="July 09, 2024"
             />
             <BlogCard
               image="https://res.cloudinary.com/dlinprg6k/image/upload/v1709953981/frame76_hdefkt.jpg"
