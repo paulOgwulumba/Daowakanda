@@ -142,6 +142,9 @@ export function LandingPage() {
                     <Link className={styles['nav-item']} href="/faucet">
                       Faucet
                     </Link>
+                      <Link className={styles['nav-item']} href="/fpl">
+                    FPL Tournament
+                  </Link>
                   </div>
                   <div
                     className={styles['nav-button']}
@@ -234,6 +237,12 @@ export function LandingPage() {
               >
                 <Link href="/faucet">Faucet</Link>
               </div>
+              <div
+              className={styles['nav-item']}
+              onMouseLeave={() => setActiveDropDownTwo(false)}
+            >
+              <Link href="/fpl">FPL Tournament</Link>
+            </div>
             </div>
             <div
               className={styles['join']}

@@ -2,40 +2,34 @@ import { useWindowDimensions } from '../../hooks/useWindowDimensions';
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import Link from 'next/link';
-import { PiDiscordLogo, PiTelegramLogo } from 'react-icons/pi';
-import { FaHeart, FaHistory } from 'react-icons/fa';
-import { FiFacebook } from 'react-icons/fi';
-import { IoChatbubblesOutline } from 'react-icons/io5';
-import { BsQuestionSquare } from 'react-icons/bs';
-import { RiTwitterXLine } from 'react-icons/ri';
 import { NavCard } from './navCard';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { ConnectWalletModal } from './connectModal';
-import { CreateProposalModal } from './createProposal';
 import { useWallet } from '@txnlab/use-wallet';
-import { Proposals } from './Proposals';
-import { useGovernanceActions } from '@/features/governance/actions/governance.action';
-import { useRecoilState } from 'recoil';
-import { ProposalsAtom } from '@/features/governance/state/governance.atom';
 import { useNotify } from '@/hooks';
-import { MdOutlineNoteAdd } from 'react-icons/md';
-import { data, dataTwo } from './mock';
+import { dataOne, dataTwo } from './mock';
+import { useFaucetActions } from '@/features/faucet/actions/faucet.action';
+import { useRouter } from 'next/router';
+import { FaHeart } from 'react-icons/fa';
+import { RiTwitterXLine } from 'react-icons/ri';
+import { PiDiscordLogo, PiTelegramLogo } from 'react-icons/pi';
+import { FiFacebook } from 'react-icons/fi';
 
-export function GovernancePage() {
+export function FPLPage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
   const [activeDropDownTwo, setActiveDropDownTwo] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [openSideNav, setOpenSideNav] = useState(false);
   const [dropDownActive, setDropDownActive] = useState(false);
   const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
   const [connectWalletModal, setConnectWalletModal] = useState(false);
-  const [createProposalModal, setCreateProposalModal] = useState(false);
   const { activeAddress, providers } = useWallet();
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
+  const { registerFaucet } = useFaucetActions();
+  const { push } = useRouter();
 
-  const [proposalData] = useRecoilState(ProposalsAtom);
-  const { getAllProposals } = useGovernanceActions();
 
   const toggleShowDropDown = () => {
     setDropDownActive(true);
@@ -55,12 +49,6 @@ export function GovernancePage() {
   const clearConnectModal = () => {
     setConnectWalletModal(false);
   };
-  const openProposalModal = () => {
-    setCreateProposalModal(true);
-  };
-  const clearCreateProposalModal = () => {
-    setCreateProposalModal(false);
-  };
   const disconnectWallet = () => {
     providers?.forEach((provider) => provider.disconnect());
   };
@@ -71,26 +59,33 @@ export function GovernancePage() {
     }, 1500);
   };
 
-  useEffect(() => {
-    getAllProposals();
-  }, []);
+  const fplData = [
+    {
+      id: 1,
+      position: '🥇1st Position',
+      amount: 1000,
+    },
+    {
+      id: 2,
+      position: '🥈2nd Position',
+      amount: 500,
+    },
+    {
+      id: 3,
+      position: '🥉3nd Position',
+      amount: 300,
+    },
+  ]
 
-  console.log(proposalData);
   return (
     <div className={styles.container}>
-      {createProposalModal && (
-        <CreateProposalModal
-          isActive={createProposalModal}
-          onclick={clearCreateProposalModal}
-          setCreateProposalModal={setCreateProposalModal}
-        />
-      )}
       {connectWalletModal && (
         <ConnectWalletModal
           isActive={activeAddress ? false : true}
           onclick={clearConnectModal}
         />
       )}
+
       {isMobile ? (
         <div className={styles['mobile-header']}>
           <div className={styles['mobile-logo']}>
@@ -136,7 +131,6 @@ export function GovernancePage() {
                   <Link className={styles['nav-item']} href="/governance">
                     Governance
                   </Link>
-
                   <div className={styles['section']}>
                     <div className={styles['nav-item']}>
                       Communities
@@ -163,7 +157,6 @@ export function GovernancePage() {
                   <Link className={styles['nav-item']} href="/about">
                     About
                   </Link>
-
                   <Link className={styles['nav-item']} href="/faucet">
                     Faucet
                   </Link>
@@ -218,7 +211,7 @@ export function GovernancePage() {
                   className={styles['nav-dropdown']}
                   onMouseLeave={() => setActiveDropDown(false)}
                 >
-                  {data.map((item, index) => (
+                  {dataOne.map((item, index) => (
                     <NavCard
                       title={item.title}
                       description={item.description}
@@ -293,50 +286,55 @@ export function GovernancePage() {
           </div>
         </div>
       )}
-      <div className={styles['hero-section']}>
-        <div className={styles['title']}>
-          DAO - Participate in decision making
-        </div>
-        <div className={styles['body-text']}>
-          DAO Wakanda is a decentralized autonomous organization, to
-          revolutionize community engagement and participation starting with
-          Algorand Nigeria. This platform has been designed to create a vibrant
-          ecosystem where contributors and developers are incentivized and
-          rewarded for their invaluable contributions.
-        </div>
-      </div>
-      {/*Hero-section Ends*/}
-
-      <div className={styles['proposal-section']}>
-        <div className={styles['title-section']}>
-          <div className={styles['text']}>Proposals</div>
-          <div className={styles['right-section']}>
-            <div className={styles['icon-block']}>
-              <FaHistory className={styles['icon']} />
-              History
+      <div className={styles['main']}>
+        <div className={styles['fpl-card']}>
+          <div className={styles['top']}>
+            <div className={styles['title']}>
+              Join our FPL League and turn your passion into profits every week.
             </div>
-            <div className={styles['icon-block']}>
-              <IoChatbubblesOutline className={styles['icon']} />
-              Forum
+            <div className={styles['steps']}>
+              <div className={styles['lead']}>
+                Steps:
+                <ol>
+                  <li>Pick your FPL Squad.</li>
+                  <li>Fund your Pera Wallet.</li>
+                  <li>Pay a little token of <span>10 Algos</span> to be part of the tournament.</li>
+                  <li>Join the Telegram Group that would be sent to you after making payment for further information.</li>
+                  <li>Use the League Code that will be provided to join the tournament.</li>
+                </ol>
+              </div>
             </div>
-            <div className={styles['icon-block']}>
-              <BsQuestionSquare className={styles['icon']} />
-              FAQ
+          </div>
+          <div className={styles['bottom']}>
+            <div className={styles['grand-prize']}>
+              End of season Grand Prize
             </div>
-            <button
-              className={styles['button']}
-              disabled={activeAddress ? false : true}
-              onClick={openProposalModal}
-            >
-              <MdOutlineNoteAdd className={styles['icon']} />
-              Create Proposal
-            </button>
+            <div className={styles['prizes']}>
+              {
+                fplData.map((item, index)=>(
+                  <div className={styles['prize']} key={index}>
+                    <div className={styles['position']}>
+                      {item.position}
+                    </div>
+                    <div className={styles['amount']}>
+                      {item.amount} Algos
+                    </div>
+                    <div className={styles['addtional']}>
+                      {`(OG NFT include)`}
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+            <div className={styles['btn']}>
+              Pay To Join
+            </div>
           </div>
         </div>
-        <Proposals />
       </div>
-      {/*Proposal section Ends*/}
 
+     
+      {/*Footer Ends*/}
       <div className={styles['footer']}>
         <div className={styles['contain']}>
           <div className={styles['left']}>
@@ -355,7 +353,6 @@ export function GovernancePage() {
           </div>
         </div>
       </div>
-      {/*Footer Ends*/}
     </div>
   );
 }

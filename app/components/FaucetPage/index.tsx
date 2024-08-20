@@ -269,6 +269,9 @@ export function FaucetPage() {
                   <Link className={styles['nav-item']} href="/faucet">
                     Faucet
                   </Link>
+                  <Link className={styles['nav-item']} href="/fpl">
+                    FPL Tournament
+                  </Link>
                 </div>
                 <div
                   className={styles['nav-button']}
@@ -361,6 +364,12 @@ export function FaucetPage() {
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
               <Link href="/faucet">Faucet</Link>
+            </div>
+            <div
+              className={styles['nav-item']}
+              onMouseLeave={() => setActiveDropDownTwo(false)}
+            >
+              <Link href="/fpl">FPL Tournament</Link>
             </div>
           </div>
           <div
