@@ -30,7 +30,6 @@ export function FPLPage() {
   const { registerFaucet } = useFaucetActions();
   const { push } = useRouter();
 
-
   const toggleShowDropDown = () => {
     setDropDownActive(true);
   };
@@ -75,7 +74,7 @@ export function FPLPage() {
       position: '🥉3nd Position',
       amount: 300,
     },
-  ]
+  ];
 
   return (
     <div className={styles.container}>
@@ -298,9 +297,18 @@ export function FPLPage() {
                 <ol>
                   <li>Pick your FPL Squad.</li>
                   <li>Fund your Pera Wallet.</li>
-                  <li>Pay a little token of <span>10 Algos</span> to be part of the tournament.</li>
-                  <li>Join the Telegram Group that would be sent to you after making payment for further information.</li>
-                  <li>Use the League Code that will be provided to join the tournament.</li>
+                  <li>
+                    Pay a little token of <span>10 Algos</span> to be part of
+                    the tournament.
+                  </li>
+                  <li>
+                    Join the Telegram Group that would be sent to you after
+                    making payment for further information.
+                  </li>
+                  <li>
+                    Use the League Code that will be provided to join the
+                    tournament.
+                  </li>
                 </ol>
               </div>
             </div>
@@ -310,30 +318,21 @@ export function FPLPage() {
               End of season Grand Prize
             </div>
             <div className={styles['prizes']}>
-              {
-                fplData.map((item, index)=>(
-                  <div className={styles['prize']} key={index}>
-                    <div className={styles['position']}>
-                      {item.position}
-                    </div>
-                    <div className={styles['amount']}>
-                      {item.amount} Algos
-                    </div>
-                    <div className={styles['addtional']}>
-                      {`(OG NFT include)`}
-                    </div>
+              {fplData.map((item, index) => (
+                <div className={styles['prize']} key={index}>
+                  <div className={styles['position']}>{item.position}</div>
+                  <div className={styles['amount']}>{item.amount} Algos</div>
+                  <div className={styles['addtional']}>
+                    {`(OG NFT include)`}
                   </div>
-                ))
-              }
+                </div>
+              ))}
             </div>
-            <div className={styles['btn']}>
-              Pay To Join
-            </div>
+            <div className={styles['btn']}>Pay To Join</div>
           </div>
         </div>
       </div>
 
-     
       {/*Footer Ends*/}
       <div className={styles['footer']}>
         <div className={styles['contain']}>

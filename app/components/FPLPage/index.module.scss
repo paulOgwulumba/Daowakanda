@@ -280,10 +280,11 @@
   padding: 70px 16px;
   margin-top: 25px;
   background-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.6),
-    rgba(0, 0, 0, 0.6)
-  ),url("https://res.cloudinary.com/dlinprg6k/image/upload/v1724118959/Screenshot_2024-08-19_at_7.45.42_PM_2_sulhcf.png");
+      to right,
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0.6)
+    ),
+    url('https://res.cloudinary.com/dlinprg6k/image/upload/v1724118959/Screenshot_2024-08-19_at_7.45.42_PM_2_sulhcf.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -296,95 +297,95 @@
     background-position: auto;
   }
 
-  .fpl-card{
+  .fpl-card {
     display: flex;
     flex-direction: column;
     gap: 20px;
     border-radius: 16px;
-    background: #37003C;
-    border: 5px solid #05FA8540;
+    background: #37003c;
+    border: 5px solid #05fa8540;
     min-height: 468px;
     padding: 21px;
 
-    @include tablet{
+    @include tablet {
       gap: 32px;
       width: 559px;
       min-height: 579px;
       padding: 32px;
     }
 
-    .top{
+    .top {
       min-height: 260px;
       display: flex;
       flex-direction: column;
       gap: 16px;
 
-      @include tablet{
+      @include tablet {
         min-height: 270px;
         gap: 32px;
       }
 
-      .title{
+      .title {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #05FA85;
+        color: #05fa85;
         border-bottom: 1px solid #fff;
-        font-family: "Avenir";
+        font-family: 'Avenir';
         font-size: 16px;
         font-weight: 800;
         line-height: 27.32px;
         text-align: center;
 
-        @include tablet{
+        @include tablet {
           font-size: 20px;
         }
       }
-      .steps{
+      .steps {
         display: flex;
         flex-direction: column;
 
-        .lead{
-          font-family: "Avenir";
+        .lead {
+          font-family: 'Avenir';
           font-weight: 800px;
           font-size: 14px;
           line-height: 21.86px;
           color: #fff;
 
-           @include tablet{
-           font-size: 16px;
+          @include tablet {
+            font-size: 16px;
           }
 
-          ol{
+          ol {
             list-style: decimal;
-           
-            li{
+
+            li {
               font-weight: 400px;
               margin-left: 20px;
 
-              span{
-                color: #05FA85;
+              span {
+                color: #05fa85;
               }
             }
           }
         }
       }
     }
-    .bottom{
+    .bottom {
       display: flex;
       flex-direction: column;
       position: relative;
       min-height: 217px;
       gap: 16px;
 
-      .grand-prize{
+      .grand-prize {
         position: absolute;
         top: 0;
         left: 20%;
         right: 20%;
         text-align: center;
-        color: #37003C;
-        font-family: "Avenir";
+        color: #37003c;
+        font-family: 'Avenir';
         font-size: 14px;
         font-weight: 800;
         line-height: 19.12px;
@@ -392,14 +393,14 @@
         background-color: #fff;
         min-height: 35px;
 
-        @include tablet{
+        @include tablet {
           left: 30%;
           right: 30%;
         }
       }
-      .prizes{
+      .prizes {
         display: flex;
-        background: #64256A;
+        background: #64256a;
         align-items: center;
         justify-content: space-between;
         padding: 16px;
@@ -407,70 +408,69 @@
         color: #fff;
         border-radius: 8px;
 
-        .prize{
+        .prize {
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          font-family: "Avenir";
+          font-family: 'Avenir';
           padding: 5px;
 
-          .position{
+          .position {
             font-size: 10px;
             font-weight: 350;
             line-height: 20.49px;
 
-            @include tablet{
+            @include tablet {
               font-size: 15px;
             }
           }
-          .amount{
+          .amount {
             font-size: 16px;
             font-weight: 900;
             line-height: 32.78px;
 
-            @include tablet{
+            @include tablet {
               font-size: 24px;
             }
           }
-          .additional{
+          .additional {
             font-size: 10px;
             font-weight: 400;
             line-height: 19.12px;
 
-            @include tablet{
+            @include tablet {
               font-size: 14px;
             }
           }
         }
-        .prize:nth-of-type(2){
+        .prize:nth-of-type(2) {
           border-left: 1px solid #fff;
           border-right: 1px solid #fff;
           padding: 0 12px;
         }
       }
-      .btn{
+      .btn {
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: #fff;
         border-radius: 8px;
-        color: #37003C;
+        color: #37003c;
         cursor: pointer;
         min-height: 60px;
-        font-family: "Avenir";
+        font-family: 'Avenir';
         font-size: 13px;
         font-weight: 500;
         line-height: 27.32px;
         text-align: center;
 
-        @include tablet{
+        @include tablet {
           font-size: 20px;
         }
       }
     }
   }
-
 }
 
 @keyframes slide {
