@@ -322,7 +322,7 @@ export function FPLPage() {
                 <div className={styles['prize']} key={index}>
                   <div className={styles['position']}>{item.position}</div>
                   <div className={styles['amount']}>{item.amount} Algos</div>
-                  <div className={styles['addtional']}>
+                  <div className={styles['additional']}>
                     {`(OG NFT include)`}
                   </div>
                 </div>
