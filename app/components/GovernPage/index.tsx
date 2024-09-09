@@ -2,33 +2,47 @@ import { useWindowDimensions } from '../../hooks/useWindowDimensions';
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import Link from 'next/link';
+import { PiDiscordLogo, PiTelegramLogo } from 'react-icons/pi';
+import { FaHeart, FaHistory } from 'react-icons/fa';
+import { FiFacebook } from 'react-icons/fi';
+import { IoChatbubblesOutline } from 'react-icons/io5';
+import { BsQuestionSquare } from 'react-icons/bs';
+import { RiTwitterXLine } from 'react-icons/ri';
 import { NavCard } from './navCard';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { ConnectWalletModal } from './connectModal';
+import { CreateProposalModal } from './createProposal';
 import { useWallet } from '@txnlab/use-wallet';
+import { DesktopProposals } from './DesktopProposals';
+import { useGovernanceActions } from '@/features/governance/actions/governance.action';
+import { useRecoilState } from 'recoil';
+import { ProposalsAtom } from '@/features/governance/state/governance.atom';
 import { useNotify } from '@/hooks';
-import { dataOne, dataTwo } from './mock';
-import { useFaucetActions } from '@/features/faucet/actions/faucet.action';
+import { MdOutlineNoteAdd } from 'react-icons/md';
+import { data, dataTwo } from './mock';
 import { useRouter } from 'next/router';
-import { FaHeart } from 'react-icons/fa';
-import { RiTwitterXLine } from 'react-icons/ri';
-import { PiDiscordLogo, PiTelegramLogo } from 'react-icons/pi';
-import { FiFacebook } from 'react-icons/fi';
+import { MobileProposals } from './MobileProposals';
+import { PaginationBar } from './SubComponent/PaginationBar';
 
-export function FPLPage() {
+export function GovernPage() {
   const [activeDropDown, setActiveDropDown] = useState(false);
   const [activeDropDownTwo, setActiveDropDownTwo] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [openSideNav, setOpenSideNav] = useState(false);
   const [dropDownActive, setDropDownActive] = useState(false);
   const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
   const [connectWalletModal, setConnectWalletModal] = useState(false);
+  const [createProposalModal, setCreateProposalModal] = useState(false);
   const { activeAddress, providers } = useWallet();
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
-  const { registerFaucet } = useFaucetActions();
-  const { push } = useRouter();
+  const router = useRouter();
+
+  // Get the full current URL
+  const currentUrl = `${router.asPath}`;
+  console.log(currentUrl);
+  const [proposalData] = useRecoilState(ProposalsAtom);
+  const { getAllProposals } = useGovernanceActions();
 
   const toggleShowDropDown = () => {
     setDropDownActive(true);
@@ -48,6 +62,12 @@ export function FPLPage() {
   const clearConnectModal = () => {
     setConnectWalletModal(false);
   };
+  const openProposalModal = () => {
+    setCreateProposalModal(true);
+  };
+  const clearCreateProposalModal = () => {
+    setCreateProposalModal(false);
+  };
   const disconnectWallet = () => {
     providers?.forEach((provider) => provider.disconnect());
   };
@@ -58,33 +78,26 @@ export function FPLPage() {
     }, 1500);
   };
 
-  const fplData = [
-    {
-      id: 1,
-      position: '🥇1st Position',
-      amount: 1000,
-    },
-    {
-      id: 2,
-      position: '🥈2nd Position',
-      amount: 500,
-    },
-    {
-      id: 3,
-      position: '🥉3nd Position',
-      amount: 300,
-    },
-  ];
+  useEffect(() => {
+    getAllProposals();
+  }, []);
 
+  console.log(proposalData);
   return (
     <div className={styles.container}>
+      {createProposalModal && (
+        <CreateProposalModal
+          isActive={createProposalModal}
+          onclick={clearCreateProposalModal}
+          setCreateProposalModal={setCreateProposalModal}
+        />
+      )}
       {connectWalletModal && (
         <ConnectWalletModal
           isActive={activeAddress ? false : true}
           onclick={clearConnectModal}
         />
       )}
-
       {isMobile ? (
         <div className={styles['mobile-header']}>
           <div className={styles['mobile-logo']}>
@@ -130,6 +143,7 @@ export function FPLPage() {
                   <Link className={styles['nav-item']} href="/governance">
                     Governance
                   </Link>
+
                   <div className={styles['section']}>
                     <div className={styles['nav-item']}>
                       Communities
@@ -156,6 +170,7 @@ export function FPLPage() {
                   <Link className={styles['nav-item']} href="/about">
                     About
                   </Link>
+
                   <Link className={styles['nav-item']} href="/faucet">
                     Faucet
                   </Link>
@@ -204,13 +219,13 @@ export function FPLPage() {
               onMouseEnter={() => setActiveDropDown(true)}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
-              <Link href="/governance">governance</Link>
+              <Link href="/governance" style={{color: currentUrl == `/governance`? `#fff`:`#757575`}}>governance</Link>
               {activeDropDown && (
                 <div
                   className={styles['nav-dropdown']}
                   onMouseLeave={() => setActiveDropDown(false)}
                 >
-                  {dataOne.map((item, index) => (
+                  {data.map((item, index) => (
                     <NavCard
                       title={item.title}
                       description={item.description}
@@ -226,7 +241,7 @@ export function FPLPage() {
               onMouseEnter={() => setActiveDropDownTwo(true)}
               onMouseLeave={() => setActiveDropDown(false)}
             >
-              <Link href="/landingpage">communities</Link>
+              <Link href="/landingpage" style={{color: currentUrl == `/landingpage`? `#fff`:`#757575`}}>communities</Link>
               {activeDropDownTwo && (
                 <div
                   className={styles['nav-dropdown']}
@@ -247,19 +262,19 @@ export function FPLPage() {
               className={styles['nav-item']}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
-              <Link href="/about">about</Link>
+              <Link href="/about" style={{color: currentUrl == `/about`? `#fff`:`#757575`}}>about</Link>
             </div>
             <div
               className={styles['nav-item']}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
-              <Link href="/faucet">Faucet</Link>
+              <Link href="/faucet" style={{color: currentUrl == `/faucet`? `#fff`:`#757575`}}>Faucet</Link>
             </div>
             <div
               className={styles['nav-item']}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
-              <Link href="/fpl">FPL Tournament</Link>
+              <Link href="/fpl" style={{color: currentUrl == `/fpl`? `#fff`:`#757575`}}>FPL Tournament</Link>
             </div>
           </div>
           <div
@@ -275,69 +290,45 @@ export function FPLPage() {
               `${activeAddress.slice(0, 10)}...`
             ) : (
               <>
-                <img
+                {/* <img
                   src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710656577/wallet-02-1_tjruyq.png"
                   alt="wallet-icon"
-                />
+                /> */}
                 Connect Wallet
               </>
             )}
           </div>
         </div>
       )}
-      <div className={styles['main']}>
-        <div className={styles['fpl-card']}>
-          <div className={styles['top']}>
-            <div className={styles['title']}>
-              Join our FPL League and turn your passion into profits every week.
-            </div>
-            <div className={styles['steps']}>
-              <div className={styles['lead']}>
-                Steps:
-                <ol>
-                  <li>Pick your FPL Squad.</li>
-                  <li>Fund your Pera Wallet.</li>
-                  <li>
-                    Pay a little token of <span>10 Algos</span> to be part of
-                    the tournament.
-                  </li>
-                  <li>
-                    Join the Telegram Group that would be sent to you after
-                    making payment for further information.
-                  </li>
-                  <li>
-                    Use the League Code that will be provided to join the
-                    tournament.
-                  </li>
-                </ol>
-              </div>
-            </div>
+      <div className={styles['hero-section']}>
+        <div className={styles['inner-content']}>
+          <div className={styles['title']}>
+            DaoWakanda Governance:
           </div>
-          <div className={styles['bottom']}>
-            <div className={styles['grand-prize']}>
-              End of season Grand Prize
-            </div>
-            <div className={styles['prizes']}>
-              {fplData.map((item, index) => (
-                <div className={styles['prize']} key={index}>
-                  <div className={styles['position']}>{item.position}</div>
-                  <div className={styles['amount']}>{item.amount} Algos</div>
-                  <div className={styles['additional']}>
-                    {`(OG NFT include)`}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className={styles['btn-group']}>
-              <button className={styles['btn']}>Make Payment</button>
-              <button className={styles['btn-inactive']} disabled={true}>Proceed To Join</button>
-            </div>
-            </div>
-            
+          <div className={styles['bold-text']}>
+            Participate in decision making
+          </div>
+        </div>
+        <div className={styles['body-text']}>
+          Focused on revolutionizing community engagement and participation starting with Algorand Nigeria.
         </div>
       </div>
+      {/*Hero-section Ends*/}
 
-      {/*Footer Ends*/}
+      {
+        isMobile ? (
+          <MobileProposals openProposalModal={openProposalModal} />
+        ):(
+          <DesktopProposals setCreateProposalModal={setCreateProposalModal} />
+        )
+      }
+      {/*Proposal section Ends*/}
+
+      <PaginationBar />
+      
+      {/*Pagination section Ends*/}
+
+      
       <div className={styles['footer']}>
         <div className={styles['contain']}>
           <div className={styles['left']}>
@@ -356,6 +347,7 @@ export function FPLPage() {
           </div>
         </div>
       </div>
+      {/*Footer Ends*/}
     </div>
   );
 }

@@ -44,3 +44,16 @@ export interface IProposal {
   no_count: number;
   wallet_address: string;
 }
+
+export interface SampleProposal{
+  id: number;
+  title: string;
+  yesVote: number;
+  noVote: number;
+  tag: string;
+  isActive: boolean;
+  description: string;
+  end_time: string;
+  created_on: string;
+  wallet_address: string;
+}
