@@ -2,9 +2,24 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import styles from './index.module.scss';
 import { useEffect, useState } from 'react';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
+import { useWindowDimensions, useNotify } from '@/hooks';
+import { useWallet } from '@txnlab/use-wallet';
+import { useRouter } from 'next/router';
 
 export const DetailsPage = () => {
   const [active, setActive] = useState(true);
+  const [activeDropDown, setActiveDropDown] = useState(false);
+  const [activeDropDownTwo, setActiveDropDownTwo] = useState(false);
+  const [openSideNav, setOpenSideNav] = useState(false);
+  const [dropDownActive, setDropDownActive] = useState(false);
+  const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
+  const [connectWalletModal, setConnectWalletModal] = useState(false);
+  const [createProposalModal, setCreateProposalModal] = useState(false);
+  const { activeAddress, providers } = useWallet();
+  const { width } = useWindowDimensions();
+  const isMobile = width ? width < 768 : false;
+  const { notify } = useNotify();
+  const router = useRouter();
 
   return (
     <div className={styles.container}>

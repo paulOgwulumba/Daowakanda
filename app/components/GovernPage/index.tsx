@@ -174,9 +174,9 @@ export function GovernPage() {
                   <Link className={styles['nav-item']} href="/faucet">
                     Faucet
                   </Link>
-                  <Link className={styles['nav-item']} href="/fpl">
+                  {/* <Link className={styles['nav-item']} href="/fpl">
                     FPL Tournament
-                  </Link>
+                  </Link> */}
                 </div>
                 <div
                   className={styles['nav-button']}
@@ -219,7 +219,14 @@ export function GovernPage() {
               onMouseEnter={() => setActiveDropDown(true)}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
-              <Link href="/governance" style={{color: currentUrl == `/governance`? `#fff`:`#757575`}}>governance</Link>
+              <Link
+                href="/governance"
+                style={{
+                  color: currentUrl == `/governance` ? `#fff` : `#757575`,
+                }}
+              >
+                governance
+              </Link>
               {activeDropDown && (
                 <div
                   className={styles['nav-dropdown']}
@@ -241,7 +248,14 @@ export function GovernPage() {
               onMouseEnter={() => setActiveDropDownTwo(true)}
               onMouseLeave={() => setActiveDropDown(false)}
             >
-              <Link href="/landingpage" style={{color: currentUrl == `/landingpage`? `#fff`:`#757575`}}>communities</Link>
+              <Link
+                href="/landingpage"
+                style={{
+                  color: currentUrl == `/landingpage` ? `#fff` : `#757575`,
+                }}
+              >
+                communities
+              </Link>
               {activeDropDownTwo && (
                 <div
                   className={styles['nav-dropdown']}
@@ -262,19 +276,34 @@ export function GovernPage() {
               className={styles['nav-item']}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
-              <Link href="/about" style={{color: currentUrl == `/about`? `#fff`:`#757575`}}>about</Link>
+              <Link
+                href="/about"
+                style={{ color: currentUrl == `/about` ? `#fff` : `#757575` }}
+              >
+                about
+              </Link>
             </div>
             <div
               className={styles['nav-item']}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
-              <Link href="/faucet" style={{color: currentUrl == `/faucet`? `#fff`:`#757575`}}>Faucet</Link>
+              <Link
+                href="/faucet"
+                style={{ color: currentUrl == `/faucet` ? `#fff` : `#757575` }}
+              >
+                Faucet
+              </Link>
             </div>
             <div
               className={styles['nav-item']}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
-              <Link href="/fpl" style={{color: currentUrl == `/fpl`? `#fff`:`#757575`}}>FPL Tournament</Link>
+              {/* <Link
+                href="/fpl"
+                style={{ color: currentUrl == `/fpl` ? `#fff` : `#757575` }}
+              >
+                FPL Tournament
+              </Link> */}
             </div>
           </div>
           <div
@@ -302,33 +331,29 @@ export function GovernPage() {
       )}
       <div className={styles['hero-section']}>
         <div className={styles['inner-content']}>
-          <div className={styles['title']}>
-            DaoWakanda Governance:
-          </div>
+          <div className={styles['title']}>DaoWakanda Governance:</div>
           <div className={styles['bold-text']}>
             Participate in decision making
           </div>
         </div>
         <div className={styles['body-text']}>
-          Focused on revolutionizing community engagement and participation starting with Algorand Nigeria.
+          Focused on revolutionizing community engagement and participation
+          starting with Algorand Nigeria.
         </div>
       </div>
       {/*Hero-section Ends*/}
 
-      {
-        isMobile ? (
-          <MobileProposals openProposalModal={openProposalModal} />
-        ):(
-          <DesktopProposals setCreateProposalModal={setCreateProposalModal} />
-        )
-      }
+      {isMobile ? (
+        <MobileProposals openProposalModal={openProposalModal} />
+      ) : (
+        <DesktopProposals setCreateProposalModal={setCreateProposalModal} />
+      )}
       {/*Proposal section Ends*/}
 
       <PaginationBar />
-      
+
       {/*Pagination section Ends*/}
 
-      
       <div className={styles['footer']}>
         <div className={styles['contain']}>
           <div className={styles['left']}>
