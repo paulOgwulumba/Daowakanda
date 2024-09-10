@@ -5,6 +5,11 @@ import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 import { useWindowDimensions, useNotify } from '@/hooks';
 import { useWallet } from '@txnlab/use-wallet';
 import { useRouter } from 'next/router';
+import { ConnectWalletModal } from '../../connectModal';
+import Link from 'next/link';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { data, dataTwo } from '../../mock';
+import { NavCard } from '../../navCard';
 
 export const DetailsPage = () => {
   const [active, setActive] = useState(true);
@@ -21,8 +26,138 @@ export const DetailsPage = () => {
   const { notify } = useNotify();
   const router = useRouter();
 
+  // Get the full current URL
+  const currentUrl = `${router.asPath}`;
+  console.log(currentUrl);
+  const toggleConnectWallet = () => {
+    setConnectWalletModal(!connectWalletModal);
+  };
+  const clearConnectModal = () => {
+    setConnectWalletModal(false);
+  };
+  const toggleShowDropDownTwo = () => {
+    setDropDownActiveTwo(true);
+  };
+  const toggleHideDropDownTwo = () => {
+    setDropDownActiveTwo(false);
+  };
+
+  const disconnectWallet = () => {
+    providers?.forEach((provider) => provider.disconnect());
+  };
+
+  const connectWalletMessage = () => {
+    setTimeout(() => {
+      notify.info(`Please Connect Your Wallet`);
+    }, 1500);
+  };
+
   return (
     <div className={styles.container}>
+      {connectWalletModal && (
+        <ConnectWalletModal
+          isActive={activeAddress ? false : true}
+          onclick={clearConnectModal}
+        />
+      )}
+      {isMobile ? (
+        <div className={styles['mobile-header']}>
+          <div className={styles['mobile-logo']}>
+            <Link href={'/'} className={styles['link']}>
+              <img
+                src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710183598/Group_5_nlkqfr.png"
+                alt="logo"
+              />
+            </Link>
+          </div>
+          <div
+            className={styles['mobile-menu-bar']}
+            onClick={() => setOpenSideNav(true)}
+          >
+            <img
+              src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710183576/menu-01_kkbysq.png"
+              alt="bar"
+            />
+          </div>
+          {openSideNav && (
+            <div className={styles['mobile-side-nav']}>
+              <header>
+                <div className={styles['mobile-logo']}>
+                  <Link href={'/'} className={styles['link']}>
+                    <img
+                      src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710183598/Group_5_nlkqfr.png"
+                      alt="logo"
+                    />
+                  </Link>
+                </div>
+                <div
+                  className={styles['mobile-menu-bar']}
+                  onClick={() => setOpenSideNav(false)}
+                >
+                  <img
+                    src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710200265/menu-01_1_btjqaf.png"
+                    alt="bar"
+                  />
+                </div>
+              </header>
+              <div className={styles['nav-section']}>
+                <div
+                  className={styles['nav-button']}
+                  onMouseEnter={() => {
+                    !activeAddress && connectWalletMessage();
+                  }}
+                  onClick={() => {
+                    activeAddress ? disconnectWallet() : toggleConnectWallet();
+                    setOpenSideNav(false);
+                  }}
+                >
+                  {activeAddress ? (
+                    `${activeAddress.slice(0, 10)}...`
+                  ) : (
+                    <>
+                      <img
+                        src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710656577/wallet-02-1_tjruyq.png"
+                        alt="wallet-icon"
+                      />
+                      Connect Wallet
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className={styles['desktop-header']}>
+          <Link href={'/'} className={styles['link']}>
+            <img
+              src="https://res.cloudinary.com/dkuwhyun7/image/upload/v1709861971/Group_5_wz7m5r.png"
+              alt="logo"
+            />
+          </Link>
+          <div
+            className={styles['join']}
+            onMouseEnter={() => {
+              !activeAddress && connectWalletMessage();
+            }}
+            onClick={() => {
+              activeAddress ? disconnectWallet() : toggleConnectWallet();
+            }}
+          >
+            {activeAddress ? (
+              `${activeAddress.slice(0, 10)}...`
+            ) : (
+              <>
+                {/* <img
+                  src="https://res.cloudinary.com/dlinprg6k/image/upload/v1710656577/wallet-02-1_tjruyq.png"
+                  alt="wallet-icon"
+                /> */}
+                Connect Wallet
+              </>
+            )}
+          </div>
+        </div>
+      )}
       <div className={styles['top-box']}>
         <div className={styles['governance-box']}>
           <p>

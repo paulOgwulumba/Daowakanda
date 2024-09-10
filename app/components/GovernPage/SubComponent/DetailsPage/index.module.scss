@@ -9,6 +9,113 @@
   position: relative;
   background: #000;
 
+  
+  .desktop-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #4d4d4d4d;
+    color: #fff;
+    min-height: 80px;
+    padding: 0 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+
+    .link {
+      width: 194px;
+      min-height: 33px;
+
+      img {
+        width: inherit;
+        min-height: inherit;
+      }
+    }
+}
+.join {
+    width: 269px;
+    min-height: 59px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 32px;
+    background: #C5EE4F;
+    font-family: 'Avenir';
+    font-size: 20px;
+    font-weight: 350;
+    color: #00484F;
+    cursor: pointer;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  } 
+
+// .nav {
+//     min-width: 332px;
+//     min-height: 30px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     gap: 40px;
+
+//     .nav-item {
+//       font-size: 16px;
+//       font-weight: 600;
+//       color: #fff;
+//       text-transform: capitalize;
+//       cursor: pointer;
+//       font-family: 'Avenir LT Std';
+
+//       .nav-dropdown {
+//         min-height: 175px;
+//         width: 60%;
+//         background: #292a2d;
+//         color: #000;
+//         position: absolute;
+//         top: 80px;
+//         left: 20%;
+//         display: grid;
+//         grid-template-columns: repeat(3, 1fr);
+//         gap: 20px;
+//         padding: 16px;
+//         border-radius: 24px;
+
+//         .card {
+//           width: 100%;
+//           min-height: 143px;
+//           display: flex;
+//           flex-direction: column;
+//           gap: 4px;
+//           padding: 16px;
+//           font-family: 'Avenir LT Std';
+
+//           &:hover {
+//             border-radius: 8px;
+//             background: #5e5e62;
+//           }
+
+//           .title {
+//             font-size: 20px;
+//             font-weight: 600;
+//             color: #fff;
+//           }
+//           .desc {
+//             color: #ababaf;
+//             font-size: 16px;
+//             font-weight: 350;
+//             line-height: 1.5;
+//           }
+//         }
+//       }
+//     }
+// }
+
+
 
   .top-box {
     display: flex;
