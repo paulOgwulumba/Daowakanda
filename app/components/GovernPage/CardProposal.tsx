@@ -25,8 +25,10 @@ export const CardProposal = ({id, title, yesVote, noVote, isActive, description,
 
   const yesPercentage = ((yesVote/(yesVote + noVote)) * 100).toFixed(2);
   const noPercentage = ((noVote/(yesVote + noVote)) * 100).toFixed(2);
+  const urlTitle = title.split(' ').join('-');
+  console.log(urlTitle);
   return (
-    <Link className={styles['proposal-card']} href={'/governance'}>
+    <Link className={styles['proposal-card']} href={`/governance/${urlTitle}`}>
       <div className={styles[statusClass]}>
         <div className={styles['status']}>
           {status}

@@ -10,8 +10,13 @@ import Link from 'next/link';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { data, dataTwo } from '../../mock';
 import { NavCard } from '../../navCard';
+import { VoteModal } from '../../voteModal';
 
-export const DetailsPage = () => {
+interface DetailsProps{
+  title: any;
+}
+
+export const DetailsPage = ({title}: DetailsProps) => {
   const [active, setActive] = useState(true);
   const [activeDropDown, setActiveDropDown] = useState(false);
   const [activeDropDownTwo, setActiveDropDownTwo] = useState(false);
@@ -20,11 +25,13 @@ export const DetailsPage = () => {
   const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
   const [connectWalletModal, setConnectWalletModal] = useState(false);
   const [createProposalModal, setCreateProposalModal] = useState(false);
+  const [voteModalActive, setVoteModalActive] = useState(false);
   const { activeAddress, providers } = useWallet();
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
   const router = useRouter();
+  const refineTitle = title?.split('-').join(' ');
 
   // Get the full current URL
   const currentUrl = `${router.asPath}`;
@@ -51,6 +58,14 @@ export const DetailsPage = () => {
       notify.info(`Please Connect Your Wallet`);
     }, 1500);
   };
+  /*function to view the vote modal*/
+  const openVoteModal = () =>{
+    setVoteModalActive(true);
+  }
+  const closeVoteModal =()=>{
+    setVoteModalActive(false);
+  }
+
 
   return (
     <div className={styles.container}>
@@ -60,6 +75,14 @@ export const DetailsPage = () => {
           onclick={clearConnectModal}
         />
       )}
+      {
+        voteModalActive && (
+          <VoteModal 
+            isActive={voteModalActive}
+            onclick={closeVoteModal}
+          />
+        )
+      }
       {isMobile ? (
         <div className={styles['mobile-header']}>
           <div className={styles['mobile-logo']}>
@@ -161,14 +184,14 @@ export const DetailsPage = () => {
       <div className={styles['top-box']}>
         <div className={styles['governance-box']}>
           <p>
-            Governance{' '}
+            <Link href={`/governance`}>Governance</Link>{' '}
             <span>
               {' '}
               <MdOutlineKeyboardArrowRight />
             </span>{' '}
-            Proposal{' '}
+            {refineTitle}{' '}
           </p>
-          <h1>J4J #1: Supply Reduction Proposal</h1>
+          <h1>J4J #1: {refineTitle}</h1>
           <p>
             Lorem ipsum dolor sit amet consectetur. Eu facilisi vel auctor diam.
             Hac condimentum eu cursus rhoncus tristique urna malesuada sit. Est
@@ -176,7 +199,9 @@ export const DetailsPage = () => {
             aliquam.
           </p>
 
-          <button className={styles['governance-button']}>
+          <button className={styles['governance-button']}
+            onClick={openVoteModal}
+          >
             Proceed to Vote
           </button>
         </div>
