@@ -12,11 +12,11 @@ import { data, dataTwo } from '../../mock';
 import { NavCard } from '../../navCard';
 import { VoteModal } from '../../voteModal';
 
-interface DetailsProps{
+interface DetailsProps {
   title: any;
 }
 
-export const DetailsPage = ({title}: DetailsProps) => {
+export const DetailsPage = ({ title }: DetailsProps) => {
   const [active, setActive] = useState(true);
   const [activeDropDown, setActiveDropDown] = useState(false);
   const [activeDropDownTwo, setActiveDropDownTwo] = useState(false);
@@ -59,13 +59,12 @@ export const DetailsPage = ({title}: DetailsProps) => {
     }, 1500);
   };
   /*function to view the vote modal*/
-  const openVoteModal = () =>{
+  const openVoteModal = () => {
     setVoteModalActive(true);
-  }
-  const closeVoteModal =()=>{
+  };
+  const closeVoteModal = () => {
     setVoteModalActive(false);
-  }
-
+  };
 
   return (
     <div className={styles.container}>
@@ -75,14 +74,9 @@ export const DetailsPage = ({title}: DetailsProps) => {
           onclick={clearConnectModal}
         />
       )}
-      {
-        voteModalActive && (
-          <VoteModal 
-            isActive={voteModalActive}
-            onclick={closeVoteModal}
-          />
-        )
-      }
+      {voteModalActive && (
+        <VoteModal isActive={voteModalActive} onclick={closeVoteModal} />
+      )}
       {isMobile ? (
         <div className={styles['mobile-header']}>
           <div className={styles['mobile-logo']}>
@@ -199,7 +193,8 @@ export const DetailsPage = ({title}: DetailsProps) => {
             aliquam.
           </p>
 
-          <button className={styles['governance-button']}
+          <button
+            className={styles['governance-button']}
             onClick={openVoteModal}
           >
             Proceed to Vote
@@ -246,8 +241,59 @@ export const DetailsPage = ({title}: DetailsProps) => {
 
           {/* Creator Box */}
           <div className={styles['main-box2']}>
-            <h1>Created</h1>
+            <div className={styles['main-box2-details']}>
+              <div className={styles['main-box2-created']}>
+                <div className={styles['progress-movement']}>
+                  <div className={styles['circle']}></div>
+                  <div className={styles['dash']}></div>
+                </div>
+                <div>
+                  <h1>Created</h1>
+                  <p className={styles['august']}>
+                    01 August 2024, 03:44:11 PM
+                  </p>
+                </div>
+              </div>
+              <div className={styles['main-box2-created']}>
+                <div className={styles['progress-movement']}>
+                  <div className={styles['circle']}></div>
+                  <div className={styles['dash']}></div>
+                </div>
+                <div>
+                  <h1>In progress</h1>
+                  <p className={styles['august']}>
+                    01 August 2024, 03:44:11 PM
+                  </p>
+                </div>
+              </div>
+              <div className={styles['main-box2-created']}>
+                <div className={styles['progress-movement']}>
+                  <div className={styles['circle-point']}></div>
+                  <div className={styles['dash-point-end']}></div>
+                </div>
+                <div>
+                  <h1>Ended</h1>
+                  <p className={styles['august']}>
+                    01 August 2024, 03:44:11 PM
+                  </p>
+                </div>
+              </div>
+              <div className={styles['main-box2-created']}>
+                <div className={styles['progress-movement']}>
+                  <div className={styles['circle-point2']}></div>
+                  <div className={styles['dash-point']}></div>
+                </div>
+                <h1>Queued</h1>
+              </div>
+              <div className={styles['main-box2-created']}>
+                <div className={styles['progress-movement']}>
+                  <div className={styles['circle-point2']}></div>
+                </div>
+                <h1>Executed</h1>
+              </div>
+            </div>
           </div>
+          {/* Status */}
           <div className={styles['main-box3']}>
             <div className={styles['main-box3-details']}>
               <div className={styles['details']}>
