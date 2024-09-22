@@ -67,7 +67,7 @@ export function DesktopView() {
                 steps.map((item, index) => (
                   <div className={styles['step']} key={index}>
                     <img src="https://res.cloudinary.com/dlinprg6k/image/upload/v1727004788/checkmark-badge-04_w46zdh.png" alt="badge" />
-                    <div className={styles['step-text']}>{item.title}<div className={styles['span']}>{item.text}</div></div>
+                    <div className={styles['step-text']}>{item.title}&nbsp;<div className={styles['span']}>{item.text}</div></div>
                   </div>
                 ))
               }
