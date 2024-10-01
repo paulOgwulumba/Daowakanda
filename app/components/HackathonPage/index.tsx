@@ -286,10 +286,9 @@ export function HackathonPage() {
           </div>
         </div>
       )}
-      {
-        !isMobile && <DesktopView />
-      }
-
+      
+      <DesktopView />
+      
       {/*Footer Ends*/}
       <div className={styles['footer']}>
         <div className={styles['contain']}>
