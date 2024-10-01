@@ -157,12 +157,12 @@ export function HackathonPage() {
                   <Link className={styles['nav-item']} href="/about">
                     About
                   </Link>
-                  <Link className={styles['nav-item']} href="/faucet">
+                  {/* <Link className={styles['nav-item']} href="/faucet">
                     Faucet
-                  </Link>
-                  <Link className={styles['nav-item']} href="/fpl">
+                  </Link> */}
+                  {/* <Link className={styles['nav-item']} href="/fpl">
                     FPL Tournament
-                  </Link>
+                  </Link> */}
                 </div>
                 <div
                   className={styles['nav-button']}
@@ -250,18 +250,18 @@ export function HackathonPage() {
             >
               <Link href="/about">about</Link>
             </div>
-            <div
+            {/* <div
               className={styles['nav-item']}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
               <Link href="/faucet">Faucet</Link>
-            </div>
-            <div
+            </div> */}
+            {/* <div
               className={styles['nav-item']}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
               <Link href="/fpl">FPL Tournament</Link>
-            </div>
+            </div> */}
           </div>
           <div
             className={styles['join']}

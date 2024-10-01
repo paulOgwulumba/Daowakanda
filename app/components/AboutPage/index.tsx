@@ -114,12 +114,12 @@ export function AboutPage() {
                     <Link className={styles['nav-item']} href="/about">
                       About
                     </Link>
-                    <Link className={styles['nav-item']} href="/faucet">
+                    {/* <Link className={styles['nav-item']} href="/faucet">
                       Faucet
                     </Link>
                     <Link className={styles['nav-item']} href="/fpl">
                       FPL Tournament
-                    </Link>
+                    </Link> */}
                   </div>
                   <Link
                     className={styles['nav-button']}
@@ -190,7 +190,7 @@ export function AboutPage() {
               >
                 <Link href="/about">about</Link>
               </div>
-              <div
+              {/* <div
                 className={styles['nav-item']}
                 onMouseLeave={() => setActiveDropDownTwo(false)}
               >
@@ -201,7 +201,7 @@ export function AboutPage() {
                 onMouseLeave={() => setActiveDropDownTwo(false)}
               >
                 <Link href="/fpl">FPL Tournament</Link>
-              </div>
+              </div> */}
             </div>
             <Link href={`https://twitter.com/DaoWakanda`}>
               <div className={styles['join']}>

@@ -139,9 +139,9 @@ export function LandingPage() {
                     <Link className={styles['nav-item']} href="/about">
                       About
                     </Link>
-                    <Link className={styles['nav-item']} href="/faucet">
+                    {/* <Link className={styles['nav-item']} href="/faucet">
                       Faucet
-                    </Link>
+                    </Link> */}
                     {/* <Link className={styles['nav-item']} href="/fpl">
                       FPL Tournament
                     </Link> */}
@@ -231,12 +231,12 @@ export function LandingPage() {
               >
                 <Link href="/about">about</Link>
               </div>
-              <div
+              {/* <div
                 className={styles['nav-item']}
                 onMouseLeave={() => setActiveDropDownTwo(false)}
               >
                 <Link href="/faucet">Faucet</Link>
-              </div>
+              </div> */}
               {/* <div
                 className={styles['nav-item']}
                 onMouseLeave={() => setActiveDropDownTwo(false)}
