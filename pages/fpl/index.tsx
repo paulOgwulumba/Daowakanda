@@ -1,6 +1,5 @@
-// import { FPLTournamentPage } from '@/features/fpl/pages/fplpage';
-import { HackPage } from '@/features/hackathon/pages/hackathonpage';
+import { FPLTournamentPage } from '@/features/fpl/pages/fplpage';
 
 export default function Page() {
-  return <HackPage />;
+  return <FPLTournamentPage />;
 }

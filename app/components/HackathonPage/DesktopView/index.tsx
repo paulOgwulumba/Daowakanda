@@ -1,4 +1,4 @@
-import { useWindowDimensions } from '../../hooks/useWindowDimensions';
+import { useWindowDimensions } from '../../../hooks/useWindowDimensions';
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import Link from 'next/link';
@@ -28,6 +28,13 @@ export function DesktopView() {
       title: 'Enable collaboration',
       text: 'between developers and entrepreneurs'
     },
+  ]
+
+  const benefits = [
+    `Engage in various <span>workshops tailored to developers and entrepreneurs</span>. These workshops will provide hands-on experience with Algorand’s blockchain technology, helping developers deepen their technical skills and leverage the possibility of building smart contracts using Python, while offering entrepreneurs valuable insights on how to build scalable blockchain-based solutions.`,
+    `Don't worry if you don't have a team. All registrants will have the opportunity to join team formation sessions in order to find suitable members to take their idea to the hackathon final. Fostering collaboration and facilitating introductions amongst registants is extremely important to us as we believe the best startups stem from combination development and entrepreneurial skills.`,
+    `Participants will receive guidance on how to pitch their ideas effectively, preparing them for the final pitch competition. The event will also foster networking opportunities, allowing attendees to connect with like-minded peers, industry experts, mentors, and potential collaborators.`,
+    `The winners of the regional hackathons will go directly to the last round of judging for the next Global hackathon, providing you with another opportunity to secure prize money and gain great exposure for your project. `,
   ]
 
   return (
@@ -94,6 +101,24 @@ export function DesktopView() {
         <Tables />
       </div>
        {/*end of prize section*/}
+      <div className={styles['benefits-section']}>
+        <div className={styles['title']}>Other Benefits</div>
+        <div className={styles['cards']}>
+          <div className={styles['card']} >
+            Engage in various <span>workshops tailored to developers and entrepreneurs</span>.These workshops will provide hands-on experience with Algorand's blockchain technology, helping developers deepen their technical skills and leverage the possibility of building smart contracts using Python, while offering entrepreneurs valuable insights on how to build scalable blockchain-based solutions.
+          </div>
+          <div className={styles['card']} >
+            Don't worry if you don't have a team. All registrants will have the opportunity to join <span>team formation sessions</span> in order to find suitable members to take their idea to the hackathon final. Fostering collaboration and facilitating introductions amongst registants is extremely important to us as we believe the best startups stem from combination development and entrepreneurial skills.
+          </div>
+          <div className={styles['card']} >
+            Participants will receive <span>guidance on how to pitch their ideas effectively</span>, preparing them for the final pitch competition. The event will also foster networking opportunities, allowing attendees to connect with like-minded peers, industry experts, mentors, and potential collaborators.
+          </div>
+          <div className={styles['card']} >
+            The winners of the regional hackathons will go directly to the last round of judging for the next Global hackathon, providing you with another opportunity to secure prize money and gain great exposure for your project.
+          </div>
+        </div>
+      </div>
+      {/*end of benefits section*/}
     </div>
   );
 }

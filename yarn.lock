@@ -607,6 +607,11 @@ algosdk@^2.7.0:
     tweetnacl "^1.0.3"
     vlq "^2.0.4"
 
+animator@0.2.x:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/animator/-/animator-0.2.2.tgz#7a852bdedbe20304e44fb00de6687ecd19a4e161"
+  integrity sha512-VLoIsjWd7Epmxb+tumDDbjZ7GFgB9XXWMP9TKSU2Rpl6uwI36NBBRLRb5LLye3zA31z1QzznXN5eFvFh/WCurA==
+
 ansi-regex@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz"
@@ -997,6 +1002,11 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
+
+crel@1.0.x:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/crel/-/crel-1.0.0.tgz#7e50fd615e3ff59fbc671fe8880b0f068e4a3028"
+  integrity sha512-FS0vLSI2k2kpzKtEOeu91jeB19TseMil71TfvW5NDOKfatPmK+WN9l0UWD6DIkr/XUsSit/qM/LjZsGgi8OauQ==
 
 cross-spawn@^7.0.0, cross-spawn@^7.0.2:
   version "7.0.3"
@@ -2238,6 +2248,15 @@ lru-cache@^6.0.0:
   resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-10.2.0.tgz"
   integrity sha512-2bIM8x+VAf6JT4bKAljS1qUWgMsqZRPGJS6FSahIMPVvctcNhyVp7AJu7quxOW9jwkryBReKZY5tY5JYv2n/7Q==
 
+marquee@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/marquee/-/marquee-0.2.1.tgz#0a67c46de298ef7aeb7b7b36105f34d1d11295ab"
+  integrity sha512-45Ob5YGBZ8IOFU1Xvzt/mtE/ChUyr/ASY/QCynMJukK7CGezgqUn004v+Ja1wSHhilour2wOp+95BvfTBxCtIw==
+  dependencies:
+    animator "0.2.x"
+    crel "1.0.x"
+    stylar "0.2.x"
+
 merge2@^1.3.0, merge2@^1.4.1:
   version "1.4.1"
   resolved "https://registry.npmjs.org/merge2/-/merge2-1.4.1.tgz"
@@ -3055,6 +3074,11 @@ strip-json-comments@^3.1.1:
   version "3.1.1"
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
+
+stylar@0.2.x:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/stylar/-/stylar-0.2.2.tgz#70ee3aa9750a97568f1e4ebbcc3b691fd6f39340"
+  integrity sha512-aKJL9gp0nFYu4s+AdSyKUMhZ2AprIWh0nHIq5whVwaGkjrxQtWaF0unvgYzbnpiBiLQz97ATgMxtNYPDYXI5Gg==
 
 styled-components@^6.1.2:
   version "6.1.8"

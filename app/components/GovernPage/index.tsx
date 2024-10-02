@@ -171,9 +171,9 @@ export function GovernPage() {
                     About
                   </Link>
 
-                  <Link className={styles['nav-item']} href="/faucet">
+                  {/* <Link className={styles['nav-item']} href="/faucet">
                     Faucet
-                  </Link>
+                  </Link> */}
                   {/* <Link className={styles['nav-item']} href="/fpl">
                     FPL Tournament
                   </Link> */}
@@ -283,7 +283,7 @@ export function GovernPage() {
                 about
               </Link>
             </div>
-            <div
+            {/* <div
               className={styles['nav-item']}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
@@ -293,18 +293,18 @@ export function GovernPage() {
               >
                 Faucet
               </Link>
-            </div>
-            <div
+            </div> */}
+            {/* <div
               className={styles['nav-item']}
               onMouseLeave={() => setActiveDropDownTwo(false)}
             >
-              {/* <Link
+              <Link
                 href="/fpl"
                 style={{ color: currentUrl == `/fpl` ? `#fff` : `#757575` }}
               >
                 FPL Tournament
-              </Link> */}
-            </div>
+              </Link>
+            </div> */}
           </div>
           <div
             className={styles['join']}
