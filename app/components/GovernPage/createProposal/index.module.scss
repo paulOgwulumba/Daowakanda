@@ -6,9 +6,14 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  background: #38393c;
+  background-image: url('https://res.cloudinary.com/dlinprg6k/image/upload/v1727834390/Ellipse_3_4_ac08lo.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 70%;
+  background: #101010;
   color: #fff;
   border-radius: 32px;
+  border: 1px solid #FFF;
   width: 90%;
   min-height: 536px;
   padding: 50px 16px;
@@ -108,33 +113,52 @@
       .name {
         color: #919094;
       }
-      .option {
+      .option {   
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
         min-height: 36px;
         background: #2f3033;
         color: #919094;
-        padding: 10px 8px;
+        padding: 5px 8px;
         border-radius: 8px;
       }
       .add-option {
         min-height: 36px;
         border-radius: 8px;
-        background: #c7c6ca;
-        padding: 10px 8px;
+        background: #C7C6CA;
+        padding: 15px 8px;
         text-align: center;
         cursor: pointer;
         color: #000000;
       }
+      input {
+        background: #2f3033;
+        min-height: 36px;
+        padding: 10px 8px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        width: inherit;
+        color: #919094;
+      }
     }
     .date-section {
       display: flex;
+      justify-content: space-between;
       gap: 8px;
       width: 100%;
-      justify-content: space-between;
-
+      
       .date-control {
         display: flex;
+        justify-content: space-between;
+        width: 100%;
+        gap: 8px;
+      }
+      .date-controls {
+        display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 8px;
         color: #919094;
         font-family: 'Roboto';
         font-size: 12px;

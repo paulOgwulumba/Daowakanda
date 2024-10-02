@@ -287,6 +287,8 @@
       margin: 100px;
     }
   }
+
+//   Governance Box section
     .governance-box {
       width: 100%;
       height: 235px;
@@ -346,6 +348,7 @@
       }
     }
     
+    // Main Three Boxes
     .main-box {
       display: flex;
       justify-content: space-between;
@@ -360,6 +363,7 @@
       }
     }
 
+    //mainBox1
     .main-box1 {    
       width: 100%;
       height: 240px;
@@ -462,6 +466,8 @@
       color: #E8F9FFBF;
       font-size: 12px;
     }
+
+    //Mainbox2
     .main-box2 {
       width: 100%;
       height: 240px;
@@ -524,6 +530,18 @@
         width: 10px;
         height: 10px;
         padding: 10px;
+        position: relative;
+    }
+    .circle-point::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 13px;
+        height: 13px;
+        background-color: #00484F; 
+        border-radius: 50%; 
     }
     .dash-point {
         height: 10px;
@@ -535,6 +553,8 @@
         background-color: #D1D5DB;
         width: 2px;
     }
+    
+
     .circle-point2{
         border-radius: 50px;
         width: 10px;
@@ -542,6 +562,7 @@
         padding: 8px;
         border: 2px solid #D1D5DB;
     }
+   
     .main-box2-created {
         display: flex;
         gap: 0.5rem;
@@ -556,6 +577,8 @@
         font-size: 10px;
        
     }
+
+    //mainBox3
     .main-box3 {
       width: 100%;
       height: 240px;
@@ -602,10 +625,7 @@
         border-radius: 30px;
         color: #75E0A7; 
       }
-    //   .details img {
-    //     width: 10px;
-    //     height: 10px;
-    //   }
+
 
       .main-box3-creator {
         display: flex;
@@ -633,10 +653,7 @@
         border-radius: 30px;
         color: #75E0A74D; 
       }
-    //   .creator img {
-    //     width: 10px;
-    //     height: 15px;
-    //   }
+ 
       .main-box3-date{
         display: flex;
         flex-direction: column;
@@ -663,10 +680,7 @@
         border-radius: 30px;
         color: #75E0A74D; 
       }
-    //   .date img {
-    //     width: 10px;
-    //     height: 15px;
-    //   }
+ 
 
       .main-box3-end{
         display: flex;
@@ -694,12 +708,7 @@
         border-radius: 30px;
         color: #75E0A74D; 
       }
-    //   .end img {
-    //     width: 10px;
-    //     height: 15px;
-    //   }
-   
-  
+
   
 
     @keyframes rotateUp {

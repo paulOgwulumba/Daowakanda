@@ -119,8 +119,46 @@ export function CreateProposalModal({
                 required
               ></textarea>
             </div>
+
+            <div className={styles['options-block']}>
+              <label>Options</label>
+              <div className={styles['option']}>
+              <input
+                type="text"
+                placeholder="Option 1"
+                required
+              />
+              </div>
+              <div className={styles['option']}>
+              <input
+                type="text"
+                placeholder="Option 2"
+                required
+              />
+              </div>
+              <button className={styles['add-option']}>Add Option</button>
+            </div>
+            
+
             <div className={styles['date-section']}>
               <div className={styles['date-control']}>
+                <div className={styles['date-controls']}>
+                <label>Start Date</label>
+                <input
+                  type="datetime-local"
+                  onChange={(evt) => {
+                    const date = new Date(evt.target.value);
+
+                    setData((data: any) => ({
+                      ...data,
+                      end_time: date,
+                    }));
+                  }}
+                  required
+                />
+                </div>
+
+                <div className={styles['date-controls']}>
                 <label>End Date</label>
                 <input
                   type="datetime-local"
@@ -134,6 +172,7 @@ export function CreateProposalModal({
                   }}
                   required
                 />
+                </div>
               </div>
             </div>
             <div className={styles['claim-section']}>
