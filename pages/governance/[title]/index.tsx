@@ -3,12 +3,10 @@ import { Head } from 'next/document';
 import { useRouter } from 'next/router';
 
 export default function Page() {
-    const router = useRouter();
+  const router = useRouter();
 
-    const { title } = router.query;
-    const urlTitle = title || ' '?.split(' ').join('-');
+  const { title } = router.query;
+  const urlTitle = title || ' '?.split(' ').join('-');
 
-    return (
-            <Detail title={title}/>
-    );
+  return <Detail title={title} />;
 }

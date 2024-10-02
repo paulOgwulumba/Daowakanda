@@ -4,79 +4,75 @@ import styles from './index.module.scss';
 import { useEffect, useState } from 'react';
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 import { useRecoilValue } from 'recoil';
-import { ProposalsAtom } from '@/features/governance/state/governance.atom';
+import {
+  ProposalContractsAtom,
+  ProposalsAtom,
+} from '@/features/governance/state/governance.atom';
 import { CardVoteLoader } from './CardVoteLoader';
 import moment from 'moment';
 import { MdOutlineNoteAdd } from 'react-icons/md';
-import { useWallet } from '@txnlab/use-wallet';
+import { useWallet } from '@txnlab/use-wallet-react';
 import { SampleProposal } from '@/interfaces';
 import { proposalsData } from './mock';
 import { CardProposal } from './CardProposal';
+import { useProposalActions } from '@/features/governance/actions/proposal.action';
 
-interface MobileProposalProps{
+interface MobileProposalProps {
   openProposalModal: any;
 }
 
-export const MobileProposals = ({openProposalModal}:MobileProposalProps) => {
+export const MobileProposals = ({ openProposalModal }: MobileProposalProps) => {
   const [itemDeleted, setItemDeleted] = useState(false);
   const [optionsActive, setOptionsActive] = useState<boolean>(false);
   const [selected, setSelected] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
-  const { getAllProposals } = useGovernanceActions();
-  const proposals = useRecoilValue(ProposalsAtom);
-  const { activeAddress, providers } = useWallet();
-  const [proposalList, setProposalList] = useState<SampleProposal[]>(proposalsData);
+  const { getAllProposals } = useProposalActions();
+  const proposals = useRecoilValue(ProposalContractsAtom);
+  const { activeAddress } = useWallet();
+  const [proposalList, setProposalList] =
+    useState<SampleProposal[]>(proposalsData);
 
   const filterProposals = () => {
     if (searchTerm) {
-      return [...proposals]
-        .sort((a, b) => b.id - a.id)
-        .filter((proposal) =>
-          proposal.name.toLowerCase().includes(searchTerm.toLowerCase()),
-        );
+      return [...proposals].filter((proposal) =>
+        proposal.title.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
     }
 
-    return [...proposals].sort((a, b) => b.id - a.id);
+    return [...proposals];
   };
-
   useEffect(() => {
     getAllProposals();
-  }, [itemDeleted]);
+  }, []);
 
-  const voteEnded = (end_time: any) => {
-    const viewCurr = moment().format('YYYY-MM-DD HH:mm:ss');
-    const testEndDate = moment.utc(end_time).format('YYYY-MM-DD HH:mm:ss');
-    if (testEndDate <= viewCurr) {
-      return true;
-    } else {
-      return false;
+  const proposalFilters = () => {
+    const now = Date.now();
+
+    switch (selected) {
+      case 'In Progress':
+        return proposals
+          ?.filter((item) => item.endDate > now)
+          ?.map((item, index) => <CardProposal data={item} key={index} />);
+      case 'Approved':
+        return proposals
+          ?.filter(
+            (item) =>
+              item.endDate < now && item.yesVotes.length > item.noVotes.length,
+          )
+          ?.map((item, index) => <CardProposal data={item} key={index} />);
+      case 'Denied':
+        return proposals
+          ?.filter(
+            (item) =>
+              item.endDate < now && item.yesVotes.length < item.noVotes.length,
+          )
+          ?.map((item, index) => <CardProposal data={item} key={index} />);
+      default:
+        return proposals?.map((item, index) => (
+          <CardProposal data={item} key={index} />
+        ));
     }
   };
-
-  const proposalFilters = () =>{
-    switch (selected){
-      case 'In Progress':
-       return proposalList?.filter(item => item.isActive)?.map((item, index) => (
-          <CardProposal {...item} key={index} />
-        ));
-        break;
-      case 'Approved':
-        return proposalList?.filter(item => item.isActive == false && (item.yesVote > item.noVote))?.map((item, index) => (
-          <CardProposal {...item} key={index} />
-        ));
-        break;
-      case 'Denied':
-      return proposalList?.filter(item => item.isActive == false && (item.yesVote <= item.noVote))?.map((item, index) => (
-        <CardProposal {...item} key={index} />
-      ));
-      break;
-      default:
-        return proposalList?.map((item, index) => (
-          <CardProposal {...item} key={index} />
-        ));
-    }
-
-  }
 
   return (
     <div className={styles['mobile-proposal-section']}>
@@ -104,7 +100,7 @@ export const MobileProposals = ({openProposalModal}:MobileProposalProps) => {
           <button
             className={styles['button']}
             disabled={activeAddress ? false : true}
-            onClick={()=> openProposalModal}
+            onClick={() => openProposalModal}
           >
             <MdOutlineNoteAdd className={styles['icon']} />
           </button>
@@ -151,11 +147,7 @@ export const MobileProposals = ({openProposalModal}:MobileProposalProps) => {
           </div>
         )}
       </div>
-      <div className={styles['main-section']}>
-        {
-          proposalFilters()
-        }
-      </div>
+      <div className={styles['main-section']}>{proposalFilters()}</div>
     </div>
   );
 };

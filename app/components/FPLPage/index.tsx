@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { NavCard } from './navCard';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { ConnectWalletModal } from './connectModal';
-import { useWallet } from '@txnlab/use-wallet';
+import { useWallet } from '@txnlab/use-wallet-react';
 import { useNotify } from '@/hooks';
 import { dataOne, dataTwo } from './mock';
 import { useFaucetActions } from '@/features/faucet/actions/faucet.action';
@@ -23,7 +23,7 @@ export function FPLPage() {
   const [dropDownActive, setDropDownActive] = useState(false);
   const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
   const [connectWalletModal, setConnectWalletModal] = useState(false);
-  const { activeAddress, providers } = useWallet();
+  const { activeAddress, wallets: providers } = useWallet();
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
@@ -330,10 +330,11 @@ export function FPLPage() {
             </div>
             <div className={styles['btn-group']}>
               <button className={styles['btn']}>Make Payment</button>
-              <button className={styles['btn-inactive']} disabled={true}>Proceed To Join</button>
+              <button className={styles['btn-inactive']} disabled={true}>
+                Proceed To Join
+              </button>
             </div>
-            </div>
-            
+          </div>
         </div>
       </div>
 

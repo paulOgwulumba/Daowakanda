@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 import { useEffect, useState } from 'react';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 import { useWindowDimensions, useNotify } from '@/hooks';
-import { useWallet } from '@txnlab/use-wallet';
+import { useWallet } from '@txnlab/use-wallet-react';
 import { useRouter } from 'next/router';
 import { ConnectWalletModal } from '../../connectModal';
 import Link from 'next/link';
@@ -26,7 +26,7 @@ export const DetailsPage = ({ title }: DetailsProps) => {
   const [connectWalletModal, setConnectWalletModal] = useState(false);
   const [createProposalModal, setCreateProposalModal] = useState(false);
   const [voteModalActive, setVoteModalActive] = useState(false);
-  const { activeAddress, providers } = useWallet();
+  const { activeAddress, wallets: providers } = useWallet();
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();

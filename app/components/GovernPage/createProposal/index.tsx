@@ -10,7 +10,11 @@ import { useGovernanceActions } from '@/features/governance/actions/governance.a
 import { useNotify } from '@/hooks';
 import moment from 'moment';
 import { ThreeDots } from 'react-loader-spinner';
-import { useWallet } from '@txnlab/use-wallet';
+import { useWallet } from '@txnlab/use-wallet-react';
+import { useProposalContract } from '@/features/governance/actions/proposal.contract';
+import { useProposalActions } from '@/features/governance/actions/proposal.action';
+import { ICreateProposalContract } from '@/interfaces/proposal.interface';
+import toast from 'react-hot-toast';
 
 interface Props {
   isActive: boolean;
@@ -24,10 +28,15 @@ export function CreateProposalModal({
   setCreateProposalModal,
 }: Props) {
   const [loading, setLoading] = useState(false);
-  const { submitProposal } = useGovernanceContract();
-  const { createProposal, getAllProposals } = useGovernanceActions();
+  const { createProposal, createProposalASA } = useProposalContract();
+  const {
+    createProposal: create,
+    bootstrapProposal,
+    getAllProposals,
+  } = useProposalActions();
   const { notify } = useNotify();
   const { activeAddress } = useWallet();
+  const now = Date.now();
 
   const formatWalletAddress = (address: string) => {
     if (!address) return '';
@@ -36,48 +45,69 @@ export function CreateProposalModal({
     return `${firstSix}...........${lastSix}`;
   };
 
-  const [data, setData] = useState<CreateProposalDto>({
-    app_id: String(APP_ID),
-    name: '',
+  const [data, setData] = useState<ICreateProposalContract>({
+    title: '',
     description: '',
-    is_claimable: false,
-    end_time: 0,
-    wallet_address: '',
+    endDate: 0,
   });
 
   const submit = async () => {
+    if (!activeAddress) {
+      notify.error('Please connect to a wallet to create a proposal.');
+      return;
+    }
+
     setLoading(true);
 
-    const res = await submitProposal(data);
+    toast.loading('Creating proposal...', { id: 'loader' });
+    const response = await createProposal(data);
+    toast.dismiss('loader');
 
-    if (res.error) {
+    if (!response) {
       setLoading(false);
       return;
     }
 
-    const response = await createProposal({
-      ...data,
-      end_time: moment(data.end_time.valueOf()).format('YYYY-MM-DD HH:mm:ss'),
-      wallet_address: formatWalletAddress(String(activeAddress)),
+    notify.success('Proposal created successfully');
+    toast.loading('Uploading proposal info...', { id: 'loader' });
+    const uploadRes = await create(response);
+    toast.dismiss('loader');
+
+    if (!uploadRes) {
+      setLoading(false);
+      return;
+    }
+
+    notify.success('Proposal info uploaded successfully');
+
+    toast.loading('Creating proposal ASA...', { id: 'loader' });
+    const createAssetRes = await createProposalASA(uploadRes.appId);
+    toast.dismiss('loader');
+
+    if (!createAssetRes) {
+      setLoading(false);
+      return;
+    }
+
+    notify.success('Proposal asset created successfully');
+
+    toast.loading('Uploading updaed proposal info...', { id: 'loader' });
+
+    const uploadAssetRes = await bootstrapProposal({
+      appId: uploadRes.appId,
+      asaId: createAssetRes.asaId,
     });
 
-    console.log(response, 'response');
-    console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+    toast.dismiss('loader');
 
-    if (response.error) {
-      notify.error(response.error?.toString() || 'Network error');
-      console.log(response.error);
-      setLoading(false);
-      return;
+    if (uploadAssetRes) {
+      notify.success('Updated proposal info uploaded successfully');
     }
-    setTimeout(() => {
-      notify.success('Proposal successfully created');
-      setCreateProposalModal(false);
-      getAllProposals();
-      setLoading(false);
-      console.log(data);
-    }, 1500);
+
+    setLoading(false);
     getAllProposals();
+
+    onclick();
   };
 
   return (
@@ -94,11 +124,11 @@ export function CreateProposalModal({
               <input
                 type="text"
                 placeholder="Enter Proposal Title..."
-                value={data.name}
+                value={data.title}
                 onChange={(evt) =>
                   setData((data) => ({
                     ...data,
-                    name: evt.target.value,
+                    title: evt.target.value,
                   }))
                 }
                 required
@@ -126,17 +156,23 @@ export function CreateProposalModal({
                   type="datetime-local"
                   onChange={(evt) => {
                     const date = new Date(evt.target.value);
+                    const dateUnix = date.valueOf();
 
-                    setData((data: any) => ({
+                    if (dateUnix < now) {
+                      notify.error('End date cannot be in the past');
+                      return;
+                    }
+
+                    setData((data) => ({
                       ...data,
-                      end_time: date,
+                      endDate: dateUnix,
                     }));
                   }}
                   required
                 />
               </div>
             </div>
-            <div className={styles['claim-section']}>
+            {/* <div className={styles['claim-section']}>
               <input
                 type="checkbox"
                 checked={data.is_claimable}
@@ -148,10 +184,10 @@ export function CreateProposalModal({
                 }}
               />
               <label>Claimable Proposal</label>
-            </div>
+            </div> */}
             <button
               className={styles['submit']}
-              disabled={!data.name || !data.description || !data.end_time}
+              disabled={!data.title || !data.description || data.endDate < now}
               onClick={submit}
             >
               {loading && (

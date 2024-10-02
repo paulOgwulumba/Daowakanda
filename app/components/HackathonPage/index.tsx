@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { NavCard } from './navCard';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { ConnectWalletModal } from './connectModal';
-import { useWallet } from '@txnlab/use-wallet';
+import { useWallet } from '@txnlab/use-wallet-react';
 import { useNotify } from '@/hooks';
 import { dataOne, dataTwo } from './mock';
 import { useFaucetActions } from '@/features/faucet/actions/faucet.action';
@@ -24,7 +24,7 @@ export function HackathonPage() {
   const [dropDownActive, setDropDownActive] = useState(false);
   const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
   const [connectWalletModal, setConnectWalletModal] = useState(false);
-  const { activeAddress, providers } = useWallet();
+  const { activeAddress, wallets: providers } = useWallet();
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
@@ -286,9 +286,9 @@ export function HackathonPage() {
           </div>
         </div>
       )}
-      
+
       <DesktopView />
-      
+
       {/*Footer Ends*/}
       <div className={styles['footer']}>
         <div className={styles['contain']}>

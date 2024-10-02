@@ -1,8 +1,8 @@
 import { DetailsPage } from '@/components/GovernPage/SubComponent/DetailsPage';
 
-interface Props{
+interface Props {
   title: any;
 }
-export function Detail({title}: Props) {
-  return <DetailsPage title={title}/>;
+export function Detail({ title }: Props) {
+  return <DetailsPage title={title} />;
 }

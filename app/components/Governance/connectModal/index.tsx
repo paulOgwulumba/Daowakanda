@@ -1,7 +1,7 @@
 import React from 'react';
 import { BackgroundOverlay } from '../../shared/BackgroundOverlay';
 import styles from './index.module.scss';
-import { useWallet } from '@txnlab/use-wallet';
+import { useWallet } from '@txnlab/use-wallet-react';
 
 interface Props {
   isActive: boolean;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function ConnectWalletModal({ isActive, onclick }: Props) {
-  const { providers } = useWallet();
+  const { wallets } = useWallet();
 
   return (
     <>
@@ -20,7 +20,7 @@ export function ConnectWalletModal({ isActive, onclick }: Props) {
             <div className={styles['text']}>Supported wallets</div>
           </div>
           <div className={styles['options']}>
-            {providers?.map((provider, index) => (
+            {wallets?.map((provider, index) => (
               <div
                 className={styles['bar']}
                 key={index}

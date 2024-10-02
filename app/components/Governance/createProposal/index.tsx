@@ -10,7 +10,7 @@ import { useGovernanceActions } from '@/features/governance/actions/governance.a
 import { useNotify } from '@/hooks';
 import moment from 'moment';
 import { ThreeDots } from 'react-loader-spinner';
-import { useWallet } from '@txnlab/use-wallet';
+import { useWallet } from '@txnlab/use-wallet-react';
 
 interface Props {
   isActive: boolean;
