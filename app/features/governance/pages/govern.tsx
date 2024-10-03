@@ -1,5 +1,10 @@
 import { GovernPage } from '@/components/GovernPage';
+import { Suspense } from 'react';
 
 export function Govern() {
-  return <GovernPage />;
+  return (
+    <Suspense>
+      <GovernPage />
+    </Suspense>
+  );
 }

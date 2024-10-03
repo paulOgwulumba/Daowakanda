@@ -1,5 +1,6 @@
 import '../styles/global.scss';
 import '../styles/main.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 import type { AppProps } from 'next/app';
 import { RecoilRoot } from 'recoil';
 import { SnackbarProvider } from 'notistack';
@@ -10,7 +11,10 @@ import { Toaster } from 'react-hot-toast';
 export default function App({ Component, pageProps }: AppProps) {
   const walletManager = new WalletManager({
     wallets: [WalletId.DEFLY, WalletId.PERA, WalletId.EXODUS, WalletId.KIBISIS],
-    network: NetworkId.TESTNET,
+    network:
+      process.env.NEXT_PUBLIC_ENVIRONMENT === 'production'
+        ? NetworkId.MAINNET
+        : NetworkId.TESTNET,
   });
 
   return (

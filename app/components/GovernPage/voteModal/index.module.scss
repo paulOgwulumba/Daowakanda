@@ -6,14 +6,14 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  background:#000000;
+  background: #000000;
   color: #fff;
   border-radius: 12px;
   width: 90%;
   min-height: 308px;
   padding: 32px;
   gap: 10px;
-  border: 2px solid #FFFFFF;
+  border: 2px solid #ffffff;
 
   @include tablet {
     width: 444px;
@@ -21,12 +21,12 @@
   }
 
   .title {
-    font-family: "Inter";
+    font-family: 'Inter';
     font-size: 18px;
     font-weight: 600;
     line-height: 28px;
-    text-align: left;    
-    color: #E8F9FFF2;
+    text-align: left;
+    color: #e8f9fff2;
   }
 
   .options {
@@ -37,62 +37,71 @@
     gap: 10px;
 
     @include tablet {
-     
     }
 
-
-    .option-checked{
-      background: #23C1AA4D;
-      border: 1px solid #C7F284;
+    .option-checked {
+      background: #23c1aa4d;
+      border: 1px solid #c7f284;
       border-radius: 8px;
     }
 
-    .option, .option-checked{
+    .option,
+    .option-checked {
       display: flex;
       padding: 8px;
       align-items: center;
       gap: 8px;
       cursor: pointer;
-      color: #E8F9FF;
+      color: #e8f9ff;
       height: 40px;
       width: 100%;
-      font-family: "Inter";
+      font-family: 'Inter';
       font-size: 14px;
       font-weight: 400;
       line-height: 20px;
 
-
-      .icon{
-        border: 2px solid #C7F284;
+      .icon {
+        border: 2px solid #c7f284;
         border-radius: 50%;
         width: 20px;
-        height: 20px;  
+        height: 20px;
       }
-      .icon-checked{
-        border: 2px solid #C7F284;
-        color: #C7F284;
+      .icon-checked {
+        border: 2px solid #c7f284;
+        color: #c7f284;
         border-radius: 50%;
         width: 20px;
-        height: 20px;  
+        height: 20px;
       }
     }
   }
-  .submit-btn{
+  .submit-btn {
     display: flex;
     width: 100%;
     cursor: pointer;
-    background-color: #C5EE4F;
-    border: 1px solid #C5EE4F;
+    background-color: #c5ee4f;
+    border: 1px solid #c5ee4f;
     border-radius: 8px;
     height: 44px;
     padding: 12px 0px;
-    color: #00484F;
-    font-family: "Inter";
+    color: #00484f;
+    font-family: 'Inter';
     font-size: 15px;
     font-weight: 600;
     line-height: 28px;
     align-items: center;
-    justify-content: center; 
+    justify-content: center;
     margin: 10px 0;
+
+    &:hover {
+      background-color: #bbe45f;
+    }
+
+    &:disabled {
+      background-color: #c5ee4f;
+      cursor: not-allowed;
+      border: 1px solid #c5ee4f;
+      opacity: 0.6;
+    }
   }
 }

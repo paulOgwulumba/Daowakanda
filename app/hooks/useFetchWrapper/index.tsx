@@ -3,27 +3,42 @@ import { RequestMethod } from '../../enums/requestMethod.enum';
 import { RequestOptions } from '../../interfaces/requestOption.interface';
 
 export const useFetchWrapper = () => {
-  // const apiUrl = 'https://api.daowakanda.com';
-  // const apiUrl = 'https://api.daowakanda.com/api/v1/proposals';
-  // const apiUrl = 'https://daowkd-a061a68c3343.herokuapp.com/api/v1';
-  // const apiUrl = 'https://daowkd-a061a68c3343.herokuapp.com';
-  const apiUrl = 'http://localhost:4000';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  const handleResponse = useCallback((response: any) => {
-    return response.text().then(async (text: string) => {
-      const data = text && JSON.parse(text);
+  const handleResponse = useCallback((response: globalThis.Response) => {
+    return response
+      .text()
+      .then(async (text: string) => {
+        const data = text && JSON.parse(text);
 
-      if (!response.ok) {
-        const error =
-          (data && data.message) ||
-          response.statusText ||
-          (data && data.errors);
+        if (!response.ok) {
+          const error =
+            (data && data.message) ||
+            response.statusText ||
+            (data && data.errors);
 
-        return { error, code: response.status };
-      }
+          return {
+            error,
+            status: response.status,
+            data: undefined,
+          };
+        }
 
-      return data;
-    });
+        const responseData = data.message || data;
+
+        return {
+          data: responseData,
+          status: response.status,
+          error: undefined,
+        };
+      })
+      .catch((error: any) => {
+        return {
+          data: undefined,
+          status: response.status,
+          error: error.message || 'An error occurred',
+        };
+      });
   }, []);
 
   const request = useCallback((method: RequestMethod) => {
@@ -38,12 +53,10 @@ export const useFetchWrapper = () => {
         requestOptions.body = JSON.stringify(body);
       }
 
-      console.log(requestOptions);
-
       return fetch(`${apiUrl}/${url}`, requestOptions as RequestInit)
         .then((response) => handleResponse(response))
-        .catch((err) => {
-          return { error: err };
+        .catch((error) => {
+          return { error, status: 500, data: undefined };
         });
     };
   }, []);

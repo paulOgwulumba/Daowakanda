@@ -33,17 +33,11 @@ export function CreateProposalModal({
     createProposal: create,
     bootstrapProposal,
     getAllProposals,
+    validateWalletAddress,
   } = useProposalActions();
   const { notify } = useNotify();
   const { activeAddress } = useWallet();
   const now = Date.now();
-
-  const formatWalletAddress = (address: string) => {
-    if (!address) return '';
-    const firstSix = address.slice(0, 6);
-    const lastSix = address.slice(-6);
-    return `${firstSix}...........${lastSix}`;
-  };
 
   const [data, setData] = useState<ICreateProposalContract>({
     title: '',
@@ -58,6 +52,17 @@ export function CreateProposalModal({
     }
 
     setLoading(true);
+
+    toast.loading('Checking if address is eligible to create proposal...', {
+      id: 'loader',
+    });
+    const validationRes = await validateWalletAddress(activeAddress);
+    toast.dismiss('loader');
+
+    if (!validationRes?.valid) {
+      setLoading(false);
+      return;
+    }
 
     toast.loading('Creating proposal...', { id: 'loader' });
     const response = await createProposal(data);

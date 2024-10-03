@@ -7,6 +7,7 @@ import {
   IBootstrapProposalDto,
   ICreateProposalContractApi,
   IProposalContract,
+  IVoteProposalDto,
   ValidateWalletAddressResponse,
 } from '@/interfaces/proposal.interface';
 
@@ -21,7 +22,13 @@ export const useProposalActions = () => {
         address,
       });
 
-      return response as ValidateWalletAddressResponse;
+      if (response.data) {
+        return response.data as ValidateWalletAddressResponse;
+      }
+
+      notify.error(
+        response.error?.toString() || 'Invalid algorand wallet address.',
+      );
     } catch (error) {
       notify.error(error?.toString() || 'Invalid algorand wallet address.');
     }
@@ -30,15 +37,17 @@ export const useProposalActions = () => {
   const getAllProposals = useCallback(async () => {
     try {
       const response = await fetchWrapper.get('proposal/all');
-      if (Array.isArray(response)) {
-        setProposals(response);
+
+      if (response.data) {
+        setProposals(response.data);
+        return response.data as IProposalContract[];
       }
-      return response;
+
+      notify.error(response.error?.toString() || 'Something went wrong.');
     } catch (error) {
       notify.error(
         error?.toString() || 'There was a problem loading the proposals.',
       );
-      return { error };
     }
   }, []);
 
@@ -47,7 +56,11 @@ export const useProposalActions = () => {
       try {
         const response = await fetchWrapper.post('proposal', dto);
 
-        return response as IProposalContract;
+        if (response.data) {
+          return response.data as IProposalContract;
+        }
+
+        notify.error(response.error?.toString() || 'Something went wrong.');
       } catch (error) {
         notify.error(
           error?.toString() ||
@@ -65,11 +78,45 @@ export const useProposalActions = () => {
         { asaId: dto.asaId },
       );
 
-      return response as IProposalContract;
+      if (response.data) {
+        return response.data as IProposalContract;
+      }
+
+      notify.error(response.error?.toString() || 'Something went wrong.');
     } catch (error) {
       notify.error(
         error?.toString() ||
           'There was a problem bootstrapping the created proposal.',
+      );
+    }
+  }, []);
+
+  const getProposalByAppId = async (appId: string) => {
+    const response = await fetchWrapper.get(`proposal/${appId}`);
+
+    if (response.data) {
+      return response.data as IProposalContract;
+    }
+
+    notify.error(response.error?.toString() || 'Something went wrong.');
+  };
+
+  const voteForProposal = useCallback(async (dto: IVoteProposalDto) => {
+    try {
+      const response = await fetchWrapper.post(`proposal/${dto.appId}/vote`, {
+        vote: dto.vote,
+        voterAddress: dto.voterAddress,
+      });
+
+      if (response.data) {
+        return response.data as IProposalContract;
+      }
+
+      notify.error(response.error?.toString() || 'Something went wrong.');
+    } catch (error) {
+      notify.error(
+        error?.toString() ||
+          'There was a problem submitting your vote to the proposal.',
       );
     }
   }, []);
@@ -79,5 +126,7 @@ export const useProposalActions = () => {
     validateWalletAddress,
     createProposal,
     bootstrapProposal,
+    getProposalByAppId,
+    voteForProposal,
   };
 };

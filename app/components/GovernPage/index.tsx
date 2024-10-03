@@ -40,7 +40,7 @@ export function GovernPage() {
 
   // Get the full current URL
   const currentUrl = `${router.asPath}`;
-  console.log(currentUrl);
+
   const [proposalData] = useRecoilState(ProposalsAtom);
   const { getAllProposals } = useGovernanceActions();
 
@@ -82,7 +82,6 @@ export function GovernPage() {
     getAllProposals();
   }, []);
 
-  console.log(proposalData);
   return (
     <div className={styles.container}>
       {createProposalModal && (
@@ -350,7 +349,7 @@ export function GovernPage() {
       )}
       {/*Proposal section Ends*/}
 
-      <PaginationBar />
+      {/* <PaginationBar /> */}
 
       {/*Pagination section Ends*/}
 

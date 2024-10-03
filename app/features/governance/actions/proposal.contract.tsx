@@ -3,10 +3,14 @@ import { useNotify } from '@/hooks';
 import {
   ICreateProposalContract,
   ICreateProposalContractApi,
+  IVoteProposalDto,
 } from '@/interfaces/proposal.interface';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { useWallet } from '@txnlab/use-wallet-react';
-import { makePaymentTxnWithSuggestedParamsFromObject } from 'algosdk';
+import {
+  makeAssetTransferTxnWithSuggestedParamsFromObject,
+  makePaymentTxnWithSuggestedParamsFromObject,
+} from 'algosdk';
 import { useCallback } from 'react';
 
 export const useProposalContract = () => {
@@ -98,8 +102,145 @@ export const useProposalContract = () => {
     [signer, activeAddress],
   );
 
+  const optInToProposalAsa = useCallback(
+    async (assetId: string) => {
+      const sender = { signer, addr: activeAddress || '' };
+
+      if (!activeAddress) {
+        notify.error('Please connect your wallet to continue');
+        return;
+      }
+
+      try {
+        const accountInfo = await algodClient
+          .accountAssetInformation(activeAddress, Number(assetId))
+          .do();
+        return accountInfo;
+      } catch (error) {
+        try {
+          const suggestedParams = await algokit.getTransactionParams(
+            undefined,
+            algodClient,
+          );
+          const txn = makeAssetTransferTxnWithSuggestedParamsFromObject({
+            from: activeAddress,
+            to: activeAddress,
+            amount: 0,
+            assetIndex: Number(assetId),
+            suggestedParams,
+          });
+
+          await algokit.sendTransaction(
+            {
+              transaction: txn,
+              from: sender,
+            },
+            algodClient,
+          );
+
+          const accountInfo = await algodClient
+            .accountAssetInformation(activeAddress, Number(assetId))
+            .do();
+          return accountInfo;
+        } catch (error) {
+          notify.error(
+            error?.toString() ||
+              'There was a problem opting you into the asset',
+          );
+        }
+      }
+    },
+    [activeAddress],
+  );
+
+  const registerForProposal = useCallback(
+    async (appId: string, assetId: string) => {
+      const sender = { signer, addr: activeAddress || '' };
+
+      const appClient = new DaoWakandaClient(
+        {
+          resolveBy: 'id',
+          id: Number(appId),
+          sender,
+        },
+        algodClient,
+      );
+
+      if (!activeAddress) {
+        notify.error('Please connect your wallet to continue');
+        return;
+      }
+
+      try {
+        await appClient.register(
+          { registeredASA: Number(assetId) },
+          {
+            sender,
+            sendParams: {
+              fee: algokit.microAlgos(3_000),
+            },
+          },
+        );
+
+        return { appId, assetId };
+      } catch (error) {
+        notify.error(
+          error?.toString() ||
+            'There was a problem registering to vote in the proposal',
+        );
+      }
+    },
+    [],
+  );
+
+  const voteForProposal = useCallback(
+    async (
+      appId: string,
+      assetId: string,
+      vote: boolean,
+    ): Promise<IVoteProposalDto | undefined> => {
+      const sender = { signer, addr: activeAddress || '' };
+
+      const appClient = new DaoWakandaClient(
+        {
+          resolveBy: 'id',
+          id: Number(appId),
+          sender,
+        },
+        algodClient,
+      );
+
+      if (!activeAddress) {
+        notify.error('Please connect your wallet to continue');
+        return;
+      }
+
+      try {
+        await appClient.vote(
+          { registeredASA: Number(assetId), inFavor: vote },
+          {
+            sender,
+            sendParams: {
+              fee: algokit.microAlgos(4_000),
+            },
+          },
+        );
+
+        return { appId, voterAddress: activeAddress, vote };
+      } catch (error) {
+        notify.error(
+          error?.toString() || 'There was a problem casting your vote.',
+        );
+      }
+    },
+    [],
+  );
+
   return {
     createProposal,
     createProposalASA,
+    optInToProposalAsa,
+    registerForProposal,
+    voteForProposal,
   };
 };

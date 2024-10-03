@@ -37,3 +37,9 @@ export interface IBootstrapProposalDto {
   asaId: string;
   appId: string;
 }
+
+export interface IVoteProposalDto {
+  vote: boolean;
+  voterAddress: string;
+  appId: string;
+}
