@@ -45,7 +45,7 @@ export interface IProposal {
   wallet_address: string;
 }
 
-export interface SampleProposal{
+export interface SampleProposal {
   id: number;
   title: string;
   yesVote: number;

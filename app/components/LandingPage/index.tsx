@@ -11,7 +11,7 @@ import { data, dataTwo } from './mock';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import Link from 'next/link';
 import { ConnectWalletModal } from './connectModal';
-import { useWallet } from '@txnlab/use-wallet';
+import { useWallet } from '@txnlab/use-wallet-react';
 import { useNotify } from '@/hooks';
 import { useRouter } from 'next/router';
 
@@ -23,7 +23,7 @@ export function LandingPage() {
   const [connectWalletModal, setConnectWalletModal] = useState(false);
   const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
   const { width } = useWindowDimensions();
-  const { activeAddress, providers } = useWallet();
+  const { activeAddress, wallets: providers } = useWallet();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
   const router = useRouter();
@@ -267,11 +267,23 @@ export function LandingPage() {
             </div>
           </div>
         )}
-        <Link className={styles['notice']} href={'/hackathon'} target={'_blank'}>
-          <div className={styles['text']}>2024 Algorand Regional Hackathon ~~~ Coming soon ~~~</div>
-          <div className={styles['text']}>2024 Algorand Regional Hackathon ~~~ Coming soon ~~~</div>
-          <div className={styles['text']}>2024 Algorand Regional Hackathon ~~~ Coming soon ~~~</div>
-          <div className={styles['text']}>2024 Algorand Regional Hackathon ~~~ Coming soon ~~~</div>
+        <Link
+          className={styles['notice']}
+          href={'/hackathon'}
+          target={'_blank'}
+        >
+          <div className={styles['text']}>
+            2024 Algorand Regional Hackathon ~~~ Coming soon ~~~
+          </div>
+          <div className={styles['text']}>
+            2024 Algorand Regional Hackathon ~~~ Coming soon ~~~
+          </div>
+          <div className={styles['text']}>
+            2024 Algorand Regional Hackathon ~~~ Coming soon ~~~
+          </div>
+          <div className={styles['text']}>
+            2024 Algorand Regional Hackathon ~~~ Coming soon ~~~
+          </div>
         </Link>
         <div className={styles['lead-section']}>
           <div className={styles['top-section']}>

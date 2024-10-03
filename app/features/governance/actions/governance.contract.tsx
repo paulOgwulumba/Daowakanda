@@ -6,11 +6,11 @@ import {
   IProposal,
 } from '@/interfaces/governance.interface';
 import * as algokit from '@algorandfoundation/algokit-utils';
-import { useWallet } from '@txnlab/use-wallet';
+import { useWallet } from '@txnlab/use-wallet-react';
 import { useCallback } from 'react';
 
 export const useGovernanceContract = () => {
-  const { activeAddress, signer } = useWallet();
+  const { activeAddress, transactionSigner: signer } = useWallet();
   const { notify } = useNotify();
   //add mainnet or testnet link from .env file
   const algodClient = algokit.getAlgoClient({

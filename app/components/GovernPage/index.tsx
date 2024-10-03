@@ -12,7 +12,7 @@ import { NavCard } from './navCard';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { ConnectWalletModal } from './connectModal';
 import { CreateProposalModal } from './createProposal';
-import { useWallet } from '@txnlab/use-wallet';
+import { useWallet } from '@txnlab/use-wallet-react';
 import { DesktopProposals } from './DesktopProposals';
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 import { useRecoilState } from 'recoil';
@@ -32,7 +32,7 @@ export function GovernPage() {
   const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
   const [connectWalletModal, setConnectWalletModal] = useState(false);
   const [createProposalModal, setCreateProposalModal] = useState(false);
-  const { activeAddress, providers } = useWallet();
+  const { activeAddress, wallets: providers } = useWallet();
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
@@ -40,7 +40,7 @@ export function GovernPage() {
 
   // Get the full current URL
   const currentUrl = `${router.asPath}`;
-  console.log(currentUrl);
+
   const [proposalData] = useRecoilState(ProposalsAtom);
   const { getAllProposals } = useGovernanceActions();
 
@@ -82,7 +82,6 @@ export function GovernPage() {
     getAllProposals();
   }, []);
 
-  console.log(proposalData);
   return (
     <div className={styles.container}>
       {createProposalModal && (
@@ -350,7 +349,7 @@ export function GovernPage() {
       )}
       {/*Proposal section Ends*/}
 
-      <PaginationBar />
+      {/* <PaginationBar /> */}
 
       {/*Pagination section Ends*/}
 

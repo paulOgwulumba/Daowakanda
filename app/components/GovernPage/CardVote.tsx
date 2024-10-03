@@ -6,7 +6,7 @@ import { Tags } from '../shared';
 import styles from './index.module.scss';
 import moment from 'moment';
 import { DeleteModal } from './deleteModal';
-import { useWallet } from '@txnlab/use-wallet';
+import { useWallet } from '@txnlab/use-wallet-react';
 import { useNotify } from '@/hooks';
 import { IProposal, IVote } from '@/interfaces/governance.interface';
 import { useGovernanceContract } from '@/features/governance/actions/governance.contract';

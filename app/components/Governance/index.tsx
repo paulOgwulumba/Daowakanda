@@ -12,7 +12,7 @@ import { NavCard } from './navCard';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { ConnectWalletModal } from './connectModal';
 import { CreateProposalModal } from './createProposal';
-import { useWallet } from '@txnlab/use-wallet';
+import { useWallet } from '@txnlab/use-wallet-react';
 import { Proposals } from './Proposals';
 import { useGovernanceActions } from '@/features/governance/actions/governance.action';
 import { useRecoilState } from 'recoil';
@@ -29,7 +29,7 @@ export function GovernancePage() {
   const [dropDownActiveTwo, setDropDownActiveTwo] = useState(false);
   const [connectWalletModal, setConnectWalletModal] = useState(false);
   const [createProposalModal, setCreateProposalModal] = useState(false);
-  const { activeAddress, providers } = useWallet();
+  const { activeAddress, wallets: providers } = useWallet();
   const { width } = useWindowDimensions();
   const isMobile = width ? width < 768 : false;
   const { notify } = useNotify();
@@ -75,7 +75,6 @@ export function GovernancePage() {
     getAllProposals();
   }, []);
 
-  console.log(proposalData);
   return (
     <div className={styles.container}>
       {createProposalModal && (
